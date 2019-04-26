@@ -9,8 +9,8 @@
 
 Télécharger ces fichiers et les mettre dans un dossier séparé:
 
-*AM19Scene
-*video_background.jpg
+* AM19Scene
+* video_background.jpg
 
 Puis, dans un terminal, aller dans le dossier et entrer ces commandes:
 
