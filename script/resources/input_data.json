@@ -1,0 +1,1465 @@
+[
+ {
+   "da": "DAY1",
+   "website": "",
+   "title": "",
+   "speakers": "",
+   "Video cut Begin": "",
+   "Video cut End": "",
+   "Audio stereo side": "",
+   "intro video": "",
+   "thumbnail video": "",
+   "video available on website": "",
+   "video": "",
+   "slide available on website": "",
+   "slides link": "",
+   "comment": {
+      "other link": ""
+   },
+   "Youtube title": ""
+},
+ {
+   "da": "Moebius",
+   "website": "",
+   "title": "",
+   "speakers": "",
+   "Video cut Begin": "",
+   "Video cut End": "",
+   "Audio stereo side": "",
+   "intro video": "",
+   "thumbnail video": "",
+   "video available on website": "",
+   "video": "",
+   "slide available on website": "",
+   "slides link": "",
+   "comment": {
+      "other link": ""
+   },
+   "Youtube title": ""
+},
+ {
+   "da": "XEB-2115",
+   "website": "link",
+   "title": "Pragmatic crafting",
+   "speakers": "Florina Muntenescu, Google",
+   "Video cut Begin": "10:33",
+   "Video cut End": "47:24",
+   "Audio stereo side": "right",
+   "intro video": "intro",
+   "thumbnail video": "thumbnail",
+   "video available on website": "",
+   "video": "",
+   "slide available on website": "",
+   "slides link": "tweet envoyé",
+   "comment": {
+      "other link": ""
+   },
+   "Youtube title": "Pragmatic crafting by Florina Muntenescu, Google EN"
+},
+ {
+   "da": "HZY-9508",
+   "website": "link",
+   "title": "Building for Developers",
+   "speakers": "Ty Smith, Uber",
+   "Video cut Begin": "0:00",
+   "Video cut End": "44:07",
+   "Audio stereo side": "right",
+   "intro video": "intro",
+   "thumbnail video": "thumbnail",
+   "video available on website": "",
+   "video": "",
+   "slide available on website": "",
+   "slides link": "DM emvoyé",
+   "comment": {
+      "other link": ""
+   },
+   "Youtube title": "Building for Developers by Ty Smith, Uber EN"
+},
+ {
+   "da": "FVI-2317",
+   "website": "link",
+   "title": "Kotlin Under the Covers",
+   "speakers": "Chet Haase and Romain Guy, Google",
+   "Video cut Begin": "0:03",
+   "Video cut End": "42:45",
+   "Audio stereo side": "right",
+   "intro video": "intro",
+   "thumbnail video": "thumbnail",
+   "video available on website": "",
+   "video": "PAS DE PUBLICATION AVANT I/O",
+   "slide available on website": "",
+   "slides link": "PAS DE PUBLICATION AVANT I/O",
+   "comment": {
+      "other link": ""
+   },
+   "Youtube title": "Kotlin Under the Covers by Chet Haase and Romain Guy, Google EN"
+},
+ {
+   "da": "DFO-2916",
+   "website": "link",
+   "title": "Making any codebase more readable with Kotlin coroutines",
+   "speakers": "Louis CAD, SuiviDeFlotte.net - Beepiz",
+   "Video cut Begin": "1:15",
+   "Video cut End": "34:38",
+   "Audio stereo side": "right",
+   "intro video": "intro",
+   "thumbnail video": "thumbnail",
+   "video available on website": "",
+   "video": "",
+   "slide available on website": "yes",
+   "slides link": "https://androidmakers2019.louiscad.com/assets/player/KeynoteDHTMLPlayer.html#0",
+   "comment": {
+      "other link": ""
+   },
+   "Youtube title": "Making any codebase more readable with Kotlin coroutines by Louis CAD, SuiviDeFlotte.net - Beepiz EN"
+},
+ {
+   "da": "VJG-9207",
+   "website": "link",
+   "title": "ConstraintLayout 2.0",
+   "speakers": "Nicolas Roard and John Hoford, Google",
+   "Video cut Begin": "0:03",
+   "Video cut End": "40:44",
+   "Audio stereo side": "right",
+   "intro video": "intro",
+   "thumbnail video": "thumbnail",
+   "video available on website": "",
+   "video": "",
+   "slide available on website": "yes",
+   "slides link": "https://speakerdeck.com/camaelon/constraintlayout-2-dot-0",
+   "comment": {
+      "other link": ""
+   },
+   "Youtube title": "ConstraintLayout 2.0 by Nicolas Roard and John Hoford, Google EN"
+},
+ {
+   "da": "VOJ-6007",
+   "website": "link",
+   "title": "Styles, Themes, Material Theming, Oh My!",
+   "speakers": "Anita Singh, Blinkist",
+   "Video cut Begin": "0:06",
+   "Video cut End": "39:20",
+   "Audio stereo side": "right",
+   "intro video": "intro",
+   "thumbnail video": "thumbnail",
+   "video available on website": "",
+   "video": "",
+   "slide available on website": "yes",
+   "slides link": "https://speakerdeck.com/anitas3791/styles-themes-material-theming-oh-my",
+   "comment": {
+      "other link": ""
+   },
+   "Youtube title": "Styles, Themes, Material Theming, Oh My! by Anita Singh, Blinkist EN"
+},
+ {
+   "da": "CRY-8750",
+   "website": "link",
+   "title": "In a World of Pure Android Animation  🍭🍫",
+   "speakers": "Rebecca Franks, Over",
+   "Video cut Begin": "0:03",
+   "Video cut End": "33:02",
+   "Audio stereo side": "right",
+   "intro video": "intro",
+   "thumbnail video": "thumbnail",
+   "video available on website": "",
+   "video": "",
+   "slide available on website": "yes",
+   "slides link": "https://speakerdeck.com/riggaroo/in-a-world-of-pure-android-animation",
+   "comment": {
+      "other link": ""
+   },
+   "Youtube title": "In a World of Pure Android Animation  🍭🍫 by Rebecca Franks, Over EN"
+},
+ {
+   "da": "KOV-9403",
+   "website": "link",
+   "title": "Motional Intelligence: Build smarter animations",
+   "speakers": "Nick Butcher, Google",
+   "Video cut Begin": "0:02",
+   "Video cut End": "34:55",
+   "Audio stereo side": "right",
+   "intro video": "intro",
+   "thumbnail video": "thumbnail",
+   "video available on website": "",
+   "video": "PAS DE PUBLICATION AVANT I/O",
+   "slide available on website": "",
+   "slides link": "PAS DE PUBLICATION AVANT I/O",
+   "comment": {
+      "other link": ""
+   },
+   "Youtube title": "Motional Intelligence: Build smarter animations by Nick Butcher, Google EN"
+},
+ {
+   "da": "Room A. & L. Blin",
+   "website": "",
+   "title": "",
+   "speakers": "",
+   "Video cut Begin": "",
+   "Video cut End": "",
+   "Audio stereo side": "",
+   "intro video": "",
+   "thumbnail video": "",
+   "video available on website": "",
+   "video": "",
+   "slide available on website": "",
+   "slides link": "",
+   "comment": {
+      "other link": ""
+   },
+   "Youtube title": ""
+},
+ {
+   "da": "DZK-4920",
+   "website": "link",
+   "title": "Architectural journey",
+   "speakers": "Zsolt Kocsi, Badoo",
+   "Video cut Begin": "0:26",
+   "Video cut End": "31:49",
+   "Audio stereo side": "",
+   "intro video": "intro",
+   "thumbnail video": "thumbnail",
+   "video available on website": "",
+   "video": "",
+   "slide available on website": "yes",
+   "slides link": "https://speakerdeck.com/zsoltkocsi/architectural-journey",
+   "comment": {
+      "other link": ""
+   },
+   "Youtube title": "Architectural journey by Zsolt Kocsi, Badoo EN"
+},
+ {
+   "da": "LNH-0175",
+   "website": "link",
+   "title": "Journey to painless releases: Continuous delivery for Philips Hue Android",
+   "speakers": "Jeroen Mols, Philips Hue (Signify)",
+   "Video cut Begin": "0:02",
+   "Video cut End": "",
+   "Audio stereo side": "",
+   "intro video": "intro",
+   "thumbnail video": "thumbnail",
+   "video available on website": "",
+   "video": "",
+   "slide available on website": "yes",
+   "slides link": "https://speakerdeck.com/jeroenmols/journey-to-painless-releases-continuous-delivery-for-philips-hue-android",
+   "comment": {
+      "other link": ""
+   },
+   "Youtube title": "Journey to painless releases: Continuous delivery for Philips Hue Android by Jeroen Mols EN"
+},
+ {
+   "da": "LWJ-6534",
+   "website": "link",
+   "title": "LeakCanary.next",
+   "speakers": "Pierre-Yves Ricau, Square, Inc",
+   "Video cut Begin": "0:07",
+   "Video cut End": "",
+   "Audio stereo side": "",
+   "intro video": "intro",
+   "thumbnail video": "thumbnail",
+   "video available on website": "",
+   "video": "",
+   "slide available on website": "yes",
+   "slides link": "https://speakerdeck.com/pyricau/leakcanary-2-leaner-better-faster-kotliner",
+   "comment": {
+      "other link": ""
+   },
+   "Youtube title": "LeakCanary 2: Leaner, Better, Faster, Kotliner! by Pierre-Yves Ricau, Square, Inc EN"
+},
+ {
+   "da": "REB-6912",
+   "website": "link",
+   "title": "Uplift — Material shadows on Android",
+   "speakers": "Sebastiano Poggi, JetBrains",
+   "Video cut Begin": "0:06",
+   "Video cut End": "",
+   "Audio stereo side": "",
+   "intro video": "intro",
+   "thumbnail video": "thumbnail",
+   "video available on website": "",
+   "video": "",
+   "slide available on website": "yes",
+   "slides link": "https://speakerdeck.com/rock3r/uplift-material-shadows-on-android",
+   "comment": {
+      "other link": ""
+   },
+   "Youtube title": "Uplift — Material shadows on Android by Sebastiano Poggi, JetBrains EN"
+},
+ {
+   "da": "QMW-7145",
+   "website": "link",
+   "title": "(Android) Transformers - bytecode in disguise!",
+   "speakers": "Doug Stevenson, Google",
+   "Video cut Begin": "0:00",
+   "Video cut End": "",
+   "Audio stereo side": "",
+   "intro video": "intro",
+   "thumbnail video": "thumbnail",
+   "video available on website": "",
+   "video": "",
+   "slide available on website": "yes",
+   "slides link": "https://speakerdeck.com/codingdoug/android-transformers-bytecode-in-disguise",
+   "comment": {
+      "other link": ""
+   },
+   "Youtube title": "(Android) Transformers - bytecode in disguise! by Doug Stevenson, Google EN"
+},
+ {
+   "da": "SCS-0941",
+   "website": "link",
+   "title": "Effective Unit testing with Kotlin",
+   "speakers": "Danny Preussler, sporttotal.tv",
+   "Video cut Begin": "0:04",
+   "Video cut End": "",
+   "Audio stereo side": "",
+   "intro video": "intro",
+   "thumbnail video": "thumbnail",
+   "video available on website": "",
+   "video": "",
+   "slide available on website": "no",
+   "slides link": "livecode (pas de slide)",
+   "comment": {
+      "other link": ""
+   },
+   "Youtube title": "Effective Unit testing with Kotlin by Danny Preussler, sporttotal.tv EN"
+},
+ {
+   "da": "DCF-5057",
+   "website": "link",
+   "title": "Best practices for a modularized app",
+   "speakers": "Ben Weiss, Google",
+   "Video cut Begin": "0:00",
+   "Video cut End": "",
+   "Audio stereo side": "",
+   "intro video": "intro",
+   "thumbnail video": "thumbnail",
+   "video available on website": "",
+   "video": "PAS DE PUBLICATION AVANT I/O",
+   "slide available on website": "",
+   "slides link": "PAS DE PUBLICATION AVANT I/O",
+   "comment": {
+      "other link": ""
+   },
+   "Youtube title": "Best practices for a modularized app by Ben Weiss, Google EN"
+},
+ {
+   "da": "QIW-9288",
+   "website": "link",
+   "title": "Workout your tasks with WorkManager",
+   "speakers": "Magda Miu",
+   "Video cut Begin": "0:02",
+   "Video cut End": "",
+   "Audio stereo side": "",
+   "intro video": "intro",
+   "thumbnail video": "thumbnail",
+   "video available on website": "",
+   "video": "",
+   "slide available on website": "yes",
+   "slides link": "https://speakerdeck.com/magdamiu/workout-your-tasks-with-workmanager",
+   "comment": {
+      "other link": ""
+   },
+   "Youtube title": "Workout your tasks with WorkManager by Magda Miu EN"
+},
+ {
+   "da": "Room 2.02",
+   "website": "",
+   "title": "",
+   "speakers": "",
+   "Video cut Begin": "",
+   "Video cut End": "",
+   "Audio stereo side": "",
+   "intro video": "",
+   "thumbnail video": "",
+   "video available on website": "",
+   "video": "",
+   "slide available on website": "",
+   "slides link": "",
+   "comment": {
+      "other link": ""
+   },
+   "Youtube title": ""
+},
+ {
+   "da": "NTE-5380",
+   "website": "link",
+   "title": "Write your own Android Studio Plugin and automate everything",
+   "speakers": "Marcos Holgado, Sky",
+   "Video cut Begin": "6:42",
+   "Video cut End": "",
+   "Audio stereo side": "",
+   "intro video": "intro",
+   "thumbnail video": "thumbnail",
+   "video available on website": "",
+   "video": "",
+   "slide available on website": "yes",
+   "slides link": "https://proandroiddev.com/write-an-android-studio-plugin-part-1-creating-a-basic-plugin-af956c4f8b50",
+   "comment": {
+      "other link": ""
+   },
+   "Youtube title": "Write your own Android Studio Plugin and automate everything by Marcos Holgado, Sky EN"
+},
+ {
+   "da": "KAP-5021",
+   "website": "link",
+   "title": "Internationalisation à Kapten",
+   "speakers": "Quentin Huet and Yann Vaillant, Kapten",
+   "Video cut Begin": "1:18",
+   "Video cut End": "",
+   "Audio stereo side": "",
+   "intro video": "intro",
+   "thumbnail video": "thumbnail",
+   "video available on website": "",
+   "video": "",
+   "slide available on website": "yes",
+   "slides link": "https://speakerdeck.com/vayan/internationalisation-a-kapten",
+   "comment": {
+      "other link": ""
+   },
+   "Youtube title": "Internationalisation à Kapten by Quentin Huet and Yann Vaillant, Kapten FR"
+},
+ {
+   "da": "MKQ-2052",
+   "website": "link",
+   "title": "Advanced Android Data Binding",
+   "speakers": "Jose Alcérreca, Google",
+   "Video cut Begin": "1:17",
+   "Video cut End": "",
+   "Audio stereo side": "",
+   "intro video": "intro",
+   "thumbnail video": "thumbnail",
+   "video available on website": "",
+   "video": "",
+   "slide available on website": "",
+   "slides link": "tweet envoyé",
+   "comment": {
+      "other link": ""
+   },
+   "Youtube title": "Advanced Android Data Binding by Jose Alcérreca, Google EN"
+},
+ {
+   "da": "EHB-6826",
+   "website": "link",
+   "title": "The Rise Of The State Machines: An introduction to predictable state container based architectures for your Android apps",
+   "speakers": "Mounir Boudraa, Delphia",
+   "Video cut Begin": "1:15",
+   "Video cut End": "",
+   "Audio stereo side": "",
+   "intro video": "intro",
+   "thumbnail video": "thumbnail",
+   "video available on website": "",
+   "video": "",
+   "slide available on website": "",
+   "slides link": "tweet envoyé",
+   "comment": {
+      "other link": ""
+   },
+   "Youtube title": "The Rise Of The State Machines by Mounir Boudraa, Delphia FR"
+},
+ {
+   "da": "MAW-7262",
+   "website": "link",
+   "title": "Coroutines, a new scope",
+   "speakers": "Florina Muntenescu and Yacine Rezgui, Google",
+   "Video cut Begin": "0:00",
+   "Video cut End": "",
+   "Audio stereo side": "",
+   "intro video": "intro",
+   "thumbnail video": "thumbnail",
+   "video available on website": "",
+   "video": "",
+   "slide available on website": "no",
+   "slides link": "Workshop. Pas d'audio dans la video + Florina disait qu'ils feraient surement une vidéo en interne a google donc pas de publication de notre coté",
+   "comment": {
+      "other link": ""
+   },
+   "Youtube title": "Coroutines, a new scope by Florina Muntenescu and Yacine Rezgui, Google EN"
+},
+ {
+   "da": "VUR-7482",
+   "website": "link",
+   "title": "Myths and Reality of Android Machine Learning",
+   "speakers": "Hoi Lam, Google",
+   "Video cut Begin": "2:00",
+   "Video cut End": "",
+   "Audio stereo side": "",
+   "intro video": "intro",
+   "thumbnail video": "thumbnail",
+   "video available on website": "",
+   "video": "",
+   "slide available on website": "no",
+   "slides link": "Prefers to not share the slides. Ok to have them in the video.",
+   "comment": {
+      "other link": ""
+   },
+   "Youtube title": "Myths and Reality of Android Machine Learning by Hoi Lam, Google EN"
+},
+ {
+   "da": "YYF-6635",
+   "website": "link",
+   "title": "It's complicated, but it doesn't have to be: a Dagger journey",
+   "speakers": "Fred Porciúncula, Blinkist",
+   "Video cut Begin": "0:37",
+   "Video cut End": "",
+   "Audio stereo side": "",
+   "intro video": "intro",
+   "thumbnail video": "thumbnail",
+   "video available on website": "",
+   "video": "",
+   "slide available on website": "yes",
+   "slides link": "slides",
+   "comment": {
+      "other link": "dagger-journey repo"
+   },
+   "Youtube title": "It's complicated, but it doesn't have to be: a Dagger journey by Fred Porciúncula, Blinkist EN"
+},
+ {
+   "da": "VOK-7028",
+   "website": "link",
+   "title": "A New Window Into Pixel Pushing - Discussing new tools to help developers save time when implementing designs!",
+   "speakers": "Wojciech Dziemianczyk, The New York Times",
+   "Video cut Begin": "1:31",
+   "Video cut End": "",
+   "Audio stereo side": "",
+   "intro video": "intro",
+   "thumbnail video": "thumbnail",
+   "video available on website": "",
+   "video": "",
+   "slide available on website": "yes",
+   "slides link": "https://speakerdeck.com/wdziemia/vqa-a-new-window-into-pixel-pushing",
+   "comment": {
+      "other link": ""
+   },
+   "Youtube title": "Discussing new tools to help developers save time when implementing designs by Wojciech Dziemianczyk"
+},
+ {
+   "da": "GAO-2888",
+   "website": "link",
+   "title": "The difference between what and why.",
+   "speakers": "Lorica Claesson, Nordic Usability",
+   "Video cut Begin": "1:00",
+   "Video cut End": "",
+   "Audio stereo side": "",
+   "intro video": "intro",
+   "thumbnail video": "thumbnail",
+   "video available on website": "",
+   "video": "",
+   "slide available on website": "",
+   "slides link": "",
+   "comment": {
+      "other link": ""
+   },
+   "Youtube title": "The difference between what and why. by Lorica Claesson, Nordic Usability EN"
+},
+ {
+   "da": "Room 2.04",
+   "website": "",
+   "title": "",
+   "speakers": "",
+   "Video cut Begin": "",
+   "Video cut End": "",
+   "Audio stereo side": "",
+   "intro video": "",
+   "thumbnail video": "",
+   "video available on website": "",
+   "video": "",
+   "slide available on website": "",
+   "slides link": "",
+   "comment": {
+      "other link": ""
+   },
+   "Youtube title": ""
+},
+ {
+   "da": "NYI-1720",
+   "website": "link",
+   "title": "The Android device farm that fits in a (cloudy) pocket",
+   "speakers": "Bruno Verachten, Worldline by ATOS",
+   "Video cut Begin": "",
+   "Video cut End": "",
+   "Audio stereo side": "",
+   "intro video": "intro",
+   "thumbnail video": "thumbnail",
+   "video available on website": "",
+   "video": "",
+   "slide available on website": "yes",
+   "slides link": "slides",
+   "comment": {
+      "other link": ""
+   },
+   "Youtube title": "The Android device farm that fits in a (cloudy) pocket by Bruno Verachten, Worldline by ATOS FR"
+},
+ {
+   "da": "LQF-6083",
+   "website": "link",
+   "title": "Slices up your app!",
+   "speakers": "Marc Poppleton, Orange Labs",
+   "Video cut Begin": "",
+   "Video cut End": "",
+   "Audio stereo side": "",
+   "intro video": "intro",
+   "thumbnail video": "thumbnail",
+   "video available on website": "",
+   "video": "",
+   "slide available on website": "yes",
+   "slides link": "https://speakerdeck.com/marcpoppleton/slices-up-your-app",
+   "comment": {
+      "other link": ""
+   },
+   "Youtube title": "Slices up your app! by Marc Poppleton, Orange Labs EN"
+},
+ {
+   "da": "NOG-9878",
+   "website": "link",
+   "title": "Les analytics c'est bon, mangez-en !",
+   "speakers": "Adrien Vitti, Smart&Soft",
+   "Video cut Begin": "",
+   "Video cut End": "",
+   "Audio stereo side": "",
+   "intro video": "intro",
+   "thumbnail video": "thumbnail",
+   "video available on website": "",
+   "video": "",
+   "slide available on website": "yes",
+   "slides link": "https://speakerdeck.com/n0tnull/les-analytics-cest-bon-mangez-en",
+   "comment": {
+      "other link": ""
+   },
+   "Youtube title": "Les analytics c'est bon, mangez-en ! by Adrien Vitti, Smart&Soft FR"
+},
+ {
+   "da": "ZCO-9565",
+   "website": "link",
+   "title": "Le sandboxing applicatif d'Android",
+   "speakers": "Adrien Grassein, Smile",
+   "Video cut Begin": "",
+   "Video cut End": "",
+   "Audio stereo side": "",
+   "intro video": "intro",
+   "thumbnail video": "thumbnail",
+   "video available on website": "",
+   "video": "",
+   "slide available on website": "yes",
+   "slides link": "https://fr.slideshare.net/AdrienGrassein/le-sandboxing-applicatif-dandroid",
+   "comment": {
+      "other link": ""
+   },
+   "Youtube title": "Le sandboxing applicatif d'Android by Adrien Grassein, Smile FR"
+},
+ {
+   "da": "PJX-9369",
+   "website": "link",
+   "title": "L’accessibilité sur Android en 2019",
+   "speakers": "Léna Ndiaye",
+   "Video cut Begin": "",
+   "Video cut End": "",
+   "Audio stereo side": "",
+   "intro video": "intro",
+   "thumbnail video": "thumbnail",
+   "video available on website": "",
+   "video": "",
+   "slide available on website": "yes",
+   "slides link": "https://docs.google.com/presentation/d/1zBn4JHEnVZuZaLexq06PsRJ2wxd6xXfNIV5bTxWD66I/edit#slide=id.g510c1a25bf_0_0",
+   "comment": {
+      "other link": ""
+   },
+   "Youtube title": "L’accessibilité sur Android en 2019 by Léna Ndiaye FR"
+},
+ {
+   "da": "VTN-7485",
+   "website": "link",
+   "title": "Stockage et partage sécurisé de fichiers volumineux",
+   "speakers": "Jonathan Salamon, Dashlane",
+   "Video cut Begin": "",
+   "Video cut End": "",
+   "Audio stereo side": "",
+   "intro video": "intro",
+   "thumbnail video": "thumbnail",
+   "video available on website": "",
+   "video": "",
+   "slide available on website": "yes",
+   "slides link": "slides",
+   "comment": {
+      "other link": ""
+   },
+   "Youtube title": "Stockage et partage sécurisé de fichiers volumineux by Jonathan Salamon, Dashlane FR"
+},
+ {
+   "da": "XWA-9893",
+   "website": "link",
+   "title": "Sécuriser ses appels réseau Android, de 2009 à 2019",
+   "speakers": "Michaël Ohayon, Xebia",
+   "Video cut Begin": "",
+   "Video cut End": "",
+   "Audio stereo side": "",
+   "intro video": "intro",
+   "thumbnail video": "thumbnail",
+   "video available on website": "",
+   "video": "",
+   "slide available on website": "yes",
+   "slides link": "https://speakerdeck.com/mikklfr/securing-network-calls-on-android-from-2009-to-2019",
+   "comment": {
+      "other link": ""
+   },
+   "Youtube title": "Sécuriser ses appels réseau Android, de 2009 à 2019 by Michaël Ohayon, Xebia FR"
+},
+ {
+   "da": "HXB-5769",
+   "website": "link",
+   "title": "Energie, latence: je t'aime, moi non plus",
+   "speakers": "Pierre Crépieux, Orange",
+   "Video cut Begin": "",
+   "Video cut End": "",
+   "Audio stereo side": "",
+   "intro video": "intro",
+   "thumbnail video": "thumbnail",
+   "video available on website": "",
+   "video": "",
+   "slide available on website": "yes",
+   "slides link": "https://speakerdeck.com/pcrepieux/energie-latence-je-taime-moi-non-plus",
+   "comment": {
+      "other link": ""
+   },
+   "Youtube title": "Energie, latence: je t'aime, moi non plus by Pierre Crépieux, Orange FR"
+},
+ {
+   "da": "XVO-2305",
+   "website": "link",
+   "title": "Recruteurs, développeurs, bonne humeur",
+   "speakers": "David Fournier, Smart&Soft",
+   "Video cut Begin": "",
+   "Video cut End": "",
+   "Audio stereo side": "",
+   "intro video": "intro",
+   "thumbnail video": "thumbnail",
+   "video available on website": "",
+   "video": "",
+   "slide available on website": "",
+   "slides link": "",
+   "comment": {
+      "other link": ""
+   },
+   "Youtube title": "Recruteurs, développeurs, bonne humeur by David Fournier, Smart&Soft FR"
+},
+ {
+   "da": "ZDM-8801",
+   "website": "link",
+   "title": "Embarquez dans l'aventure Kotlin avec Advent Of Code",
+   "speakers": "Hugo Hache, FABERNOVEL TECHNOLOGIES",
+   "Video cut Begin": "",
+   "Video cut End": "",
+   "Audio stereo side": "",
+   "intro video": "intro",
+   "thumbnail video": "thumbnail",
+   "video available on website": "",
+   "video": "",
+   "slide available on website": "",
+   "slides link": "Tweet envoyé",
+   "comment": {
+      "other link": ""
+   },
+   "Youtube title": "Embarquez dans l'aventure Kotlin avec Advent Of Code by Hugo Hache, FABERNOVEL TECHNOLOGIES FR"
+},
+ {
+   "da": "DAY2",
+   "website": "",
+   "title": "",
+   "speakers": "",
+   "Video cut Begin": "",
+   "Video cut End": "",
+   "Audio stereo side": "",
+   "intro video": "",
+   "thumbnail video": "",
+   "video available on website": "",
+   "video": "",
+   "slide available on website": "",
+   "slides link": "",
+   "comment": {
+      "other link": ""
+   },
+   "Youtube title": ""
+},
+ {
+   "da": "Moebius",
+   "website": "",
+   "title": "",
+   "speakers": "",
+   "Video cut Begin": "",
+   "Video cut End": "",
+   "Audio stereo side": "",
+   "intro video": "",
+   "thumbnail video": "",
+   "video available on website": "",
+   "video": "",
+   "slide available on website": "",
+   "slides link": "",
+   "comment": {
+      "other link": ""
+   },
+   "Youtube title": ""
+},
+ {
+   "da": "BXQ-5942",
+   "website": "link",
+   "title": "Android Puzzlers: Traps, Pitfalls and Corner Cases",
+   "speakers": "Cyril Mottier, Zenly",
+   "Video cut Begin": "1:04",
+   "Video cut End": "43:06",
+   "Audio stereo side": "right",
+   "intro video": "intro",
+   "thumbnail video": "thumbnail",
+   "video available on website": "",
+   "video": "",
+   "slide available on website": "yes",
+   "slides link": "https://speakerdeck.com/cyrilmottier/android-puzzlers-traps-pitfalls-and-corner-cases",
+   "comment": {
+      "other link": "https://github.com/cyrilmottier/AndroidPuzzlers"
+   },
+   "Youtube title": "Android Puzzlers: Traps, Pitfalls and Corner Cases by Cyril Mottier, Zenly EN"
+},
+ {
+   "da": "TWY-4180",
+   "website": "link",
+   "title": "Consistency is Key - Working with a Design System",
+   "speakers": "Maria Neumayer, Deliveroo",
+   "Video cut Begin": "1:01",
+   "Video cut End": "38:15",
+   "Audio stereo side": "right",
+   "intro video": "intro",
+   "thumbnail video": "thumbnail",
+   "video available on website": "",
+   "video": "",
+   "slide available on website": "yes",
+   "slides link": "https://speakerdeck.com/marianeum/consistency-is-key-working-with-a-design-system-android-makers",
+   "comment": {
+      "other link": ""
+   },
+   "Youtube title": "Consistency is Key - Working with a Design System by Maria Neumayer, Deliveroo EN"
+},
+ {
+   "da": "VQS-5461",
+   "website": "link",
+   "title": "Concurrency doesn't have to be hard: Kotlin Coroutines and Channels",
+   "speakers": "Jag Saund, Instagram",
+   "Video cut Begin": "0:45",
+   "Video cut End": "38:57",
+   "Audio stereo side": "right",
+   "intro video": "intro",
+   "thumbnail video": "thumbnail",
+   "video available on website": "",
+   "video": "",
+   "slide available on website": "yes",
+   "slides link": "https://speakerdeck.com/jsaund/android-makers-concurrency-doesnt-have-to-be-hard-kotlin-coroutines-and-channels",
+   "comment": {
+      "other link": ""
+   },
+   "Youtube title": "Concurrency doesn't have to be hard: Kotlin Coroutines and Channels by Jag Saund, Instagram EN"
+},
+ {
+   "da": "TCT-1480",
+   "website": "link",
+   "title": "Navigation Component, feedback from the trench",
+   "speakers": "Eyal LEZMY, Tag Heuer",
+   "Video cut Begin": "0:55",
+   "Video cut End": "44:00",
+   "Audio stereo side": "right",
+   "intro video": "intro",
+   "thumbnail video": "thumbnail",
+   "video available on website": "",
+   "video": "",
+   "slide available on website": "yes",
+   "slides link": "http://bit.ly/nav-component",
+   "comment": {
+      "other link": ""
+   },
+   "Youtube title": "Navigation Component, feedback from the trench by Eyal LEZMY, Tag Heuer EN"
+},
+ {
+   "da": "XPP-1467",
+   "website": "link",
+   "title": "Meaningful motion design and how to implement it",
+   "speakers": "Juhani Lehtimäki and Pierluigi Rufo, Snapp Mobile",
+   "Video cut Begin": "1:00",
+   "Video cut End": "43:46",
+   "Audio stereo side": "right",
+   "intro video": "intro",
+   "thumbnail video": "thumbnail",
+   "video available on website": "",
+   "video": "",
+   "slide available on website": "",
+   "slides link": "tweet envoyé",
+   "comment": {
+      "other link": ""
+   },
+   "Youtube title": "Meaningful motion design and how to implement it by Juhani Lehtimäki & Pierluigi Rufo, Snapp Mobile"
+},
+ {
+   "da": "JSD-5161",
+   "website": "link",
+   "title": "Vector Workflows",
+   "speakers": "Alex Lockwood, Lyft and Nick Butcher, Google",
+   "Video cut Begin": "0:00",
+   "Video cut End": "46:00",
+   "Audio stereo side": "right",
+   "intro video": "intro",
+   "thumbnail video": "thumbnail",
+   "video available on website": "",
+   "video": "PAS DE PUBLICATION AVANT I/O",
+   "slide available on website": "",
+   "slides link": "PAS DE PUBLICATION AVANT I/O",
+   "comment": {
+      "other link": ""
+   },
+   "Youtube title": "Vector Workflows by Alex Lockwood, Lyft and Nick Butcher, Google EN"
+},
+ {
+   "da": "XQK-8719",
+   "website": "link",
+   "title": "A resourceful talk about Android Resources",
+   "speakers": "Vadim Caen, Google",
+   "Video cut Begin": "0:01",
+   "Video cut End": "22:00",
+   "Audio stereo side": "right",
+   "intro video": "intro",
+   "thumbnail video": "thumbnail",
+   "video available on website": "",
+   "video": "PAS DE PUBLICATION AVANT I/O",
+   "slide available on website": "",
+   "slides link": "PAS DE PUBLICATION AVANT I/O",
+   "comment": {
+      "other link": ""
+   },
+   "Youtube title": "A resourceful talk about Android Resources by Vadim Caen, Google EN"
+},
+ {
+   "da": "comedy",
+   "website": "link",
+   "title": "Closing conference",
+   "speakers": "Chet Haase and Romain Guy, Google",
+   "Video cut Begin": "6:17",
+   "Video cut End": "43:25",
+   "Audio stereo side": "right",
+   "intro video": "intro",
+   "thumbnail video": "thumbnail",
+   "video available on website": "",
+   "video": "",
+   "slide available on website": "no",
+   "slides link": "pas de slide pour le comedy talk",
+   "comment": {
+      "other link": ""
+   },
+   "Youtube title": "Closing conference by Chet Haase and Romain Guy, Google EN"
+},
+ {
+   "da": "Room A. & L. Blin",
+   "website": "",
+   "title": "",
+   "speakers": "",
+   "Video cut Begin": "",
+   "Video cut End": "",
+   "Audio stereo side": "",
+   "intro video": "",
+   "thumbnail video": "",
+   "video available on website": "",
+   "video": "",
+   "slide available on website": "",
+   "slides link": "",
+   "comment": {
+      "other link": ""
+   },
+   "Youtube title": ""
+},
+ {
+   "da": "JJK-6338",
+   "website": "link",
+   "title": "State Restoration - The full Picture (With Coroutines)",
+   "speakers": "Martin Devillers, Dashlane",
+   "Video cut Begin": "0:02",
+   "Video cut End": "",
+   "Audio stereo side": "",
+   "intro video": "intro",
+   "thumbnail video": "thumbnail",
+   "video available on website": "",
+   "video": "",
+   "slide available on website": "yes",
+   "slides link": "https://speakerdeck.com/martindevillers/state-restoration-the-full-picture-with-coroutines",
+   "comment": {
+      "other link": ""
+   },
+   "Youtube title": "State Restoration - The full Picture (With Coroutines) by Martin Devillers, Dashlane EN"
+},
+ {
+   "da": "KSG-3809",
+   "website": "link",
+   "title": "Building a library for Android and iOS using Kotlin Multiplatform",
+   "speakers": "David González, Mixtiles",
+   "Video cut Begin": "0:02",
+   "Video cut End": "",
+   "Audio stereo side": "",
+   "intro video": "intro",
+   "thumbnail video": "thumbnail",
+   "video available on website": "",
+   "video": "",
+   "slide available on website": "yes",
+   "slides link": "https://speakerdeck.com/malmstein/building-a-multiplatform-library-for-ios-and-android",
+   "comment": {
+      "other link": ""
+   },
+   "Youtube title": "Building a library for Android and iOS using Kotlin Multiplatform by David González, Mixtiles EN"
+},
+ {
+   "da": "LBC-1587",
+   "website": "link",
+   "title": "Retour d’expérience sur la modernisation technique d’une Top App",
+   "speakers": "Cristian Garrido and Eliott Lujan, Le Bon Coin",
+   "Video cut Begin": "1:28",
+   "Video cut End": "43:04",
+   "Audio stereo side": "",
+   "intro video": "intro",
+   "thumbnail video": "thumbnail",
+   "video available on website": "",
+   "video": "",
+   "slide available on website": "yes",
+   "slides link": "https://speakerdeck.com/crgarridos/retour-dexperience-sur-la-modernisation-technique-dune-top-app",
+   "comment": {
+      "other link": ""
+   },
+   "Youtube title": "Retour d’expérience sur la modernisation technique d’une Top App by Cristian Garrido & Eliott Lujan"
+},
+ {
+   "da": "TLN-9826",
+   "website": "link",
+   "title": "Leveraging Kotlin to write maintainable UI tests",
+   "speakers": "Róbert Papp, Trainline",
+   "Video cut Begin": "0:28",
+   "Video cut End": "",
+   "Audio stereo side": "",
+   "intro video": "intro",
+   "thumbnail video": "thumbnail",
+   "video available on website": "",
+   "video": "",
+   "slide available on website": "yes",
+   "slides link": "https://docs.google.com/presentation/d/1dNld_wDZbTKzPY3FVbAVineuvuF8XSRuxjZu3UsyltQ/edit#slide=id.g5594babf55_0_80",
+   "comment": {
+      "other link": ""
+   },
+   "Youtube title": "Leveraging Kotlin to write maintainable UI tests by Róbert Papp, Trainline EN"
+},
+ {
+   "da": "TGV-6847",
+   "website": "link",
+   "title": "Getting the most out of code review",
+   "speakers": "Brian Plummer, friendlyrobot.nyc",
+   "Video cut Begin": "0:33",
+   "Video cut End": "",
+   "Audio stereo side": "",
+   "intro video": "intro",
+   "thumbnail video": "thumbnail",
+   "video available on website": "",
+   "video": "",
+   "slide available on website": "yes",
+   "slides link": "https://speakerdeck.com/brianplummer/getting-the-most-out-of-code-review",
+   "comment": {
+      "other link": ""
+   },
+   "Youtube title": "Getting the most out of code review by Brian Plummer, friendlyrobot.nyc EN"
+},
+ {
+   "da": "RBP-6855",
+   "website": "link",
+   "title": "Becoming a Leader in Tech: How to boost your career without losing your mind",
+   "speakers": "Fabien Devos, Wealthfront",
+   "Video cut Begin": "3:00",
+   "Video cut End": "",
+   "Audio stereo side": "",
+   "intro video": "intro",
+   "thumbnail video": "thumbnail",
+   "video available on website": "",
+   "video": "",
+   "slide available on website": "",
+   "slides link": "DM envoyé",
+   "comment": {
+      "other link": ""
+   },
+   "Youtube title": "Becoming a Leader in Tech: How to boost your career without losing your mind by Fabien Devos"
+},
+ {
+   "da": "WLQ-5551",
+   "website": "link",
+   "title": "Server Driven UI Workflow",
+   "speakers": "Benoît Quenaudon, Square",
+   "Video cut Begin": "1:52",
+   "Video cut End": "26:30",
+   "Audio stereo side": "",
+   "intro video": "intro",
+   "thumbnail video": "thumbnail",
+   "video available on website": "",
+   "video": "",
+   "slide available on website": "yes",
+   "slides link": "https://speakerdeck.com/oldergod/server-driven-ui-workflow",
+   "comment": {
+      "other link": ""
+   },
+   "Youtube title": "Server Driven UI Workflow by Benoît Quenaudon, Square EN"
+},
+ {
+   "da": "ODA-3499",
+   "website": "link",
+   "title": "I have no idea what my app is doing ¯\\_(ツ)_/¯",
+   "speakers": "Nicola Corti, Yelp",
+   "Video cut Begin": "2:05",
+   "Video cut End": "40:58",
+   "Audio stereo side": "",
+   "intro video": "intro",
+   "thumbnail video": "thumbnail",
+   "video available on website": "",
+   "video": "",
+   "slide available on website": "yes",
+   "slides link": "https://speakerdeck.com/cortinico/i-have-no-idea-what-my-app-is-doing-nicola-corti-android-dev",
+   "comment": {
+      "other link": ""
+   },
+   "Youtube title": "I have no idea what my app is doing ¯\\_(ツ)_/¯ by Nicola Corti, Yelp EN"
+},
+ {
+   "da": "Room 2.02",
+   "website": "",
+   "title": "",
+   "speakers": "",
+   "Video cut Begin": "",
+   "Video cut End": "",
+   "Audio stereo side": "",
+   "intro video": "",
+   "thumbnail video": "",
+   "video available on website": "",
+   "video": "",
+   "slide available on website": "",
+   "slides link": "",
+   "comment": {
+      "other link": ""
+   },
+   "Youtube title": ""
+},
+ {
+   "da": "IVS-2334",
+   "website": "link",
+   "title": "Rendering Video: A Detailed Look at Video Playback on Android",
+   "speakers": "Pierre-Antoine LaFayette, Facebook",
+   "Video cut Begin": "0:59",
+   "Video cut End": "",
+   "Audio stereo side": "",
+   "intro video": "intro",
+   "thumbnail video": "thumbnail",
+   "video available on website": "",
+   "video": "",
+   "slide available on website": "",
+   "slides link": "tweet envoyé",
+   "comment": {
+      "other link": ""
+   },
+   "Youtube title": "Rendering Video: A Detailed Look at Video Playback on Android by Pierre-Antoine LaFayette, Facebook"
+},
+ {
+   "da": "GMB-7169",
+   "website": "link",
+   "title": "S’il te plait, dessine moi une vue",
+   "speakers": "Florent Champigny, @Idean",
+   "Video cut Begin": "0:50",
+   "Video cut End": "",
+   "Audio stereo side": "",
+   "intro video": "intro",
+   "thumbnail video": "thumbnail",
+   "video available on website": "",
+   "video": "",
+   "slide available on website": "yes",
+   "slides link": "https://fr.slideshare.net/FlorentChampigny/sil-te-plait-dessine-moi-une-vue",
+   "comment": {
+      "other link": ""
+   },
+   "Youtube title": "S’il te plait, dessine moi une vue by Florent Champigny, @Idean FR"
+},
+ {
+   "da": "ZNT-7569",
+   "website": "link",
+   "title": "Taking your users’ money: In-app billing from start to best practices",
+   "speakers": "Kai Koenig, Ventego Creative",
+   "Video cut Begin": "0:31",
+   "Video cut End": "",
+   "Audio stereo side": "",
+   "intro video": "intro",
+   "thumbnail video": "thumbnail",
+   "video available on website": "",
+   "video": "",
+   "slide available on website": "yes",
+   "slides link": "https://speakerdeck.com/therealagentk/taking-your-users-money-in-app-billing-from-start-to-best-practices",
+   "comment": {
+      "other link": ""
+   },
+   "Youtube title": "Taking your users’ money: In-app billing from start to best practices by Kai Koenig"
+},
+ {
+   "da": "OVK-2477",
+   "website": "link",
+   "title": "ARCore - Basics and Tools",
+   "speakers": "Etienne Caron, Shopify",
+   "Video cut Begin": "0:39",
+   "Video cut End": "",
+   "Audio stereo side": "",
+   "intro video": "intro",
+   "thumbnail video": "thumbnail",
+   "video available on website": "",
+   "video": "",
+   "slide available on website": "yes",
+   "slides link": "https://docs.google.com/presentation/d/1UAuGKODtVabyypT2IXTEtX0pfCOCxc9yh6JVJGfIg4E/edit?usp=sharing",
+   "comment": {
+      "other link": ""
+   },
+   "Youtube title": "ARCore - Basics and Tools by Etienne Caron, Shopify EN"
+},
+ {
+   "da": "RBU-3913",
+   "website": "link",
+   "title": "Write your first Flutter App",
+   "speakers": "Pierre Tibulle undefined (ASI), Romain Rastel undefined (Orange Business Services) and Horacio Gonzalez undefined (OVH)",
+   "Video cut Begin": "1:17",
+   "Video cut End": "",
+   "Audio stereo side": "",
+   "intro video": "intro",
+   "thumbnail video": "thumbnail",
+   "video available on website": "",
+   "video": "",
+   "slide available on website": "yes",
+   "slides link": "https://docs.google.com/presentation/d/1E4ZXwaEgjLyJeJprGJDm4_Ul4G78q6Zk4lRoTQQ6pOo/edit",
+   "comment": {
+      "other link": ""
+   },
+   "Youtube title": "Write your first Flutter App by Pierre Tibulle (ASI), Romain Rastel (Orange Business Services) and Horacio Gonzalez (OVH) ENGLISH/FRENCH"
+},
+ {
+   "da": "ZPO-7428",
+   "website": "link",
+   "title": "Kotlin end to end: du client au serveur",
+   "speakers": "Jordan Tuffery and Julien Datour, Xebia",
+   "Video cut Begin": "1:30",
+   "Video cut End": "",
+   "Audio stereo side": "",
+   "intro video": "intro",
+   "thumbnail video": "thumbnail",
+   "video available on website": "",
+   "video": "",
+   "slide available on website": "yes",
+   "slides link": "https://speakerdeck.com/jdatour/android-makers-2019-kotlin-end-to-end-du-client-au-serveur",
+   "comment": {
+      "other link": ""
+   },
+   "Youtube title": "Kotlin end to end: du client au serveur by Jordan Tuffery and Julien Datour, Xebia FR"
+},
+ {
+   "da": "ZPP-9970",
+   "website": "link",
+   "title": "“Make your app work perfectly offl…” — Connection Interrupted",
+   "speakers": "Xavier F. Gouchet and Jérémy Bartolomeu Bonze, Workwell",
+   "Video cut Begin": "0:30",
+   "Video cut End": "",
+   "Audio stereo side": "",
+   "intro video": "intro",
+   "thumbnail video": "thumbnail",
+   "video available on website": "",
+   "video": "",
+   "slide available on website": "yes",
+   "slides link": "https://speakerdeck.com/xgouchet/make-your-app-work-perfectly-off-connection-interrupted",
+   "comment": {
+      "other link": ""
+   },
+   "Youtube title": "“Make your app work perfectly offl…” — Connection Interrupted"
+},
+ {
+   "da": "Room 2.04",
+   "website": "",
+   "title": "",
+   "speakers": "",
+   "Video cut Begin": "",
+   "Video cut End": "",
+   "Audio stereo side": "",
+   "intro video": "",
+   "thumbnail video": "",
+   "video available on website": "",
+   "video": "",
+   "slide available on website": "",
+   "slides link": "",
+   "comment": {
+      "other link": ""
+   },
+   "Youtube title": ""
+},
+ {
+   "da": "HDV-6804",
+   "website": "link",
+   "title": "MVI : une architecture robuste et moderne",
+   "speakers": "Simone Civetta and Arnaud Piroelle, Xebia",
+   "Video cut Begin": "3:44",
+   "Video cut End": "",
+   "Audio stereo side": "",
+   "intro video": "intro",
+   "thumbnail video": "thumbnail",
+   "video available on website": "",
+   "video": "",
+   "slide available on website": "yes",
+   "slides link": "https://speakerdeck.com/viteinfinite/mvi-une-architecture-robuste-et-moderne-pour-vos-applications-mobiles",
+   "comment": {
+      "other link": ""
+   },
+   "Youtube title": "MVI : une architecture robuste et moderne by Simone Civetta and Arnaud Piroelle, Xebia FR"
+},
+ {
+   "da": "AMU-5195",
+   "website": "link",
+   "title": "Do you want an easy way to add Machine Learning into your app?",
+   "speakers": "Sandra Dupré, Disney Streaming Services",
+   "Video cut Begin": "0:25",
+   "Video cut End": "",
+   "Audio stereo side": "",
+   "intro video": "intro",
+   "thumbnail video": "thumbnail",
+   "video available on website": "",
+   "video": "",
+   "slide available on website": "yes",
+   "slides link": "https://speakerdeck.com/sandraddev/do-you-want-an-easy-way-to-add-machine-learning-into-your-app",
+   "comment": {
+      "other link": ""
+   },
+   "Youtube title": "Do you want an easy way to add Machine Learning into your app? by Sandra Dupré"
+},
+ {
+   "da": "NIZ-9897",
+   "website": "link",
+   "title": "Locking, blocking and rocking Android for Self-service Kiosks",
+   "speakers": "Karapet Gyumjibashyan, PMP, Ginosi Apartels and Hotels",
+   "Video cut Begin": "1:15",
+   "Video cut End": "",
+   "Audio stereo side": "",
+   "intro video": "intro",
+   "thumbnail video": "thumbnail",
+   "video available on website": "",
+   "video": "",
+   "slide available on website": "yes",
+   "slides link": "https://docs.google.com/presentation/d/1UAuGKODtVabyypT2IXTEtX0pfCOCxc9yh6JVJGfIg4E/edit?usp=sharing",
+   "comment": {
+      "other link": ""
+   },
+   "Youtube title": "Locking, blocking and rocking Android for Self-service Kiosks by Karapet Gyumjibashyan, PMP"
+},
+ {
+   "da": "GBA-2488",
+   "website": "link",
+   "title": "GraphQL in real life",
+   "speakers": "Roberto Orgiu, The New York Times",
+   "Video cut Begin": "0:25",
+   "Video cut End": "",
+   "Audio stereo side": "",
+   "intro video": "intro",
+   "thumbnail video": "thumbnail",
+   "video available on website": "",
+   "video": "",
+   "slide available on website": "yes",
+   "slides link": "https://speakerdeck.com/tiwiz/graphql-irl-android-makers",
+   "comment": {
+      "other link": ""
+   },
+   "Youtube title": "GraphQL in real life by Roberto Orgiu, The New York Times EN"
+},
+ {
+   "da": "HJM-2968",
+   "website": "link",
+   "title": "App Clinic",
+   "speakers": "Eyal Lezmy (Tag Heuer), Sebastiano Poggi undefined (JetBrains), Anita Singh (Blinkist), Rebecca Franks (Over), Ty Smith (Uber), Juhani Lehtimäki (Snapp Mobile), Pierluigi Rufo (Snapp Mobile Germany GmbH) and Cyril Mottier (Zenly)",
+   "Video cut Begin": "0:40",
+   "Video cut End": "",
+   "Audio stereo side": "",
+   "intro video": "intro",
+   "thumbnail video": "thumbnail",
+   "video available on website": "",
+   "video": "",
+   "slide available on website": "no",
+   "slides link": "NO SLIDES",
+   "comment": {
+      "other link": ""
+   },
+   "Youtube title": "App Clinic at Android Makers 2019"
+},
+ {
+   "da": "JOO-6049",
+   "website": "link",
+   "title": "Dependency injection from zero to hero with Koin",
+   "speakers": "Arnaud Giuliani",
+   "Video cut Begin": "1:15",
+   "Video cut End": "",
+   "Audio stereo side": "",
+   "intro video": "intro",
+   "thumbnail video": "thumbnail",
+   "video available on website": "",
+   "video": "",
+   "slide available on website": "yes",
+   "slides link": "https://speakerdeck.com/agiuliani/dependency-injection-from-zero-to-hero-with-koin",
+   "comment": {
+      "other link": ""
+   },
+   "Youtube title": "Dependency injection from zero to hero with Koin by Arnaud Giuliani EN"
+},
+ {
+   "da": "AFF-5103",
+   "website": "link",
+   "title": "Integrating Android with the Google Assistant",
+   "speakers": "Elaine Dias Batista, SFEIR",
+   "Video cut Begin": "1:20",
+   "Video cut End": "",
+   "Audio stereo side": "",
+   "intro video": "intro",
+   "thumbnail video": "thumbnail",
+   "video available on website": "",
+   "video": "",
+   "slide available on website": "yes",
+   "slides link": "https://speakerdeck.com/elainedb/google-assistant-for-android-developers",
+   "comment": {
+      "other link": ""
+   },
+   "Youtube title": "Google Assistant for Android developers by Elaine Dias Batista, SFEIR EN"
+},
+ {
+   "da": "JEH-1710",
+   "website": "link",
+   "title": "Building Android for the Raspberry Pi",
+   "speakers": "Chris Simmonds, 2net Ltd",
+   "Video cut Begin": "1:20",
+   "Video cut End": "",
+   "Audio stereo side": "",
+   "intro video": "intro",
+   "thumbnail video": "thumbnail",
+   "video available on website": "",
+   "video": "",
+   "slide available on website": "yes",
+   "slides link": "https://www.slideshare.net/chrissimmonds/running-android-on-the-raspberry-pi-android-pie-meets-raspberry-pi",
+   "comment": {
+      "other link": ""
+   },
+   "Youtube title": "Building Android for the Raspberry Pi by Chris Simmonds, 2net Ltd EN"
+},
+ {
+   "da": "XQT-5940",
+   "website": "link",
+   "title": "Android Leaks @Android Makers - Épisode 6 : Le retour des poireaux",
+   "speakers": "Benjamin Monjoie, Appkers and Yannick Lemin, TechYOS",
+   "Video cut Begin": "0:50",
+   "Video cut End": "",
+   "Audio stereo side": "",
+   "intro video": "intro",
+   "thumbnail video": "thumbnail",
+   "video available on website": "",
+   "video": "",
+   "slide available on website": "",
+   "slides link": "",
+   "comment": {
+      "other link": ""
+   },
+   "Youtube title": "Android Leaks @Android Makers - Épisode 6 : Le retour des poireaux, Benjamin Monjoie & Yannick Lemin"
+}
+]

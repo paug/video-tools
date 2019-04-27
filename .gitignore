@@ -1,0 +1,5 @@
+.DS_Store
+script/intros
+script/out
+script/resources/client_secrets.json
+script/src
