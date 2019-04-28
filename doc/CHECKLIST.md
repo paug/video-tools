@@ -37,8 +37,8 @@ Puis, dans un terminal, aller dans le dossier et entrer ces commandes:
 * Un fois la caméra branchée, refaire le crop de la vidéo dans OBS dans la scene MainScene. Pour ça, click droit sur la source Camera USB -> Transform -> Edit Transform.
 * Configurer le format d’enregistrement:
 * Aller dans Settings
-** Dans Output, choisir mkv dans Output format
-** Dans Video, choisir 1920x1080 pour les 2 résolutions. Choisir 30fps.
+  * Dans Output, choisir mkv dans Output format
+  * Dans Video, choisir 1920x1080 pour les 2 résolutions. Choisir 30fps.
 
 Bien penser a faire de la place sur son ordinateur !!!!
 
