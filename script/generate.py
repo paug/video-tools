@@ -145,19 +145,16 @@ def get_video_infos(videos_infos, uid):
 	print("video info not found for uid: " + uid)
 
 
-def upload_video(data, uid):
+def upload_video(uid, video_infos):
 	video_id = ""
 	download_thumbnail(uid)
-	for session in data:
-		#print("uid " + uid)
-		#print(str(session["session id"]))
-		if uid == str(session["id"]):
-			title = session["override title"]
-			desc = session["description"]
-			video_id = upload(get_video_out(uid), get_thumb_dest(uid), title, desc, 
-				keywords="Android Makers, Android Makers 2018, Android Makers 18, Droidcon, Droidcon Paris, Droidcon France, Android Dev, Android Developer, Android Event, Android Conference, Android Conf, Android Keynote, Android, Paris, 2018" + session["specific keywords"],
-				cat=28,
-				privacy_status="private")
+	title = video_infos["Youtube title"]
+	desc = video_infos["Desc"]
+	video_id = upload(get_video_out(uid), get_thumb_dest(uid), title, desc, 
+		keywords=video_infos["tags"],
+		cat=28,
+		privacy_status="private")
+
 	return video_id
 
 def config_upload():
@@ -186,18 +183,25 @@ def main():
 		print('Uploading videos')
 		#config_upload()
 		video_ids = {}
+		overwritten_video_ids = {}
 		with open('uploadedVideos.json', 'r+') as f:
 			try:
 				video_ids = json.load(f)
 			except:
 				pass
 			for uid in fetch_out_uids():
-				video_id = upload_video(data, uid)
-				video_ids[uid] = video_id
+				video_infos = get_video_infos(videos_infos, uid)
+				if video_infos:
+					video_id = upload_video(uid, video_infos)
+					if uid in video_ids:
+						overwritten_video_ids[uid] = video_ids[uid]
+					video_ids[uid] = video_id
 
 			f.seek(0)
 			f.write(json.dumps(video_ids))
 			f.truncate()
+		with open('replacedVideos.json', 'w') as f:
+			f.write(json.dumps(overwritten_video_ids))
 
 main()
 
