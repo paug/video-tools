@@ -421,6 +421,7 @@
 },
  {
    "da": "NTE-5380",
+   "ytId": "0kFDUNL3EPs",
    "website": "link",
    "title": "Write your own Android Studio Plugin and automate everything",
    "speakers": "Marcos Holgado, Sky",
@@ -442,6 +443,7 @@
 },
  {
    "da": "KAP-5021",
+   "ytId": "4tB35fj467c",
    "website": "link",
    "title": "Internationalisation à Kapten",
    "speakers": "Quentin Huet and Yann Vaillant, Kapten",
@@ -463,6 +465,7 @@
 },
  {
    "da": "MKQ-2052",
+   "ytId": "nn13PLgUjNE",
    "website": "link",
    "title": "Advanced Android Data Binding",
    "speakers": "Jose Alcérreca, Google",
@@ -484,6 +487,7 @@
 },
  {
    "da": "EHB-6826",
+   "ytId": "akfuNktznIs",
    "website": "link",
    "title": "The Rise Of The State Machines: An introduction to predictable state container based architectures for your Android apps",
    "speakers": "Mounir Boudraa, Delphia",
@@ -526,6 +530,7 @@
 },
  {
    "da": "VUR-7482",
+   "ytId": "sRG5V5rli70",
    "website": "link",
    "title": "Myths and Reality of Android Machine Learning",
    "speakers": "Hoi Lam, Google",
@@ -547,6 +552,7 @@
 },
  {
    "da": "YYF-6635",
+   "ytId": "e6TJZEGPOpA",
    "website": "link",
    "title": "It's complicated, but it doesn't have to be: a Dagger journey",
    "speakers": "Fred Porciúncula, Blinkist",
@@ -568,6 +574,7 @@
 },
  {
    "da": "VOK-7028",
+   "ytId": "UCwu90YFuJ4",
    "website": "link",
    "title": "A New Window Into Pixel Pushing - Discussing new tools to help developers save time when implementing designs!",
    "speakers": "Wojciech Dziemianczyk, The New York Times",
@@ -589,6 +596,7 @@
 },
  {
    "da": "GAO-2888",
+   "ytId": "vtmfANB5I7c",
    "website": "link",
    "title": "The difference between what and why.",
    "speakers": "Lorica Claesson, Nordic Usability",
@@ -1261,6 +1269,7 @@
 },
  {
    "da": "IVS-2334",
+   "ytId": "nFiHJD4DJdk",
    "website": "link",
    "title": "Rendering Video: A Detailed Look at Video Playback on Android",
    "speakers": "Pierre-Antoine LaFayette, Facebook",
@@ -1282,6 +1291,7 @@
 },
  {
    "da": "GMB-7169",
+   "ytId": "-2EpBQumC10",
    "website": "link",
    "title": "S’il te plait, dessine moi une vue",
    "speakers": "Florent Champigny, @Idean",
@@ -1303,6 +1313,7 @@
 },
  {
    "da": "ZNT-7569",
+   "ytId": "necCfei9JS8",
    "website": "link",
    "title": "Taking your users’ money: In-app billing from start to best practices",
    "speakers": "Kai Koenig, Ventego Creative",
@@ -1324,6 +1335,7 @@
 },
  {
    "da": "OVK-2477",
+   "ytId": "edahFjnEoEo",
    "website": "link",
    "title": "ARCore - Basics and Tools",
    "speakers": "Etienne Caron, Shopify",
@@ -1345,6 +1357,7 @@
 },
  {
    "da": "RBU-3913",
+   "ytId": "DDz0rxU5UL8",
    "website": "link",
    "title": "Write your first Flutter App",
    "speakers": "Pierre Tibulle undefined (ASI), Romain Rastel undefined (Orange Business Services) and Horacio Gonzalez undefined (OVH)",
@@ -1366,6 +1379,7 @@
 },
  {
    "da": "ZPO-7428",
+   "ytId": "zeiCize-FhA",
    "website": "link",
    "title": "Kotlin end to end: du client au serveur",
    "speakers": "Jordan Tuffery and Julien Datour, Xebia",
@@ -1387,6 +1401,7 @@
 },
  {
    "da": "ZPP-9970",
+   "ytId": "1trP44EjT9k",
    "website": "link",
    "title": "“Make your app work perfectly offl…” — Connection Interrupted",
    "speakers": "Xavier F. Gouchet and Jérémy Bartolomeu Bonze, Workwell",
