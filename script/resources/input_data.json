@@ -16,7 +16,9 @@
    "comment": {
       "other link": ""
    },
-   "Youtube title": ""
+   "Youtube title": "",
+   "Desc": "",
+   "tags": ""
 },
  {
    "da": "Moebius",
@@ -35,7 +37,9 @@
    "comment": {
       "other link": ""
    },
-   "Youtube title": ""
+   "Youtube title": "",
+   "Desc": "",
+   "tags": ""
 },
  {
    "da": "XEB-2115",
@@ -54,7 +58,9 @@
    "comment": {
       "other link": ""
    },
-   "Youtube title": "Pragmatic crafting by Florina Muntenescu, Google EN"
+   "Youtube title": "Pragmatic crafting by Florina Muntenescu, Google EN",
+   "Desc": "This session was given at Paris Android Makers 2019 by Florina Muntenescu, Google.\n\nMore info: http://androidmakers.fr/schedule/?sessionId=XEB-2115\n\nOur responsibility as developers is to ship high quality features in a timely manner. But there are many factors which can hinder development: from tightly coupled, untested codebases, to differences between team members in architecture visions and API knowledge, to time pressure. \nWe tend to look at app development from one point of view: the code. But the team that writes that code is as important as the code, so we need to work on architecting a good, solid team as well, making sure that we create a common language in the team, a shared vision and an environment where team members learn and communicate freely.\n\nIn this talk, I’m going to cover some of the lessons I learned along the way and show how we, a team of four, applied them in rewriting Plaid - an open source app, initially created to showcase Material Design. We’ll see how intertwined the code and the team were for the project.\n\nAlex Karp Production",
+   "tags": "Android Makers, Android Makers 2019, Android Makers 19, Droidcon, Droidcon Paris, Droidcon France, Android Dev, Android Developer, Android Event, Android Conference, Android Conf, Android Keynote, Android, Paris, 2019, Architecture, Way of thinking"
 },
  {
    "da": "HZY-9508",
@@ -73,7 +79,9 @@
    "comment": {
       "other link": ""
    },
-   "Youtube title": "Building for Developers by Ty Smith, Uber EN"
+   "Youtube title": "Building for Developers by Ty Smith, Uber EN",
+   "Desc": "This session was given at Paris Android Makers 2019 by Ty Smith, Uber.\n\nMore info: http://androidmakers.fr/schedule/?sessionId=HZY-9508\n\nMany teams are designed so that engineers can take an abstract view of the customer and focus on implementation. But when the customers are other engineers, that entire dynamic is thrown on its head.\n\nIn this talk, Ty will walk you through the best practices of building great products for developers, from team processes to the technical delivery.\n\nTopics covered will include: Building customer personas and product strategies, Developer Experience research and analytics, customer empathy and support structures, API Design and usability, testing, code distribution, and creating great documentation.\n\nAlex Karp Production",
+   "tags": "Android Makers, Android Makers 2019, Android Makers 19, Droidcon, Droidcon Paris, Droidcon France, Android Dev, Android Developer, Android Event, Android Conference, Android Conf, Android Keynote, Android, Paris, 2019, SDK - Creation Tips, UI/UX"
 },
  {
    "da": "FVI-2317",
@@ -92,7 +100,9 @@
    "comment": {
       "other link": ""
    },
-   "Youtube title": "Kotlin Under the Covers by Chet Haase and Romain Guy, Google EN"
+   "Youtube title": "Kotlin Under the Covers by Chet Haase and Romain Guy, Google EN",
+   "Desc": "This session was given at Paris Android Makers 2019 by Chet Haase and Romain Guy, Google.\n\nMore info: http://androidmakers.fr/schedule/?sessionId=FVI-2317\n\nKotlin offers many powerful language features that make it a welcome addition to the Android developer's toolkit. But some of these features may do significant work behind the scenes, including allocating object and reflection. This dynamic is not obvious from the Kotlin code, so how do we know when this is happening? This talk will go over some of these areas that you should be aware of, as well as the tools that help us discover this kind of information about our code.\n\nAlex Karp Production",
+   "tags": "Android Makers, Android Makers 2019, Android Makers 19, Droidcon, Droidcon Paris, Droidcon France, Android Dev, Android Developer, Android Event, Android Conference, Android Conf, Android Keynote, Android, Paris, 2019, kotlin, byte code"
 },
  {
    "da": "DFO-2916",
@@ -111,7 +121,9 @@
    "comment": {
       "other link": ""
    },
-   "Youtube title": "Making any codebase more readable with Kotlin coroutines by Louis CAD, SuiviDeFlotte.net - Beepiz EN"
+   "Youtube title": "Making any codebase more readable with Kotlin coroutines by Louis CAD, SuiviDeFlotte.net - Beepiz EN",
+   "Desc": "This session was given at Paris Android Makers 2019 by Louis CAD, SuiviDeFlotte.net - Beepiz.\n\nMore info: http://androidmakers.fr/schedule/?sessionId=DFO-2916\n\nFunctions that take a long time to return are a problem because they block the calling thread, which could be the main thread, where your UI runs.\nYou can workaround this issue by using callbacks instead, but it introduces other issues:\n\n- Mangled functions signatures\n- Inability to use even simple language constructs like `if`, `while` or local variables\n- More verbose usage (boilerplate never scales well)\n- Harder error/exception handling\n\nSeeing it brings more problems than it solves helps us understand why people refer to callback hells.\n\nThere's been attempts to circumvent these issues with AsyncTask (no comment), Futures (from JDK, Guava, and more), Tasks API (from Google Play Services), reactive programming (e.g. RxJava used for threading and callbacks), and none solves all the issues mentioned above.\n\nKotlin coroutines are changing the game with an implementation of the nearly 60 years old concept that brings back the simplicity of blocking code, without the blocking issue.\n\nIn this talk, you'll see how any waiting or blocking code can be made easier to write and read.\nYou'll learn how to use kotlinx.coroutines correctly in Android, and peek at how it all works.\n\nAlex Karp Production",
+   "tags": "Android Makers, Android Makers 2019, Android Makers 19, Droidcon, Droidcon Paris, Droidcon France, Android Dev, Android Developer, Android Event, Android Conference, Android Conf, Android Keynote, Android, Paris, 2019, kotlin, coroutine"
 },
  {
    "da": "VJG-9207",
@@ -130,7 +142,9 @@
    "comment": {
       "other link": ""
    },
-   "Youtube title": "ConstraintLayout 2.0 by Nicolas Roard and John Hoford, Google EN"
+   "Youtube title": "ConstraintLayout 2.0 by Nicolas Roard and John Hoford, Google EN",
+   "Desc": "This session was given at Paris Android Makers 2019 by Nicolas Roard and John Hoford, Google.\n\nMore info: http://androidmakers.fr/schedule/?sessionId=VJG-9207\n\nConstraintLayout is a popular library for UI development on Android. It is deeply integrated with the Android Studio design tools, allowing developers to quickly create complex and reactive UIs. We recently released ConstraintLayout 2.0, which brings even more layout capabilities, virtual viewgroups, performance improvements and flexible ways to organize your UI. More uniquely, the library also provides powerful animation and motion handling capabilities via MotionLayout, a subclass of ConstraintLayout. All together, this new declarative approach makes it very easy to create modern, motion-enabled UIs for your application.\n\nThis talk will cover the new capabilities of the library, common pitfalls and solutions to UI patterns, performance aspects, integrating motion, and how to best take advantage of the library in your own application via a series of use cases and examples.\n\nAlex Karp Production",
+   "tags": "Android Makers, Android Makers 2019, Android Makers 19, Droidcon, Droidcon Paris, Droidcon France, Android Dev, Android Developer, Android Event, Android Conference, Android Conf, Android Keynote, Android, Paris, 2019, Layout - ConstraintLayout"
 },
  {
    "da": "VOJ-6007",
@@ -149,7 +163,9 @@
    "comment": {
       "other link": ""
    },
-   "Youtube title": "Styles, Themes, Material Theming, Oh My! by Anita Singh, Blinkist EN"
+   "Youtube title": "Styles, Themes, Material Theming, Oh My! by Anita Singh, Blinkist EN",
+   "Desc": "This session was given at Paris Android Makers 2019 by Anita Singh, Blinkist.\n\nMore info: http://androidmakers.fr/schedule/?sessionId=VOJ-6007\n\nYou want to style the title of dialogs throughout your app and you think it should be simple enough. However, once you dive into it, you might start asking questions - should I use alertDialogTheme or alertDialogStyle? Should I use windowTitle or dialogTitle? It is no secret that the styling and theming system in Android is complex, but I promise there is some method to the madness! We can avoid writing custom components just to achieve pixel perfection if we know how tame to the beast.\n\nIn this talk, we will learn about the difference between themes and styles, the hierarchy of different styling techniques and how to use them effectively. We will also learn how they work internally, and the best practices of how to apply them. We will wrap up by discussing the newest app theme in town - the Material Components Theme and the attributes that come with it, like “colorOnSurface”.  \n\nAt the end of this talk, you will know how to style your app like a pro with the correct use of Styles, Themes, TextAppearance and sensible defaults while specifying colour, shape and typography through Material Theming.\n\nAlex Karp Production",
+   "tags": "Android Makers, Android Makers 2019, Android Makers 19, Droidcon, Droidcon Paris, Droidcon France, Android Dev, Android Developer, Android Event, Android Conference, Android Conf, Android Keynote, Android, Paris, 2019, UI/UX, Layout - Misc, style, theme"
 },
  {
    "da": "CRY-8750",
@@ -168,7 +184,9 @@
    "comment": {
       "other link": ""
    },
-   "Youtube title": "In a World of Pure Android Animation  🍭🍫 by Rebecca Franks, Over EN"
+   "Youtube title": "In a World of Pure Android Animation  🍭🍫 by Rebecca Franks, Over EN",
+   "Desc": "This session was given at Paris Android Makers 2019 by Rebecca Franks, Over.\n\nMore info: http://androidmakers.fr/schedule/?sessionId=CRY-8750\n\nHave you dreamed of deliciously sweet animations in your app but have no idea where to start? 🍫 What about creating some delightful UI treats to keep your users intrigued and wanting to discover more? 🍦\nJoin Rebecca on this journey into a World of Pure Android Animation ✨.  From creating custom view animations on a Canvas to using MotionLayout to create complex layout animations, there is something for everyone. We will also see how to create your own AnimatedVectorDrawable using Shape Shifter. No golden ticket required.\n\nAlex Karp Production",
+   "tags": "Android Makers, Android Makers 2019, Android Makers 19, Droidcon, Droidcon Paris, Droidcon France, Android Dev, Android Developer, Android Event, Android Conference, Android Conf, Android Keynote, Android, Paris, 2019, UI/UX, Layout - ConstraintLayout, Layout - Misc, animation"
 },
  {
    "da": "KOV-9403",
@@ -187,7 +205,9 @@
    "comment": {
       "other link": ""
    },
-   "Youtube title": "Motional Intelligence: Build smarter animations by Nick Butcher, Google EN"
+   "Youtube title": "Motional Intelligence: Build smarter animations by Nick Butcher, Google EN",
+   "Desc": "This session was given at Paris Android Makers 2019 by Nick Butcher, Google.\n\nMore info: http://androidmakers.fr/schedule/?sessionId=KOV-9403\n\nAnimations bring your app to life but often we write them as pre-canned sequences that once started can’t be interrupted or redirected. Modern Android apps are reactive to state changes… your animations should be as well. This talk looks at techniques for writing animations that work like state machines, that can be interrupted or retargeted while running. We’ll look at ways to architect your animations to achieve this, and libraries and classes that we can utilize.\n\nAlex Karp Production",
+   "tags": "Android Makers, Android Makers 2019, Android Makers 19, Droidcon, Droidcon Paris, Droidcon France, Android Dev, Android Developer, Android Event, Android Conference, Android Conf, Android Keynote, Android, Paris, 2019, animation"
 },
  {
    "da": "Room A. & L. Blin",
@@ -206,7 +226,9 @@
    "comment": {
       "other link": ""
    },
-   "Youtube title": ""
+   "Youtube title": "",
+   "Desc": "",
+   "tags": ""
 },
  {
    "da": "DZK-4920",
@@ -225,7 +247,9 @@
    "comment": {
       "other link": ""
    },
-   "Youtube title": "Architectural journey by Zsolt Kocsi, Badoo EN"
+   "Youtube title": "Architectural journey by Zsolt Kocsi, Badoo EN",
+   "Desc": "This session was given at Paris Android Makers 2019 by Zsolt Kocsi, Badoo.\n\nMore info: http://androidmakers.fr/schedule/?sessionId=DZK-4920\n\nAt Badoo, we have a long history when it comes to Android development. Since the beginning, the product has experienced huge growth, and our codebase and our team have grown with it. We now have over 400 million registrations, as well as several new apps to support. Over the years we’ve tried MVP, Clean architecture, MVI, and many more approaches, some of them brewed in-house. In this talk we’ll go on an architectural journey and discuss some of the major problems we needed to find solutions for in the last few years, before ending on what is ahead of us.\n\nAlex Karp Production",
+   "tags": "Android Makers, Android Makers 2019, Android Makers 19, Droidcon, Droidcon Paris, Droidcon France, Android Dev, Android Developer, Android Event, Android Conference, Android Conf, Android Keynote, Android, Paris, 2019, architecture"
 },
  {
    "da": "LNH-0175",
@@ -244,7 +268,9 @@
    "comment": {
       "other link": ""
    },
-   "Youtube title": "Journey to painless releases: Continuous delivery for Philips Hue Android by Jeroen Mols EN"
+   "Youtube title": "Journey to painless releases: Continuous delivery for Philips Hue Android by Jeroen Mols EN",
+   "Desc": "This session was given at Paris Android Makers 2019 by Jeroen Mols, Philips Hue (Signify).\n\nMore info: http://androidmakers.fr/schedule/?sessionId=LNH-0175\n\nWind back one year ago:\n- releasing took us 10 weeks\n- our app was plagued by regression\n- developers felt completely detached from our users\n\nClearly our traditional strategy of heavily testing each release (up-front quality) wasn't working. So we decided to flip things around: why not try to reduce the cost of errors instead? Hence we decided to move our Philips Hue Android app to continuous deployment.\n\nIn this talk you will learn that if releasing is painful, you should actually release even more often. Step by step I'll explain how we moved the Philips Hue Android app to continuous deployment, what our current release process/CI looks like, what changes we made to our overall testing approach, how we empowered developers and testers, and how we made our release process completely painless.\n\nAlex Karp Production",
+   "tags": "Android Makers, Android Makers 2019, Android Makers 19, Droidcon, Droidcon Paris, Droidcon France, Android Dev, Android Developer, Android Event, Android Conference, Android Conf, Android Keynote, Android, Paris, 2019, ci, continuous delivery"
 },
  {
    "da": "LWJ-6534",
@@ -263,7 +289,9 @@
    "comment": {
       "other link": ""
    },
-   "Youtube title": "LeakCanary 2: Leaner, Better, Faster, Kotliner! by Pierre-Yves Ricau, Square, Inc EN"
+   "Youtube title": "LeakCanary 2: Leaner, Better, Faster, Kotliner! by Pierre-Yves Ricau, Square, Inc EN",
+   "Desc": "This session was given at Paris Android Makers 2019 by Pierre-Yves Ricau, Square, Inc.\n\nMore info: http://androidmakers.fr/schedule/?sessionId=LWJ-6534\n\nLeakCanary 2 Alpha 1 will be released right before this talk, come learn about hot new features, crazy improvements and gnarly implementation details!\n\nLeakCanary 1 helped detect memory leaks but had several issues: constant freeze of the UI, OOM crashes while analyzing, results hard to analyze, a confusing API, and an ugly logo.\n\nNo more! Come learn about multiple leak detection, leak grouping, smarter analysis results, counting leaks in production, detecting leaks in UI tests... and much more!\n\nOh and LeakCanary 2 is 100% Kotlin, updated to Android X, and it even has a cute new logo!\n\nAlex Karp Production",
+   "tags": "Android Makers, Android Makers 2019, Android Makers 19, Droidcon, Droidcon Paris, Droidcon France, Android Dev, Android Developer, Android Event, Android Conference, Android Conf, Android Keynote, Android, Paris, 2019, leak, canary"
 },
  {
    "da": "REB-6912",
@@ -282,7 +310,9 @@
    "comment": {
       "other link": ""
    },
-   "Youtube title": "Uplift — Material shadows on Android by Sebastiano Poggi, JetBrains EN"
+   "Youtube title": "Uplift — Material shadows on Android by Sebastiano Poggi, JetBrains EN",
+   "Desc": "This session was given at Paris Android Makers 2019 by Sebastiano Poggi, JetBrains.\n\nMore info: http://androidmakers.fr/schedule/?sessionId=REB-6912\n\nIn this session, we'll cover how elevation works on Android. From an overview of the available APIs, seeing what is new in Android P, and getting to the nitty gritty of how shadows are rendered on HWUI and Skia. Lastly, we'll learn how to take advantage of the existing APIs and work within their limitations to obtain original and unique results.\n\nThis talk follows the track of existing blog article(s) on the topic: https://blog.usejournal.com/playing-with-elevation-in-android-91af4f3be596 and its two follow-ups. There is also an open source app, Uplift, which will be used to showcase the effects as we talk about them: https://github.com/rock3r/uplift\n\nAlex Karp Production",
+   "tags": "Android Makers, Android Makers 2019, Android Makers 19, Droidcon, Droidcon Paris, Droidcon France, Android Dev, Android Developer, Android Event, Android Conference, Android Conf, Android Keynote, Android, Paris, 2019, UI/UX, material"
 },
  {
    "da": "QMW-7145",
@@ -301,7 +331,9 @@
    "comment": {
       "other link": ""
    },
-   "Youtube title": "(Android) Transformers - bytecode in disguise! by Doug Stevenson, Google EN"
+   "Youtube title": "(Android) Transformers - bytecode in disguise! by Doug Stevenson, Google EN",
+   "Desc": "This session was given at Paris Android Makers 2019 by Doug Stevenson, Google.\n\nMore info: http://androidmakers.fr/schedule/?sessionId=QMW-7145\n\nIf you’ve used Firebase Performance Monitoring, you know that it automatically discovers and reports performance metrics for all the HTTP transactions in your app.  But have you ever wondered how it does that?  Android doesn’t provide any APIs to listen in on an arbitrary connection (that would be a security problem!), and Firebase supports URLConnection, Apache, and OKHTTP APIs.  The secret here is bytecode manipulation at build time using the Transform API provided by the Android build tools.  Join this session to find out how the Firebase Performance Monitoring Gradle plugin intercepts and measures HTTP transactions at runtime with some assistance from bytecode manipulation at build time.\n\nAlex Karp Production",
+   "tags": "Android Makers, Android Makers 2019, Android Makers 19, Droidcon, Droidcon Paris, Droidcon France, Android Dev, Android Developer, Android Event, Android Conference, Android Conf, Android Keynote, Android, Paris, 2019, Kotlin - Misc, Gradle, Firebase, bytecode"
 },
  {
    "da": "SCS-0941",
@@ -320,7 +352,9 @@
    "comment": {
       "other link": ""
    },
-   "Youtube title": "Effective Unit testing with Kotlin by Danny Preussler, sporttotal.tv EN"
+   "Youtube title": "Effective Unit testing with Kotlin by Danny Preussler, sporttotal.tv EN",
+   "Desc": "This session was given at Paris Android Makers 2019 by Danny Preussler, sporttotal.tv.\n\nMore info: http://androidmakers.fr/schedule/?sessionId=SCS-0941\n\nKotlin changed the way we code!\nBut did you already adapt the way you test?\nThe language offers new possibilities but also offers challenges, just think of Coroutines.\nLet's write nice and clean Kotlin tests together.\n\nAlex Karp Production",
+   "tags": "Android Makers, Android Makers 2019, Android Makers 19, Droidcon, Droidcon Paris, Droidcon France, Android Dev, Android Developer, Android Event, Android Conference, Android Conf, Android Keynote, Android, Paris, 2019, testing"
 },
  {
    "da": "DCF-5057",
@@ -339,7 +373,9 @@
    "comment": {
       "other link": ""
    },
-   "Youtube title": "Best practices for a modularized app by Ben Weiss, Google EN"
+   "Youtube title": "Best practices for a modularized app by Ben Weiss, Google EN",
+   "Desc": "This session was given at Paris Android Makers 2019 by Ben Weiss, Google.\n\nMore info: http://androidmakers.fr/schedule/?sessionId=DCF-5057\n\nIn 2018 Android App Bundles were introduced as the publishing format for Android. Alongside this dynamic delivery enable shipping features to users on demand.\nIn this session you'll learn about Android App Bundles, Dynamic Delivery and how to structure code and resources based on publicly available code samples.\nAlso you'll learn how to make an instant experience available for your app.\n\nAlex Karp Production",
+   "tags": "Android Makers, Android Makers 2019, Android Makers 19, Droidcon, Droidcon Paris, Droidcon France, Android Dev, Android Developer, Android Event, Android Conference, Android Conf, Android Keynote, Android, Paris, 2019, module, modularized"
 },
  {
    "da": "QIW-9288",
@@ -358,7 +394,9 @@
    "comment": {
       "other link": ""
    },
-   "Youtube title": "Workout your tasks with WorkManager by Magda Miu EN"
+   "Youtube title": "Workout your tasks with WorkManager by Magda Miu EN",
+   "Desc": "This session was given at Paris Android Makers 2019 by Magda Miu.\n\nMore info: http://androidmakers.fr/schedule/?sessionId=QIW-9288\n\nUntil now, in order to perform background work in Android, developers had to choose between multiple execution options. At Google I/O 2018, the Android team launched WorkManager as part of the Android Jetpack. This library provides a simple and clean interface to specify deferrable, asynchronous tasks and when they should run.\nThe presentation will include an overview about the existing background solutions, what’s happening behind the scenes and why and when we should use WorkManager. Also, we will discover details about the architecture of the WorkManager library and about the main components(Worker, WorkRequest, WorkManager, WorkInfo) of it. Finally, we will highlight how to use WorkManager for scenarios like chained sequences of tasks that run in a specified order, unique named sequences, tasks that pass and return values and how to apply constraints in order to decide when to run the task.\n\nAlex Karp Production",
+   "tags": "Android Makers, Android Makers 2019, Android Makers 19, Droidcon, Droidcon Paris, Droidcon France, Android Dev, Android Developer, Android Event, Android Conference, Android Conf, Android Keynote, Android, Paris, 2019, Architecture, App optimization, workmanager"
 },
  {
    "da": "Room 2.02",
@@ -377,7 +415,9 @@
    "comment": {
       "other link": ""
    },
-   "Youtube title": ""
+   "Youtube title": "",
+   "Desc": "",
+   "tags": ""
 },
  {
    "da": "NTE-5380",
@@ -396,7 +436,9 @@
    "comment": {
       "other link": ""
    },
-   "Youtube title": "Write your own Android Studio Plugin and automate everything by Marcos Holgado, Sky EN"
+   "Youtube title": "Write your own Android Studio Plugin and automate everything by Marcos Holgado, Sky EN",
+   "Desc": "This session was given at Paris Android Makers 2019 by Marcos Holgado, Sky.\n\nMore info: http://androidmakers.fr/schedule/?sessionId=NTE-5380\n\nLet’s face it, we waste a lot of time on things that don't add any value. Maybe you use the same pattern in different places and copy&paste the same files over and over. Probably the same happens whenever you create a new app or module. What about all the time that you spend in Jira or other tools on tasks like moving tickets or logging time?. What if you could automate all that? Well, you can, and I’m going to show you how by writing your own Android Studio Plugin.\n\nIn this talk you will learn how to create a new Android Studio Plugin using Kotlin, create templates to generate code automatically, write live templates to insert frequently-used constructors in your code, easily integrate Android Studio with Jira or other tools, create a brand new full App in minutes using feature modules and much more.\n\nAlex Karp Production",
+   "tags": "Android Makers, Android Makers 2019, Android Makers 19, Droidcon, Droidcon Paris, Droidcon France, Android Dev, Android Developer, Android Event, Android Conference, Android Conf, Android Keynote, Android, Paris, 2019, Android Studio - Gradle - Tips, Architecture, Kotlin - Misc, SDK - Misc, Misc"
 },
  {
    "da": "KAP-5021",
@@ -415,7 +457,9 @@
    "comment": {
       "other link": ""
    },
-   "Youtube title": "Internationalisation à Kapten by Quentin Huet and Yann Vaillant, Kapten FR"
+   "Youtube title": "Internationalisation à Kapten by Quentin Huet and Yann Vaillant, Kapten FR",
+   "Desc": "This session was given at Paris Android Makers 2019 by Quentin HUET and Yann Vaillant, Kapten.\n\nMore info: http://androidmakers.fr/schedule/?sessionId=KAP-5021\n\nL’internationalisation est un sujet complexe comprenant de nombreuses problématiques que beaucoup de startups rencontrent mais priorisent peu dans leurs premières années d'existence.\n\nRejoignez nous pour découvrir comment nous sommes passés d’une app pensée pour la France à une app prête à être utilisée dans le monde entier.\n\nNous verrons entre autre comment gérer intelligemment les devises, traductions, timezones/dates et distances, ou encore comment activer ou non des fonctionnalités en fonction de la location des utilisateurs\n\nAlex Karp Production",
+   "tags": "Android Makers, Android Makers 2019, Android Makers 19, Droidcon, Droidcon Paris, Droidcon France, Android Dev, Android Developer, Android Event, Android Conference, Android Conf, Android Keynote, Android, Paris, 2019, i18n, internationalisation"
 },
  {
    "da": "MKQ-2052",
@@ -434,7 +478,9 @@
    "comment": {
       "other link": ""
    },
-   "Youtube title": "Advanced Android Data Binding by Jose Alcérreca, Google EN"
+   "Youtube title": "Advanced Android Data Binding by Jose Alcérreca, Google EN",
+   "Desc": "This session was given at Paris Android Makers 2019 by Jose Alcérreca, Google.\n\nMore info: http://androidmakers.fr/schedule/?sessionId=MKQ-2052\n\nData binding is great for eliminating boilerplate and keeping UIs in sync with your state… but there's a lot more that it can do. This talk will take you through the more advanced features of Data Binding, beyond the basics. It will cover using custom binding adapters, two-way binding, animations and testing considerations. Moreover it examines how using Data Binding influences your app's architecture. You'll learn how to get the most out of Data Binding so that you can write less repetitive, safer, efficient apps.\n\nAlex Karp Production",
+   "tags": "Android Makers, Android Makers 2019, Android Makers 19, Droidcon, Droidcon Paris, Droidcon France, Android Dev, Android Developer, Android Event, Android Conference, Android Conf, Android Keynote, Android, Paris, 2019, Architecture, DataBinding "
 },
  {
    "da": "EHB-6826",
@@ -453,7 +499,9 @@
    "comment": {
       "other link": ""
    },
-   "Youtube title": "The Rise Of The State Machines by Mounir Boudraa, Delphia FR"
+   "Youtube title": "The Rise Of The State Machines by Mounir Boudraa, Delphia FR",
+   "Desc": "This session was given at Paris Android Makers 2019 by Mounir Boudraa, Delphia.\n\nMore info: http://androidmakers.fr/schedule/?sessionId=EHB-6826\n\nYou're right, that title seems scary: there are so many complicated words and we all know there's no silver bullet in programming.\n\nSo instead of explaining why an architecture is better than another, let's discuss some issues we face in our daily Android development job and how we can solve those through 3 examples:\n\n1. I have crashes I can't reproduce.\n2. Integration tests are great and necessary to ensure a complete flow is working as expected, but they are complex to set up, and it takes time to run the whole test suite when using an instrumentation tool such as Espresso\n3. My legacy app has some \"startActivity\" calls in activites, fragments, custom views, and even in RecyclerView adapters (who did that !?!). I have no visibility regarding the overall navigation of and the code is sometimes hard to follow.\n\nWe will see today the concepts underneath and how such an architecture can be implemented using functional programming patterns through writing a Kotlin DSL.\n\nAt the end of the talk, you will get a new, fresh, vision on how to approach programming on Android, through a unidirectional data flow structure, and maybe you'll be interested in implementing a similar architecture.\n\nAlex Karp Production",
+   "tags": "Android Makers, Android Makers 2019, Android Makers 19, Droidcon, Droidcon Paris, Droidcon France, Android Dev, Android Developer, Android Event, Android Conference, Android Conf, Android Keynote, Android, Paris, 2019, state"
 },
  {
    "da": "MAW-7262",
@@ -472,7 +520,9 @@
    "comment": {
       "other link": ""
    },
-   "Youtube title": "Coroutines, a new scope by Florina Muntenescu and Yacine Rezgui, Google EN"
+   "Youtube title": "Coroutines, a new scope by Florina Muntenescu and Yacine Rezgui, Google EN",
+   "Desc": "This session was given at Paris Android Makers 2019 by Florina Muntenescu and Yacine Rezgui, Google.\n\nMore info: http://androidmakers.fr/schedule/?sessionId=MAW-7262\n\nIn this workshop we’ll be looking at coroutines - Kotlin’s way of handling asynchronous programming. We’ll see what they are, how they work, how to call tasks written with coroutines and get the results of the tasks, how to convert existing APIs to coroutines, how to use coroutines in an Android app, especially together with Architecture Components and, finally, see how to test coroutines.\n\nAlex Karp Production",
+   "tags": "Android Makers, Android Makers 2019, Android Makers 19, Droidcon, Droidcon Paris, Droidcon France, Android Dev, Android Developer, Android Event, Android Conference, Android Conf, Android Keynote, Android, Paris, 2019, Architecture, Kotlin - Coroutine"
 },
  {
    "da": "VUR-7482",
@@ -491,7 +541,9 @@
    "comment": {
       "other link": ""
    },
-   "Youtube title": "Myths and Reality of Android Machine Learning by Hoi Lam, Google EN"
+   "Youtube title": "Myths and Reality of Android Machine Learning by Hoi Lam, Google EN",
+   "Desc": "This session was given at Paris Android Makers 2019 by Hoi Lam, Google.\n\nMore info: http://androidmakers.fr/schedule/?sessionId=VUR-7482\n\nEven among machine learning experts, we have encountered many myths about on-device machine learning:\n1. Android is not powerful enough for machine learning\n2. Machine learning is not for me, it’s for people with PhDs\n3. Machine learning requires a lot of data - millions and billions of samples.\n\nIn this talk, Hoi will bust some myths with live demos and introduce best practices for developers to get around the reality of building everyday ML use cases including barcode scanning, AR stickers and more, on Android. Also, some core Android functionalities might surprise you… in a good way.\n\nAlex Karp Production",
+   "tags": "Android Makers, Android Makers 2019, Android Makers 19, Droidcon, Droidcon Paris, Droidcon France, Android Dev, Android Developer, Android Event, Android Conference, Android Conf, Android Keynote, Android, Paris, 2019, AI, Firebase, ML"
 },
  {
    "da": "YYF-6635",
@@ -510,7 +562,9 @@
    "comment": {
       "other link": "dagger-journey repo"
    },
-   "Youtube title": "It's complicated, but it doesn't have to be: a Dagger journey by Fred Porciúncula, Blinkist EN"
+   "Youtube title": "It's complicated, but it doesn't have to be: a Dagger journey by Fred Porciúncula, Blinkist EN",
+   "Desc": "This session was given at Paris Android Makers 2019 by Fred Porciúncula, Blinkist.\n\nMore info: http://androidmakers.fr/schedule/?sessionId=YYF-6635\n\nDagger is a complex tool, we can all agree on that. It's also the most performant and scalable dependency injector we have available -- no wonder it's the official recommendation from Google when it comes to dependency injection for Android apps. And yet, we keep looking for simpler alternatives (usually service locators) just so we don't have to deal with it.\n\nEven thought Dagger is complex, it doesn't have to be complicated. It's possible to keep things simple and still take advantage of what it offers at its core. There are many ways to setup Dagger, and believe it or not, some of them are quite simple. The goal of this talk is to present a simplistic approach to Dagger, where we can take advantage of dependency injection with minimal boilerplate and optimum performance. On top of that, we'll be looking in details on best practices and how to ensure you're taking the most out of Dagger.\n\nJoin me if you've had unpleasant experiences with Dagger -- or even if you're happy with your current setup -- so we can take a fresh look on how we can work with it. And if you haven't worked with Dagger before, this is the perfect opportunity to get off on the right foot!\n\nAlex Karp Production",
+   "tags": "Android Makers, Android Makers 2019, Android Makers 19, Droidcon, Droidcon Paris, Droidcon France, Android Dev, Android Developer, Android Event, Android Conference, Android Conf, Android Keynote, Android, Paris, 2019"
 },
  {
    "da": "VOK-7028",
@@ -529,7 +583,9 @@
    "comment": {
       "other link": ""
    },
-   "Youtube title": "Discussing new tools to help developers save time when implementing designs by Wojciech Dziemianczyk"
+   "Youtube title": "Discussing new tools to help developers save time when implementing designs by Wojciech Dziemianczyk",
+   "Desc": "This session was given at Paris Android Makers 2019 by Wojciech Dziemianczyk, The New York Times.\n\nMore info: http://androidmakers.fr/schedule/?sessionId=VOK-7028\n\nDeveloper tools for pixel pushing are one of the more under-developed areas when it comes to Android. Pixel pushing itself is such a tedious process that eats up a lot of development time. Some teams are lucky enough to utilize tools like Figma and Zeplin, which help reduce time when translating designs into something tangible. Others still use the tried and true method of using redlines, screenshots, and photoshop! \n\nIn this talk we'll go through the journey of pixel pushing, the pain points, and some tips and tricks to help developers and designers speed things up. We'll then talk about Window, a new tool to help you master the art of pixel pushing.\nWindow is a new free open source tool with the goal of enhancing the process of pixel pushing.\n\nFirst is the Window Android App. It lets developers and designers measure, add rulers / grids, and verify placement of what you're seeing on screen. \n\nThe second is the Window Android library, to integrate into your projects. This library lets you export your Android UI and view it tools like Figma & Sketch. \n\nWe'll talk about how you can integrate two tools to help you simplify your workload and speed up development time!\n\nAlex Karp Production",
+   "tags": "Android Makers, Android Makers 2019, Android Makers 19, Droidcon, Droidcon Paris, Droidcon France, Android Dev, Android Developer, Android Event, Android Conference, Android Conf, Android Keynote, Android, Paris, 2019"
 },
  {
    "da": "GAO-2888",
@@ -548,7 +604,9 @@
    "comment": {
       "other link": ""
    },
-   "Youtube title": "The difference between what and why. by Lorica Claesson, Nordic Usability EN"
+   "Youtube title": "The difference between what and why. by Lorica Claesson, Nordic Usability EN",
+   "Desc": "This session was given at Paris Android Makers 2019 by Lorica Claesson, Nordic Usability.\n\nMore info: http://androidmakers.fr/schedule/?sessionId=GAO-2888\n\nIn this talk, you will learn about best practices to gather insights,  mixed with real life experiences and anecdotes. Understand why people are doing certain tasks, not only what they are doing. \nBasically, improve your apps, by asking the right questions.\n\nNo budget for user research? Learn what you can do under the radar to understand the user behaviour better. You will get examples on how it can be done, regardless if you are a bigger company, or an indie developer!\n\nAlex Karp Production",
+   "tags": "Android Makers, Android Makers 2019, Android Makers 19, Droidcon, Droidcon Paris, Droidcon France, Android Dev, Android Developer, Android Event, Android Conference, Android Conf, Android Keynote, Android, Paris, 2019, UI/UX"
 },
  {
    "da": "Room 2.04",
@@ -567,7 +625,9 @@
    "comment": {
       "other link": ""
    },
-   "Youtube title": ""
+   "Youtube title": "",
+   "Desc": "",
+   "tags": ""
 },
  {
    "da": "NYI-1720",
@@ -586,7 +646,9 @@
    "comment": {
       "other link": ""
    },
-   "Youtube title": "The Android device farm that fits in a (cloudy) pocket by Bruno Verachten, Worldline by ATOS FR"
+   "Youtube title": "The Android device farm that fits in a (cloudy) pocket by Bruno Verachten, Worldline by ATOS FR",
+   "Desc": "This session was given at Paris Android Makers 2019 by Bruno Verachten, Worldline by ATOS.\n\nMore info: http://androidmakers.fr/schedule/?sessionId=NYI-1720\n\n`Android` developers are facing a common problem: how to test our applications on many devices without sacrificing too much time or money?\n\n    How to build and test automatically our applications for each commit?\n    How can we find those devices inside the company, whatever its size may be?\n    Could there be a directory somewhere that lists those available devices?\n    Could we use a device remotely and share it with other developers as if it were in the cloud?\n\nWhat if you could answer all these questions with the help of a low cost device farm that fits into a pocket? A pocket full of clouds…\n\nPoddingue, our proposal, aims to tackle this problem thanks to Docker, HypriotOS, Armbian, Gitlab CI and OpenSTF. It’s an internal solution made of OSS readily available, but it has not yet been publicly announced as a whole.\n\nThis is a feedback about an idea on its way to production, a long journey full of different feelings.\n\nAt the end of the talk, you should know how to build your own cloudy pocket farm of Android devices and how to use it to test your applications within your ci pipeline.\n\nAnd as I am cheap, you will also be surprised at how little money you need to build it.\n\nAlex Karp Production",
+   "tags": "Android Makers, Android Makers 2019, Android Makers 19, Droidcon, Droidcon Paris, Droidcon France, Android Dev, Android Developer, Android Event, Android Conference, Android Conf, Android Keynote, Android, Paris, 2019, Testing, Industrialization, Misc"
 },
  {
    "da": "LQF-6083",
@@ -605,7 +667,9 @@
    "comment": {
       "other link": ""
    },
-   "Youtube title": "Slices up your app! by Marc Poppleton, Orange Labs EN"
+   "Youtube title": "Slices up your app! by Marc Poppleton, Orange Labs EN",
+   "Desc": "This session was given at Paris Android Makers 2019 by Marc Poppleton, Orange Labs.\n\nMore info: http://androidmakers.fr/schedule/?sessionId=LQF-6083\n\nWe Android developers love desert. We love pie. We can't eat up a whole pie, but we can eat as many slices as we want.\nAndroid has a new API called Slices which is part of the AndroidX libraries. I'll show you how you can use it to serve slices of your app to any other apps like Google Search or Assistant but also any other app and in any Android desert you love.\n\nAlex Karp Production",
+   "tags": "Android Makers, Android Makers 2019, Android Makers 19, Droidcon, Droidcon Paris, Droidcon France, Android Dev, Android Developer, Android Event, Android Conference, Android Conf, Android Keynote, Android, Paris, 2019, Architecture, SDK - Misc"
 },
  {
    "da": "NOG-9878",
@@ -624,7 +688,9 @@
    "comment": {
       "other link": ""
    },
-   "Youtube title": "Les analytics c'est bon, mangez-en ! by Adrien Vitti, Smart&Soft FR"
+   "Youtube title": "Les analytics c'est bon, mangez-en ! by Adrien Vitti, Smart&Soft FR",
+   "Desc": "This session was given at Paris Android Makers 2019 by Adrien Vitti, Smart&Soft.\n\nMore info: http://androidmakers.fr/schedule/?sessionId=NOG-9878\n\nLorsque l'on travaille sur une application mobile, on se focalise surtout sur l'architecture, l'implémentation des fonctionnalités et éventuellement le design.\nOr lorsque l'on travaille dans une entreprise avec un département Marketing, ou simplement si l'on veut optimiser l'usage d'une app, nous sommes systématiquement confrontés à l'implémentation des analytics dans notre code. Et cela peut vite tourner au cauchemar si l'architecture de l'application n'y est pas préparée ou si le plan de tag n'est pas bien pensé. Nous verrons ici comment bien architecturer son app pour pouvoir les ajouter sans _tordre_ son code mais également comment bien définir les évènements et valeur à remonter.\n\nAlex Karp Production",
+   "tags": "Android Makers, Android Makers 2019, Android Makers 19, Droidcon, Droidcon Paris, Droidcon France, Android Dev, Android Developer, Android Event, Android Conference, Android Conf, Android Keynote, Android, Paris, 2019"
 },
  {
    "da": "ZCO-9565",
@@ -643,7 +709,9 @@
    "comment": {
       "other link": ""
    },
-   "Youtube title": "Le sandboxing applicatif d'Android by Adrien Grassein, Smile FR"
+   "Youtube title": "Le sandboxing applicatif d'Android by Adrien Grassein, Smile FR",
+   "Desc": "This session was given at Paris Android Makers 2019 by Adrien Grassein, Smile.\n\nMore info: http://androidmakers.fr/schedule/?sessionId=ZCO-9565\n\nLa plupart d'entre vous connait le développement et le cycle de vie des applications Android.\nCependant, savez-vous quels mécanismes sont mis en oeuvre par Android pour isoler les applications les unes des autres?\nVoyons ensemble tout ces mécanismes qui permettent de sécuriser l'OS mobile le plus utilisé au monde.\n\nAlex Karp Production",
+   "tags": "Android Makers, Android Makers 2019, Android Makers 19, Droidcon, Droidcon Paris, Droidcon France, Android Dev, Android Developer, Android Event, Android Conference, Android Conf, Android Keynote, Android, Paris, 2019"
 },
  {
    "da": "PJX-9369",
@@ -662,7 +730,9 @@
    "comment": {
       "other link": ""
    },
-   "Youtube title": "L’accessibilité sur Android en 2019 by Léna Ndiaye FR"
+   "Youtube title": "L’accessibilité sur Android en 2019 by Léna Ndiaye FR",
+   "Desc": "This session was given at Paris Android Makers 2019 by Léna Ndiaye.\n\nMore info: http://androidmakers.fr/schedule/?sessionId=PJX-9369\n\nQuand on parle d’accessibilité, on pense automatiquement aux rampes d’escaliers, ou aux places de parking. Mais qu’en est-il de l’accessibilité des applications mobiles ?\nCette présentation fera un tour des préconisations aussi bien UX/UI que techniques. Comment savoir si je dois utiliser un contentDescription ou un labelFor, quelle est la taille idéale des cibles tactiles (d'ailleurs c’est quoi une cible tactile ?), quels indices rajouter à mes interfaces, quel ratio de contraste de couleur ? LTR vers RTL, comment gérer ? Comment utiliser TalkBack ? Et toutes ces questions que l’on peut se poser (ou que l’on ne s'est pas encore posées) légitimement.\n\nRappelez-vous de Gandalf qui se cognait partout dans la petite maison de Bilbon Sacquet, le hobbit. La maison conçue pour des Hobbit par des Hobbit, n’était pas du tout adaptée à Gandalf qui faisait  votre taille.\nQuand on conçoit / développe une application, cela ne demande pas plus d’effort de cibler un plus large public…encore faut-il savoir comment.\n\nCe talk est justement pour tous ceux qui souhaitent en savoir plus à ce sujet, pour faciliter l'accès à l'information à une plus grande partie de la population.\n\nAlex Karp Production",
+   "tags": "Android Makers, Android Makers 2019, Android Makers 19, Droidcon, Droidcon Paris, Droidcon France, Android Dev, Android Developer, Android Event, Android Conference, Android Conf, Android Keynote, Android, Paris, 2019, UI/UX, Developper - Way of thinking"
 },
  {
    "da": "VTN-7485",
@@ -681,7 +751,9 @@
    "comment": {
       "other link": ""
    },
-   "Youtube title": "Stockage et partage sécurisé de fichiers volumineux by Jonathan Salamon, Dashlane FR"
+   "Youtube title": "Stockage et partage sécurisé de fichiers volumineux by Jonathan Salamon, Dashlane FR",
+   "Desc": "This session was given at Paris Android Makers 2019 by Jonathan Salamon, Dashlane.\n\nMore info: http://androidmakers.fr/schedule/?sessionId=VTN-7485\n\nComment créer un système capable de stocker et partager des fichiers de manière sécurisée dans une architecture Zero-Knowledge (sans faire confiance aux serveurs) ?\n\nComment gérer le chiffrement de fichiers volumineux et les droits d'accès distants ? Quelles sont les principales limitations ? etc...\n\nAu travers d'un projet concret (aujourd'hui utilisé par des millions d'utilisateurs), il vous sera détaillé l'architecture choisie et les détails techniques permettant son implémentation côté client et serveur.\n\nAlex Karp Production",
+   "tags": "Android Makers, Android Makers 2019, Android Makers 19, Droidcon, Droidcon Paris, Droidcon France, Android Dev, Android Developer, Android Event, Android Conference, Android Conf, Android Keynote, Android, Paris, 2019, Security, Architecture, Developper - Way of thinking, Kotlin - Misc"
 },
  {
    "da": "XWA-9893",
@@ -700,7 +772,9 @@
    "comment": {
       "other link": ""
    },
-   "Youtube title": "Sécuriser ses appels réseau Android, de 2009 à 2019 by Michaël Ohayon, Xebia FR"
+   "Youtube title": "Sécuriser ses appels réseau Android, de 2009 à 2019 by Michaël Ohayon, Xebia FR",
+   "Desc": "This session was given at Paris Android Makers 2019 by Michaël Ohayon, Xebia.\n\nMore info: http://androidmakers.fr/schedule/?sessionId=XWA-9893\n\nSi, il y a 10 ans, à cause d'un écosystème encore en construction, HTTPS était un protocole complexe à mettre en place, aujourd'hui il semble que c'est l'inverse.\n\nRejouons l'histoire pour découvrir et comprendre ensemble les différentes failles de sécurité qui ont poussé le Web à passer sur HTTPS ainsi que les implémentations associées sur Android.\n\nÀ travers du code et des analyses, implémentons, cassons et sécurisons ensemble du code réseau pour comprendre comment nous en sommes arrivés aux implémentations actuelles.\n\nNous découvrirons ensuite les limitations de 2019 : pouvons-nous empêcher tout le monde d'analyser notre traffic ? Qu'est-il possible de faire aujourd'hui, quels sont les risques pour l'utilisateur, le développeur, l'entreprise ? Quels sont les outils et bonnes pratiques pour empêcher ou au moins ralentir et complexifier nos analyses réseau par des personnes malicieuses ?\n\nAlex Karp Production",
+   "tags": "Android Makers, Android Makers 2019, Android Makers 19, Droidcon, Droidcon Paris, Droidcon France, Android Dev, Android Developer, Android Event, Android Conference, Android Conf, Android Keynote, Android, Paris, 2019, Security, Developper - Way of thinking"
 },
  {
    "da": "HXB-5769",
@@ -719,7 +793,9 @@
    "comment": {
       "other link": ""
    },
-   "Youtube title": "Energie, latence: je t'aime, moi non plus by Pierre Crépieux, Orange FR"
+   "Youtube title": "Energie, latence: je t'aime, moi non plus by Pierre Crépieux, Orange FR",
+   "Desc": "This session was given at Paris Android Makers 2019 by Pierre Crépieux, Orange.\n\nMore info: http://androidmakers.fr/schedule/?sessionId=HXB-5769\n\nQue l’on développe une application pour smartphones ou pour un IoT, la connectivité est un élément clé. Idéalement, on voudrait à la fois minimiser la latence et la consommation d’énergie. Concrètement, c’est difficilement faisable. En balayant tout un tas de technos, du WiFi à LTE-M, en passant par la 2,3,4,5G, nous verrons les mécanismes qui sont mis en place pour préserver l’autonomie d’un appareil et qui inévitablement induisent de la latence.\n\nAlex Karp Production",
+   "tags": "Android Makers, Android Makers 2019, Android Makers 19, Droidcon, Droidcon Paris, Droidcon France, Android Dev, Android Developer, Android Event, Android Conference, Android Conf, Android Keynote, Android, Paris, 2019, App optimization, Misc "
 },
  {
    "da": "XVO-2305",
@@ -738,7 +814,9 @@
    "comment": {
       "other link": ""
    },
-   "Youtube title": "Recruteurs, développeurs, bonne humeur by David Fournier, Smart&Soft FR"
+   "Youtube title": "Recruteurs, développeurs, bonne humeur by David Fournier, Smart&Soft FR",
+   "Desc": "This session was given at Paris Android Makers 2019 by David Fournier, Smart&Soft.\n\nMore info: http://androidmakers.fr/schedule/?sessionId=XVO-2305\n\nRecruter des talents dans le marché de l'informatique relève aujourd'hui de la gageure, et le déséquilibre entre l'offre et la demande entraîne une forte concurrence entre les entreprises.\n\nQuelles sont les clés pour maximiser les chances de recruter la personne que vous voulez :\n\n- Vaut-il mieux débusquer un _senior_ quitte à le payer très cher, ou investir sur un _junior_ ? Et comment le former le cas échéant ?\n- Que recherchent vraiment les candidats dans votre société, petite ou grande, et comment faire valoir vos atouts ?\n- Quels sont les médias disponibles pour rechercher des candidats, et comment sortir du lot sur les réseaux ?\n- Quels sont les points d'attention pendant le processus de recrutement ?\n\nNous tenterons d'aborder l'ensemble de ces questions en apportant des réponses circonstanciées - basées sur des exemples et des chiffres - et nous nous efforcerons de montrer que le recrutement d'un bon développeur est encore possible de nos jours.\n\nAlex Karp Production",
+   "tags": "Android Makers, Android Makers 2019, Android Makers 19, Droidcon, Droidcon Paris, Droidcon France, Android Dev, Android Developer, Android Event, Android Conference, Android Conf, Android Keynote, Android, Paris, 2019"
 },
  {
    "da": "ZDM-8801",
@@ -757,7 +835,9 @@
    "comment": {
       "other link": ""
    },
-   "Youtube title": "Embarquez dans l'aventure Kotlin avec Advent Of Code by Hugo Hache, FABERNOVEL TECHNOLOGIES FR"
+   "Youtube title": "Embarquez dans l'aventure Kotlin avec Advent Of Code by Hugo Hache, FABERNOVEL TECHNOLOGIES FR",
+   "Desc": "This session was given at Paris Android Makers 2019 by Hugo Hache, FABERNOVEL TECHNOLOGIES.\n\nMore info: http://androidmakers.fr/schedule/?sessionId=ZDM-8801\n\nUne fois rentré dans l’industrie du développement, les challenges de code restent souvent un lointain souvenir des études, ou dans le meilleur des cas des exercices d’entretien que l’on connait par coeur. \n\nCes défis ont pourtant participé à forger notre passion pour l’informatique, ainsi qu’à nous initier à des concepts d’algorithmie et de structure de données, et parfois même à nous offrir nos premiers pas dans un langage. Des connaissances qui contribuent aujourd’hui à la qualité de notre travail. \n\nCurieux de voir ce que ces défis peuvent encore apporter à nos équipes de développeurs, nous nous sommes organisés pour participer collectivement au challenge adventofcode.com.\n\nAdvent of Code est-il un bon moyen pour s'initier à un nouveau langage comme Kotlin ? Cet exercice personnel peut-il s’inscrire dans une dynamique d’équipe ? Ces challenges ont-ils encore des choses à nous apprendre ?\n\nJe vous propose de partager tous les enseignements accumulés durant ce mois un peu fou, et qui sait, peut-être cela vous incitera-t-il à tenter l’aventure dans votre entreprise ?\n\nAlex Karp Production",
+   "tags": "Android Makers, Android Makers 2019, Android Makers 19, Droidcon, Droidcon Paris, Droidcon France, Android Dev, Android Developer, Android Event, Android Conference, Android Conf, Android Keynote, Android, Paris, 2019"
 },
  {
    "da": "DAY2",
@@ -776,7 +856,9 @@
    "comment": {
       "other link": ""
    },
-   "Youtube title": ""
+   "Youtube title": "",
+   "Desc": "",
+   "tags": ""
 },
  {
    "da": "Moebius",
@@ -795,7 +877,9 @@
    "comment": {
       "other link": ""
    },
-   "Youtube title": ""
+   "Youtube title": "",
+   "Desc": "",
+   "tags": ""
 },
  {
    "da": "BXQ-5942",
@@ -814,7 +898,9 @@
    "comment": {
       "other link": "https://github.com/cyrilmottier/AndroidPuzzlers"
    },
-   "Youtube title": "Android Puzzlers: Traps, Pitfalls and Corner Cases by Cyril Mottier, Zenly EN"
+   "Youtube title": "Android Puzzlers: Traps, Pitfalls and Corner Cases by Cyril Mottier, Zenly EN",
+   "Desc": "This session was given at Paris Android Makers 2019 by Cyril Mottier, Zenly.\n\nMore info: http://androidmakers.fr/schedule/?sessionId=BXQ-5942\n\nAndroid is a marvelous platform that has been evolving for more than 10 years. Having such a large framework, so many methods and classes while maintaining legacy generally ends up with a price to pay: some parts of the SDK comes with their questions and puzzlers.\n\nIn this talk, we will present some of the most head-scratching API namings/usages/results and give an explanation for each of them.\n\nAlex Karp Production",
+   "tags": "Android Makers, Android Makers 2019, Android Makers 19, Droidcon, Droidcon Paris, Droidcon France, Android Dev, Android Developer, Android Event, Android Conference, Android Conf, Android Keynote, Android, Paris, 2019, Misc, SDK - Misc, Kotlin - Misc, Layout - Misc"
 },
  {
    "da": "TWY-4180",
@@ -833,7 +919,9 @@
    "comment": {
       "other link": ""
    },
-   "Youtube title": "Consistency is Key - Working with a Design System by Maria Neumayer, Deliveroo EN"
+   "Youtube title": "Consistency is Key - Working with a Design System by Maria Neumayer, Deliveroo EN",
+   "Desc": "This session was given at Paris Android Makers 2019 by Maria Neumayer, Deliveroo.\n\nMore info: http://androidmakers.fr/schedule/?sessionId=TWY-4180\n\nWorking with a design system can be hugely rewarding: layouts can be created and modified using shared components. This should result in faster development and consistent designs across the app. But getting there is a slow and painful process.\n\nWhen implementing a design system you have to make many decisions, like: Where do you start? What actually makes a component? And how flexible should components be? This talk will shed some light on these issues by taking you through Deliveroo's process of adopting the design system in its three Android apps.\n\nAlex Karp Production",
+   "tags": "Android Makers, Android Makers 2019, Android Makers 19, Droidcon, Droidcon Paris, Droidcon France, Android Dev, Android Developer, Android Event, Android Conference, Android Conf, Android Keynote, Android, Paris, 2019, Layout - Misc, UI/UX "
 },
  {
    "da": "VQS-5461",
@@ -852,7 +940,9 @@
    "comment": {
       "other link": ""
    },
-   "Youtube title": "Concurrency doesn't have to be hard: Kotlin Coroutines and Channels by Jag Saund, Instagram EN"
+   "Youtube title": "Concurrency doesn't have to be hard: Kotlin Coroutines and Channels by Jag Saund, Instagram EN",
+   "Desc": "This session was given at Paris Android Makers 2019 by Jag Saund, Instagram.\n\nMore info: http://androidmakers.fr/schedule/?sessionId=VQS-5461\n\nWriting multi-threaded software is hard. Debugging and chasing down problems like deadlocks, race conditions, and memory leaks is even harder.\nKotlin takes a different approach. It doesn't have to be so hard. Learn how you can write concurrent and asynchronous software using coroutines. And stop sharing memory to communicate mutable data. Leverage channels to safely communicate across coroutines.\n\nAlex Karp Production",
+   "tags": "Android Makers, Android Makers 2019, Android Makers 19, Droidcon, Droidcon Paris, Droidcon France, Android Dev, Android Developer, Android Event, Android Conference, Android Conf, Android Keynote, Android, Paris, 2019"
 },
  {
    "da": "TCT-1480",
@@ -871,7 +961,9 @@
    "comment": {
       "other link": ""
    },
-   "Youtube title": "Navigation Component, feedback from the trench by Eyal LEZMY, Tag Heuer EN"
+   "Youtube title": "Navigation Component, feedback from the trench by Eyal LEZMY, Tag Heuer EN",
+   "Desc": "This session was given at Paris Android Makers 2019 by Eyal LEZMY, Tag Heuer.\n\nMore info: http://androidmakers.fr/schedule/?sessionId=TCT-1480\n\nNavigating between screens is pretty simple right? No it’s not. Actually not all the time.\nLast year Google introduced Navigation Component tool helping us standardise the design and the implementation of how screens can pass in front of the Android users.\n\nWe started to use it with my team last summer and we learned a lot about its benefits, and its pitfalls. In this presentation, I'll try to give a feedback about what we learned, what hope you can put in it and what’s not to expect from it.\n\nHere is an outline of the talk:\n\n- The Navigation Component tool and API\n- Testing your navigation\n- Specific use cases\n    - Handling multi start points\n    - Handling custom transitions and Shared Elements\n    - How to handle other entities than Fragments\n    - Handling the back navigation\n- Implementing the navigation logic\n    - 3 examples of implementation patterns we found\n    - Alternative example to Navigation Components\n- The lib is in alpha, what is it implied by this, for real\n- Single or Multiple activities what to choose?\n- Integrate nav controller in an existing app\n- Conclusion\n    - What can it bring to your app?\n    - Should we use it?\n\nAlex Karp Production",
+   "tags": "Android Makers, Android Makers 2019, Android Makers 19, Droidcon, Droidcon Paris, Droidcon France, Android Dev, Android Developer, Android Event, Android Conference, Android Conf, Android Keynote, Android, Paris, 2019, Architecture"
 },
  {
    "da": "XPP-1467",
@@ -890,7 +982,9 @@
    "comment": {
       "other link": ""
    },
-   "Youtube title": "Meaningful motion design and how to implement it by Juhani Lehtimäki & Pierluigi Rufo, Snapp Mobile"
+   "Youtube title": "Meaningful motion design and how to implement it by Juhani Lehtimäki & Pierluigi Rufo, Snapp Mobile",
+   "Desc": "This session was given at Paris Android Makers 2019 by Juhani Lehtimäki, Snapp Mobile and Pierluigi Rufo, Snapp Mobile Germany GmbH.\n\nMore info: http://androidmakers.fr/schedule/?sessionId=XPP-1467\n\nAndroid apps are not just series of static screens. To create a great app you will have to bring it into life with meaningful, helpful and delightful motion.\n\nHowever, a good design is not worth much unless it gets implemented correctly. In this joint designer-developer talk we discuss the workflow from the idea, to design and development and all the way to user’ hands. \n\nWe describe when to use motion and when not to as well as selecting the right type and right intensity of motion. We then dive into the best implementation strategies including communicating state, navigation, feedback, tutorial and delightful animations.\n\nAlex Karp Production",
+   "tags": "Android Makers, Android Makers 2019, Android Makers 19, Droidcon, Droidcon Paris, Droidcon France, Android Dev, Android Developer, Android Event, Android Conference, Android Conf, Android Keynote, Android, Paris, 2019"
 },
  {
    "da": "JSD-5161",
@@ -909,7 +1003,9 @@
    "comment": {
       "other link": ""
    },
-   "Youtube title": "Vector Workflows by Alex Lockwood, Lyft and Nick Butcher, Google EN"
+   "Youtube title": "Vector Workflows by Alex Lockwood, Lyft and Nick Butcher, Google EN",
+   "Desc": "This session was given at Paris Android Makers 2019 by Alex Lockwood, Lyft and Nick Butcher, Google.\n\nMore info: http://androidmakers.fr/schedule/?sessionId=JSD-5161\n\nVector assets are lightweight and sharp on every screen size, but working with them can be complicated. Android doesn’t directly support SVG, potentially leading to conversion and ownership issues. This talk will cover what designers and developers need to know to work together to create static and animated vector assets. We’ll cover the capabilities of Android’s vector formats, how they influence producing assets in graphics packages (with a focus on Sketch) and how to efficiently export them. We'll also look at tooling and workflows that allow designers and devs to collaborate on creating vector animations.\n\nAlex Karp Production",
+   "tags": "Android Makers, Android Makers 2019, Android Makers 19, Droidcon, Droidcon Paris, Droidcon France, Android Dev, Android Developer, Android Event, Android Conference, Android Conf, Android Keynote, Android, Paris, 2019"
 },
  {
    "da": "XQK-8719",
@@ -928,7 +1024,9 @@
    "comment": {
       "other link": ""
    },
-   "Youtube title": "A resourceful talk about Android Resources by Vadim Caen, Google EN"
+   "Youtube title": "A resourceful talk about Android Resources by Vadim Caen, Google EN",
+   "Desc": "This session was given at Paris Android Makers 2019 by Vadim Caen, Google.\n\nMore info: http://androidmakers.fr/schedule/?sessionId=XQK-8719\n\nVector-drawables, 9 Patches, layer-list, multi-densities, screen sizes: Android provides many ways to use graphical resources in an application and deal with the fragmentation. The goal of this talk is to take a tour of the available resources that developers can use in their application, see what tools Android Studio provides to manage those resources, how these resources are embedded into the APK and what how the framework uses them at runtime.\n\nAlex Karp Production",
+   "tags": "Android Makers, Android Makers 2019, Android Makers 19, Droidcon, Droidcon Paris, Droidcon France, Android Dev, Android Developer, Android Event, Android Conference, Android Conf, Android Keynote, Android, Paris, 2019, Android Studio - Gradle - Tips, UI/UX "
 },
  {
    "da": "comedy",
@@ -947,7 +1045,9 @@
    "comment": {
       "other link": ""
    },
-   "Youtube title": "Closing conference by Chet Haase and Romain Guy, Google EN"
+   "Youtube title": "Closing conference by Chet Haase and Romain Guy, Google EN",
+   "Desc": "This session was given at Paris Android Makers 2019 by Chet Haase and Romain Guy, Google.\n\nMore info: http://androidmakers.fr/schedule/?sessionId=comedy\n\n\n\nAlex Karp Production",
+   "tags": "Android Makers, Android Makers 2019, Android Makers 19, Droidcon, Droidcon Paris, Droidcon France, Android Dev, Android Developer, Android Event, Android Conference, Android Conf, Android Keynote, Android, Paris, 2019, comedy, comedy talk"
 },
  {
    "da": "Room A. & L. Blin",
@@ -966,7 +1066,9 @@
    "comment": {
       "other link": ""
    },
-   "Youtube title": ""
+   "Youtube title": "",
+   "Desc": "",
+   "tags": ""
 },
  {
    "da": "JJK-6338",
@@ -985,7 +1087,9 @@
    "comment": {
       "other link": ""
    },
-   "Youtube title": "State Restoration - The full Picture (With Coroutines) by Martin Devillers, Dashlane EN"
+   "Youtube title": "State Restoration - The full Picture (With Coroutines) by Martin Devillers, Dashlane EN",
+   "Desc": "This session was given at Paris Android Makers 2019 by Martin Devillers, Dashlane.\n\nMore info: http://androidmakers.fr/schedule/?sessionId=JJK-6338\n\nOne of the stated goals of Android Architecture Components is to make it easier for developers to manage the lifecycle of application components. However, when looking at the full picture of combining configuration changes and background memory constraints with static and dynamic state, the basic examples provided in the documentation begin to show their limitations. A more in-depth exploration is needed.\n\nWe'll look at how to combine bundles and view models to fully persist the state of the application during its lifecycle. Using coroutines for concurrency, we'll see how dynamic state restoration can be achieved.\n\nGoing over increasingly complex examples of state restoration constraints, we'll see how our implementation of state restoration grows and evolves.\n\nAlex Karp Production",
+   "tags": "Android Makers, Android Makers 2019, Android Makers 19, Droidcon, Droidcon Paris, Droidcon France, Android Dev, Android Developer, Android Event, Android Conference, Android Conf, Android Keynote, Android, Paris, 2019, Architecture, Kotlin - Coroutine"
 },
  {
    "da": "KSG-3809",
@@ -1004,7 +1108,9 @@
    "comment": {
       "other link": ""
    },
-   "Youtube title": "Building a library for Android and iOS using Kotlin Multiplatform by David González, Mixtiles EN"
+   "Youtube title": "Building a library for Android and iOS using Kotlin Multiplatform by David González, Mixtiles EN",
+   "Desc": "This session was given at Paris Android Makers 2019 by David González, Mixtiles.\n\nMore info: http://androidmakers.fr/schedule/?sessionId=KSG-3809\n\nSharing code between platforms is a powerful technique, but it may be hard to accomplish without rich APIs that we have in Android, JVM, or iOS platforms. Kotlin Multiplatform libraries can be used to fix that, bringing rich APIs directly in the common Kotlin code. \n\nWhat an exciting frontier!\n\nIn this talk we'll go over the creation of a Kotlin Multiplatform library. You'll learn how modules for each platform work, decide what parts of the code makes sense to share and what doesn't. All based in the experiences gathered after creating a library at Mixtiles used to fetch images from different cloud providers.\n\nAlex Karp Production",
+   "tags": "Android Makers, Android Makers 2019, Android Makers 19, Droidcon, Droidcon Paris, Droidcon France, Android Dev, Android Developer, Android Event, Android Conference, Android Conf, Android Keynote, Android, Paris, 2019, Kotlin - Crossplatform"
 },
  {
    "da": "LBC-1587",
@@ -1023,7 +1129,9 @@
    "comment": {
       "other link": ""
    },
-   "Youtube title": "Retour d’expérience sur la modernisation technique d’une Top App by Cristian Garrido & Eliott Lujan"
+   "Youtube title": "Retour d’expérience sur la modernisation technique d’une Top App by Cristian Garrido & Eliott Lujan",
+   "Desc": "This session was given at Paris Android Makers 2019 by Cristian Garrido and Eliott Lujan, Le Bon Coin.\n\nMore info: http://androidmakers.fr/schedule/?sessionId=LBC-1587\n\nToute application logicielle, lorsqu’elle atteint une certaine taille, se retrouve remplie d’anti patterns, de code smell et de technologies obsolètes. Cette présentation a pour but de comprendre les problèmes les plus fréquemment rencontrés au sein des applications Android, d’en évaluer les enjeux et de les résoudre grâce à des technologies, librairies et moyens plus modernes.\nCependant, la résolution de ces problèmes et l’intégration de nouvelles solutions peuvent être délicats lorsque l’application impact des millions d’utilisateurs. Chez Leboncoin, nous vivons cette modernisation technique au quotidien et en avons fait un enjeu majeur pour notre équipe mobile.\nNous allons vous présenter notre retour d’expérience ainsi que les stratégies adoptées au cours de la modernisation de notre application sur ces dernières années.\n\nAlex Karp Production",
+   "tags": "Android Makers, Android Makers 2019, Android Makers 19, Droidcon, Droidcon Paris, Droidcon France, Android Dev, Android Developer, Android Event, Android Conference, Android Conf, Android Keynote, Android, Paris, 2019"
 },
  {
    "da": "TLN-9826",
@@ -1042,7 +1150,9 @@
    "comment": {
       "other link": ""
    },
-   "Youtube title": "Leveraging Kotlin to write maintainable UI tests by Róbert Papp, Trainline EN"
+   "Youtube title": "Leveraging Kotlin to write maintainable UI tests by Róbert Papp, Trainline EN",
+   "Desc": "This session was given at Paris Android Makers 2019 by Róbert Papp, Trainline.\n\nMore info: http://androidmakers.fr/schedule/?sessionId=TLN-9826\n\nA presentation on how we are using Kotlin features to help our team write Espresso integration tests. Explaining how to make test setup independent of backend. Striving to get to high-level, clean tests using Kotlin DSL and extension methods.\n\nAlex Karp Production",
+   "tags": "Android Makers, Android Makers 2019, Android Makers 19, Droidcon, Droidcon Paris, Droidcon France, Android Dev, Android Developer, Android Event, Android Conference, Android Conf, Android Keynote, Android, Paris, 2019"
 },
  {
    "da": "TGV-6847",
@@ -1061,7 +1171,9 @@
    "comment": {
       "other link": ""
    },
-   "Youtube title": "Getting the most out of code review by Brian Plummer, friendlyrobot.nyc EN"
+   "Youtube title": "Getting the most out of code review by Brian Plummer, friendlyrobot.nyc EN",
+   "Desc": "This session was given at Paris Android Makers 2019 by Brian Plummer, friendlyrobot.nyc.\n\nMore info: http://androidmakers.fr/schedule/?sessionId=TGV-6847\n\nIs your team not reviewing code? You should be! Does it feel like you could be getting more out of code reviews? Absolutely! Code reviews are severely underutilized.  Let me show you some approaches to get more value from code reviews for you and your team.  \n\nI will emphasize code review best practices starting with why you should be performing code reviews.  Some teams don't perform reviews and this is really hurting them in the long run. I will attempt to sell the review process and explain why it is fundamental to our roles as developers.  \n\nTeams that are performing reviews may feel burdened by doing so and see it as chore. This also is not ideal and I will dig a little deeper and discuss why we feel this way sometimes. What are the strategies to overcome this feeling? Is it possible to enjoy code review?\n\nAre there shortcuts to work more efficiently at reviewing code? Absolutely! Can some things be automated? What can't? Let me show you some great approaches to making the review process streamlined and efficient.\n\nAlex Karp Production",
+   "tags": "Android Makers, Android Makers 2019, Android Makers 19, Droidcon, Droidcon Paris, Droidcon France, Android Dev, Android Developer, Android Event, Android Conference, Android Conf, Android Keynote, Android, Paris, 2019, Developper - Way of thinking"
 },
  {
    "da": "RBP-6855",
@@ -1080,7 +1192,9 @@
    "comment": {
       "other link": ""
    },
-   "Youtube title": "Becoming a Leader in Tech: How to boost your career without losing your mind by Fabien Devos"
+   "Youtube title": "Becoming a Leader in Tech: How to boost your career without losing your mind by Fabien Devos",
+   "Desc": "This session was given at Paris Android Makers 2019 by Fabien Devos, Wealthfront.\n\nMore info: http://androidmakers.fr/schedule/?sessionId=RBP-6855\n\nYou've been working as an engineer for a while, and now you want more. More responsibilities, more decision making power, more money. But where do you even start? Become an engineering manager right? Not so fast. \n\nIn this talk, we'll go over how to choose the best career path for you. There are many ways of becoming the leader you know you deserve to be, and not all of them are obvious nor conventional. We'll cover the different options and the skills required to get there, but we'll also talk about why not to become a manager, or even a tech lead.\n\nFinally, you decide to make the jump. You \"made it\" right? But, now what? How to become the best leader you can possibly be? How to give constructive feedback? How to set expectations with your people? And what's next? Keep climbing?... or choose to go back to building.\n\nAlex Karp Production",
+   "tags": "Android Makers, Android Makers 2019, Android Makers 19, Droidcon, Droidcon Paris, Droidcon France, Android Dev, Android Developer, Android Event, Android Conference, Android Conf, Android Keynote, Android, Paris, 2019"
 },
  {
    "da": "WLQ-5551",
@@ -1099,7 +1213,9 @@
    "comment": {
       "other link": ""
    },
-   "Youtube title": "Server Driven UI Workflow by Benoît Quenaudon, Square EN"
+   "Youtube title": "Server Driven UI Workflow by Benoît Quenaudon, Square EN",
+   "Desc": "This session was given at Paris Android Makers 2019 by Benoît Quenaudon, Square.\n\nMore info: http://androidmakers.fr/schedule/?sessionId=WLQ-5551\n\nDeploying an Android app to the play store always contains some cost in it. Furthermore the user isn't always keen to download (again) our latest versioned app. How about doubling the cost of development with the iOS app into account (or Web)?  \nAt Square, we came up with a system in which the server owns the workflow of the client. This means the client doesn't know before hand which screen, which image or text it's gonna show next.\n\nIn this talk, we'll:\n\n- Know why Square ended up choosing this system.\n- Discover how we built it.\n- Look at the challenges, the pros and cons of such an architecture.\n- Talk about how we want to alter it for the future.\n\nAttendees to this talk will be expose to solutions for problems every company is facing but don't address.\n\nAlex Karp Production",
+   "tags": "Android Makers, Android Makers 2019, Android Makers 19, Droidcon, Droidcon Paris, Droidcon France, Android Dev, Android Developer, Android Event, Android Conference, Android Conf, Android Keynote, Android, Paris, 2019, Architecture, Developper - Way of thinking "
 },
  {
    "da": "ODA-3499",
@@ -1118,7 +1234,9 @@
    "comment": {
       "other link": ""
    },
-   "Youtube title": "I have no idea what my app is doing ¯\\_(ツ)_/¯ by Nicola Corti, Yelp EN"
+   "Youtube title": "I have no idea what my app is doing ¯\\_(ツ)_/¯ by Nicola Corti, Yelp EN",
+   "Desc": "This session was given at Paris Android Makers 2019 by Nicola Corti, Yelp.\n\nMore info: http://androidmakers.fr/schedule/?sessionId=ODA-3499\n\nDo you exactly know what's your app doing when you deliver it to your users? Are you 100% sure? Would you bet on this? You're probably confident with the code you wrote and you know what is doing. \n\nBut what about the code that others wrote? \n\nWe pull dependencies from the online repositories every day. Our applications strongly rely on external libraries that are hosted on public Maven repositories. What if one of those library contains some malicious code? Imagine a library that starts harvesting your user data without you knowing it.\n\nIn this talk we will see how to monitor and protect your application from malicious dependency on the web that might end up in your final compiled App.\n\nAlex Karp Production",
+   "tags": "Android Makers, Android Makers 2019, Android Makers 19, Droidcon, Droidcon Paris, Droidcon France, Android Dev, Android Developer, Android Event, Android Conference, Android Conf, Android Keynote, Android, Paris, 2019, Security, Gradle, App optimization"
 },
  {
    "da": "Room 2.02",
@@ -1137,7 +1255,9 @@
    "comment": {
       "other link": ""
    },
-   "Youtube title": ""
+   "Youtube title": "",
+   "Desc": "",
+   "tags": ""
 },
  {
    "da": "IVS-2334",
@@ -1156,7 +1276,9 @@
    "comment": {
       "other link": ""
    },
-   "Youtube title": "Rendering Video: A Detailed Look at Video Playback on Android by Pierre-Antoine LaFayette, Facebook"
+   "Youtube title": "Rendering Video: A Detailed Look at Video Playback on Android by Pierre-Antoine LaFayette, Facebook",
+   "Desc": "This session was given at Paris Android Makers 2019 by Pierre-Antoine LaFayette, Facebook.\n\nMore info: http://androidmakers.fr/schedule/?sessionId=IVS-2334\n\nA core use-case for Facebook for Android is scrolling through a feed of autoplaying videos. We've needed to have a deep understanding of video playback to optimize performance in our apps.\n\nIn this talk, we’ll examine the details behind video playback on Android. We’ll look at the actors that play a role in delivering decoded video pixels to the screen. We’ll go beyond the high-level MediaPlayer / ExoPlayer components and examine what's happening in the system. Understanding how video playback works under the hood can help you figure out how to get the best performance for your applications.\n\nWe’ll cover the details behind fundamental graphics components used by video rendering: e.g. SurfaceView, TextureView, SurfaceTexture, etc. These components also enable more complex media rendering such as 360 videos, 3D scenes, and AR experiences.\n\nWe hope to leave you empowered to look deeper into the Android system beyond the high-level Android framework components and expand your knowledge and expertise.\n\nAlex Karp Production",
+   "tags": "Android Makers, Android Makers 2019, Android Makers 19, Droidcon, Droidcon Paris, Droidcon France, Android Dev, Android Developer, Android Event, Android Conference, Android Conf, Android Keynote, Android, Paris, 2019, App optimization, Architecture"
 },
  {
    "da": "GMB-7169",
@@ -1175,7 +1297,9 @@
    "comment": {
       "other link": ""
    },
-   "Youtube title": "S’il te plait, dessine moi une vue by Florent Champigny, @Idean FR"
+   "Youtube title": "S’il te plait, dessine moi une vue by Florent Champigny, @Idean FR",
+   "Desc": "This session was given at Paris Android Makers 2019 by Florent Champigny, @Idean.\n\nMore info: http://androidmakers.fr/schedule/?sessionId=GMB-7169\n\nOn vous demande de coder une vue custom ? Peur de l'inconnu, le mot canevas fait peur à entendre, n'ayez crainte, c'est beaucoup beaucoup plus compliqué sur papier que ça ne l'est dans le code !\n\nNous apprendrons ensemble : \n- comment utiliser les classes Canvas et Paint\n- comment dessiner des vues simples : Rectangles, Ronds\n- comment dessiner des vues un peu plus complexes : RoundRect, Triangles\n- comment animer notre vue custom\n\nAlex Karp Production",
+   "tags": "Android Makers, Android Makers 2019, Android Makers 19, Droidcon, Droidcon Paris, Droidcon France, Android Dev, Android Developer, Android Event, Android Conference, Android Conf, Android Keynote, Android, Paris, 2019, UI/UX, SDK - Creation Tips"
 },
  {
    "da": "ZNT-7569",
@@ -1194,7 +1318,9 @@
    "comment": {
       "other link": ""
    },
-   "Youtube title": "Taking your users’ money: In-app billing from start to best practices by Kai Koenig"
+   "Youtube title": "Taking your users’ money: In-app billing from start to best practices by Kai Koenig",
+   "Desc": "This session was given at Paris Android Makers 2019 by Kai Koenig, Ventego Creative.\n\nMore info: http://androidmakers.fr/schedule/?sessionId=ZNT-7569\n\nSo, you’ve built an app. It'd be nice to make some money with it and instead of only charging a one-off purchase price you’re maybe considering a free app with extra features. Or you might think about a subscription model to create an ongoing cashflow by selling a service.\n\nDepending on your actual occupation in the Android-ecosystem you might never had the need to look into monetisation of an app. In a nutshell, it’s a Google Play service - implementation should be smooth and easy and super-straight-forward, right? RIGHT?\n\nIn this talk we're going to cover:\n- Google's various in-app billing offerings and their differences\n- Play Billing and how to implement a working billing flow\n- Dealing with subscriptions in your app and the backend\n- Testing and 3rd party support libraries like Register and BillingX\n- Managing your products in Google Play and Firebase Analytics\n\nAlex Karp Production",
+   "tags": "Android Makers, Android Makers 2019, Android Makers 19, Droidcon, Droidcon Paris, Droidcon France, Android Dev, Android Developer, Android Event, Android Conference, Android Conf, Android Keynote, Android, Paris, 2019, Firebase, Misc, Architecture, Testing"
 },
  {
    "da": "OVK-2477",
@@ -1213,7 +1339,9 @@
    "comment": {
       "other link": ""
    },
-   "Youtube title": "ARCore - Basics and Tools by Etienne Caron, Shopify EN"
+   "Youtube title": "ARCore - Basics and Tools by Etienne Caron, Shopify EN",
+   "Desc": "This session was given at Paris Android Makers 2019 by Etienne Caron, Shopify.\n\nMore info: http://androidmakers.fr/schedule/?sessionId=OVK-2477\n\nIn this talk, we will learn how to build an application with the ARCore Android SDK. We'll start with a quick look at physically based rendering, and how to find or create these 3D models. \n\nThen we'll learn the basics of adding virtual objects and interfaces to our environment, using the Sceneform library. \n\nWe'll close with Cloud Anchors and Augmented Images, which are used to create collaborative and interactive augmented reality experiences.\n\nAlex Karp Production",
+   "tags": "Android Makers, Android Makers 2019, Android Makers 19, Droidcon, Droidcon Paris, Droidcon France, Android Dev, Android Developer, Android Event, Android Conference, Android Conf, Android Keynote, Android, Paris, 2019, VR"
 },
  {
    "da": "RBU-3913",
@@ -1232,7 +1360,9 @@
    "comment": {
       "other link": ""
    },
-   "Youtube title": "Write your first Flutter App by Pierre Tibulle (ASI), Romain Rastel (Orange Business Services) and Horacio Gonzalez (OVH) ENGLISH/FRENCH"
+   "Youtube title": "Write your first Flutter App by Pierre Tibulle (ASI), Romain Rastel (Orange Business Services) and Horacio Gonzalez (OVH) ENGLISH/FRENCH",
+   "Desc": "This session was given at Paris Android Makers 2019 by Pierre Tibulle undefined (ASI), Romain Rastel undefined (Orange Business Services) and Horacio Gonzalez undefined (OVH).\n\nMore info: http://androidmakers.fr/schedule/?sessionId=RBU-3913\n\nWhat’s that Flutter everybody in mobile development is talking about these days? Another new thing that will be forgotten by this time next year or a true revolution in mobile apps development? Is it really worth my time?\n\nFlutter is Google's mobile SDK for crafting high-quality native interfaces on iOS and Android in record time. Flutter works with existing code, is used by developers and organizations around the world, and is free and open source.\n\nBeyond the commercial pitch, in this codelab you will create a simple Flutter app and discover the features that make Flutter one of the most pleasant and productive development platform.\n\nYou need to bring your own laptop and validate the following steps :\n\n* https://flutter.io/docs/get-started/install\n* https://flutter.io/docs/get-started/editor\n* https://flutter.io/docs/get-started/test-drive\n\nThe demo app is running on your simulator? Let's go with Flutter!!!\n\nNB: We can speak in French or in English.\n\nAlex Karp Production",
+   "tags": "Android Makers, Android Makers 2019, Android Makers 19, Droidcon, Droidcon Paris, Droidcon France, Android Dev, Android Developer, Android Event, Android Conference, Android Conf, Android Keynote, Android, Paris, 2019, Flutter"
 },
  {
    "da": "ZPO-7428",
@@ -1251,7 +1381,9 @@
    "comment": {
       "other link": ""
    },
-   "Youtube title": "Kotlin end to end: du client au serveur by Jordan Tuffery and Julien Datour, Xebia FR"
+   "Youtube title": "Kotlin end to end: du client au serveur by Jordan Tuffery and Julien Datour, Xebia FR",
+   "Desc": "This session was given at Paris Android Makers 2019 by Jordan Tuffery, @xebia-france and Julien Datour, Xebia.\n\nMore info: http://androidmakers.fr/schedule/?sessionId=ZPO-7428\n\nGrâce à Kotlin/Native, disponible en version 1.0 depuis octobre, il est désormais possible d’utiliser Kotlin pour créer nos applications back et mobile natives en utilisant un même langage. Mais, en 2019, est-ce déjà une solution réellement viable ? Dans ce talk, nous allons vous présenter un retour d’expérience sur la création de notre application : de la création des Web Services avec Ktor aux clients iOS et Android, en passant par l'industrialisation et les tests.\n\nLe futur du développeur mobile serait-il full-stack ?\n\nAlex Karp Production",
+   "tags": "Android Makers, Android Makers 2019, Android Makers 19, Droidcon, Droidcon Paris, Droidcon France, Android Dev, Android Developer, Android Event, Android Conference, Android Conf, Android Keynote, Android, Paris, 2019, Kotlin - Crossplatform "
 },
  {
    "da": "ZPP-9970",
@@ -1270,7 +1402,9 @@
    "comment": {
       "other link": ""
    },
-   "Youtube title": "“Make your app work perfectly offl…” — Connection Interrupted"
+   "Youtube title": "“Make your app work perfectly offl…” — Connection Interrupted",
+   "Desc": "This session was given at Paris Android Makers 2019 by Xavier F. Gouchet and Jérémy Bartolomeu Bonze, Workwell.\n\nMore info: http://androidmakers.fr/schedule/?sessionId=ZPP-9970\n\nAs developers, more often than not, you have access to fast and reliable internet connection, all day long. But the users you target won't. Limited data plans, unreliable network coverage, commuting : those are real obstacle that your users will see daily. This means that network will only be available at some times, and not necessarily when the user wants to interact with your application.\n\nOur talk will focus on creating a user experience with ‘offline’ being the default working state, and having access to the internet being a bonus for your users. We’ll see how to design your UI/UX to make offline more than an edge case scenario, as well as how to architecture your application, and which tools and libraries can help you to implement it.\n\nAlex Karp Production",
+   "tags": "Android Makers, Android Makers 2019, Android Makers 19, Droidcon, Droidcon Paris, Droidcon France, Android Dev, Android Developer, Android Event, Android Conference, Android Conf, Android Keynote, Android, Paris, 2019"
 },
  {
    "da": "Room 2.04",
@@ -1289,7 +1423,9 @@
    "comment": {
       "other link": ""
    },
-   "Youtube title": ""
+   "Youtube title": "",
+   "Desc": "",
+   "tags": ""
 },
  {
    "da": "HDV-6804",
@@ -1308,7 +1444,9 @@
    "comment": {
       "other link": ""
    },
-   "Youtube title": "MVI : une architecture robuste et moderne by Simone Civetta and Arnaud Piroelle, Xebia FR"
+   "Youtube title": "MVI : une architecture robuste et moderne by Simone Civetta and Arnaud Piroelle, Xebia FR",
+   "Desc": "This session was given at Paris Android Makers 2019 by Simone Civetta, Xebia IT Architects and Arnaud Piroelle, Xebia.\n\nMore info: http://androidmakers.fr/schedule/?sessionId=HDV-6804\n\nOui, on le sait : vous en avez assez des talks d'architecture mobile. On vous comprend, vous avez dû en voir des tonnes : utiles, superflus, simples, alambiqués, certains même imprononçables et là vous n’en pouvez plus.\n\nMais donnez-nous une chance : cette fois-ci nous voulons vous présenter une architecture que nous apprécions véritablement : simple, robuste, facilement testable et tirant profit des langages modernes comme Kotlin et Swift - Model-View-Intention. Inspirée de Redux, mais adaptée aux applications mobiles, MVI se sert d'immutabilité, flux de données unidirectionnel et binding pour faciliter débogage et testing et améliorer donc votre productivité. Applicable à Android et iOS, elle permet aussi de simplifier les échanges entre les équipes de développeurs d'applications mobiles natives.\n\nNous vous présenterons les éléments clés de l'architecture, sa mise en place, ainsi que l'implémentation des cas d'usage les plus communs, issus d'applications que nous avons réellement développées.\n\nAlex Karp Production",
+   "tags": "Android Makers, Android Makers 2019, Android Makers 19, Droidcon, Droidcon Paris, Droidcon France, Android Dev, Android Developer, Android Event, Android Conference, Android Conf, Android Keynote, Android, Paris, 2019, Architecture, Testing"
 },
  {
    "da": "AMU-5195",
@@ -1327,7 +1465,9 @@
    "comment": {
       "other link": ""
    },
-   "Youtube title": "Do you want an easy way to add Machine Learning into your app? by Sandra Dupré"
+   "Youtube title": "Do you want an easy way to add Machine Learning into your app? by Sandra Dupré",
+   "Desc": "This session was given at Paris Android Makers 2019 by Sandra Dupré, Disney Streaming Services.\n\nMore info: http://androidmakers.fr/schedule/?sessionId=AMU-5195\n\nAfter TensorFlow Lite, MLKit promises to be the new tool to make apps smarter. The possibility to integrate a model directly on Firebase is crazy, but the second part (often put aside) deserves attention.\nBased in majority on deprecated Mobile Vision, the few models offered by Google already give us something to enjoy. Most of them is available offline: so we can imagine the extent of the possibilities!\n\nCome with me to discover these APIs: how and why to use them.\n\nAlex Karp Production",
+   "tags": "Android Makers, Android Makers 2019, Android Makers 19, Droidcon, Droidcon Paris, Droidcon France, Android Dev, Android Developer, Android Event, Android Conference, Android Conf, Android Keynote, Android, Paris, 2019, AI, Firebase  "
 },
  {
    "da": "NIZ-9897",
@@ -1346,7 +1486,9 @@
    "comment": {
       "other link": ""
    },
-   "Youtube title": "Locking, blocking and rocking Android for Self-service Kiosks by Karapet Gyumjibashyan, PMP"
+   "Youtube title": "Locking, blocking and rocking Android for Self-service Kiosks by Karapet Gyumjibashyan, PMP",
+   "Desc": "This session was given at Paris Android Makers 2019 by Karapet Gyumjibashyan, PMP, Ginosi Apartels and Hotels.\n\nMore info: http://androidmakers.fr/schedule/?sessionId=NIZ-9897\n\nAndroid is not only for regular mobile apps - it can be used to make self-service Kiosks as well. \n\nYou will learn from my experience of leading the development of Android-based self check-in Kiosks about the challenges of locking the system to run single app and blocking any security holes or stability issues.  You'll learn about how to architect the remote maintenance and management infrastructure for Android-based single-purpose applications in a mission-to-Mars autonomous environment and what to expect from Google's new Android Management API (now in BETA). We'll talk not only about the software, but also about the hardware and UI/UX side of creating Kiosks and the unexpected challenges and bottlenecks ahead. You'll leave the talk knowing about the peculiarities of the emerging field of COSU (company owned single use) devices and will be prepared to tackle them heads on when having your next Kiosk project on Android.\n\nAlex Karp Production",
+   "tags": "Android Makers, Android Makers 2019, Android Makers 19, Droidcon, Droidcon Paris, Droidcon France, Android Dev, Android Developer, Android Event, Android Conference, Android Conf, Android Keynote, Android, Paris, 2019"
 },
  {
    "da": "GBA-2488",
@@ -1365,7 +1507,9 @@
    "comment": {
       "other link": ""
    },
-   "Youtube title": "GraphQL in real life by Roberto Orgiu, The New York Times EN"
+   "Youtube title": "GraphQL in real life by Roberto Orgiu, The New York Times EN",
+   "Desc": "This session was given at Paris Android Makers 2019 by Roberto Orgiu, The New York Times.\n\nMore info: http://androidmakers.fr/schedule/?sessionId=GBA-2488\n\nGraphQL is not new, and REST is still around. Is it already time to switch? What tools can we rely on, as of today? Is the framework ready and suitable for everyone around?\nAt The New York Times, we invested heavily on this technology, so much that we actually created a whole new feature around it. Join us to discover the inner depths of GraphQL, how it works and how it can be integrated within a few days. Explore how you can make sure about what you write and test it out. And when it's time to optimize, maybe we can help it!\n\nAlex Karp Production",
+   "tags": "Android Makers, Android Makers 2019, Android Makers 19, Droidcon, Droidcon Paris, Droidcon France, Android Dev, Android Developer, Android Event, Android Conference, Android Conf, Android Keynote, Android, Paris, 2019"
 },
  {
    "da": "HJM-2968",
@@ -1384,7 +1528,9 @@
    "comment": {
       "other link": ""
    },
-   "Youtube title": "App Clinic at Android Makers 2019"
+   "Youtube title": "App Clinic at Android Makers 2019",
+   "Desc": "This session was given at Paris Android Makers 2019 by Eyal LEZMY undefined (Tag Heuer), Sebastiano Poggi undefined (JetBrains), Anita Singh undefined (Blinkist), Rebecca Franks undefined (Over), Ty Smith undefined (Uber), Juhani Lehtimäki undefined (Snapp Mobile), Pierluigi Rufo undefined (Snapp Mobile Germany GmbH) and Cyril Mottier undefined (Zenly).\n\nMore info: http://androidmakers.fr/schedule/?sessionId=HJM-2968\n\nA bunch of Android experts will come on stage, discovering a few applications in live, they will provide feedback and advices to the developers.\nPropose your application for the review by sending the Play Store link or the APK to contact@androidmakers.fr\n\nAlex Karp Production",
+   "tags": "Android Makers, Android Makers 2019, Android Makers 19, Droidcon, Droidcon Paris, Droidcon France, Android Dev, Android Developer, Android Event, Android Conference, Android Conf, Android Keynote, Android, Paris, 2019, UI/UX"
 },
  {
    "da": "JOO-6049",
@@ -1403,7 +1549,9 @@
    "comment": {
       "other link": ""
    },
-   "Youtube title": "Dependency injection from zero to hero with Koin by Arnaud Giuliani EN"
+   "Youtube title": "Dependency injection from zero to hero with Koin by Arnaud Giuliani EN",
+   "Desc": "This session was given at Paris Android Makers 2019 by Arnaud Giuliani.\n\nMore info: http://androidmakers.fr/schedule/?sessionId=JOO-6049\n\nKoin (https://insert-koin.io) is a pragmatic dependency injection framework for Kotlin/Android developers. Let's see how it will make your life easier thanks to the power of Kotlin language: from basics to the setup of Android architecture's components, without forgetting the testing part... And of course, how to migrate your “old” Dagger project.\n\nAt the menu also, the presentation of the new 2.0 release and some advanced APIs!\n\nAlex Karp Production",
+   "tags": "Android Makers, Android Makers 2019, Android Makers 19, Droidcon, Droidcon Paris, Droidcon France, Android Dev, Android Developer, Android Event, Android Conference, Android Conf, Android Keynote, Android, Paris, 2019, Dependency Injection, Kotlin - Misc, Testing"
 },
  {
    "da": "AFF-5103",
@@ -1422,7 +1570,9 @@
    "comment": {
       "other link": ""
    },
-   "Youtube title": "Google Assistant for Android developers by Elaine Dias Batista, SFEIR EN"
+   "Youtube title": "Google Assistant for Android developers by Elaine Dias Batista, SFEIR EN",
+   "Desc": "This session was given at Paris Android Makers 2019 by Elaine Dias Batista, SFEIR.\n\nMore info: http://androidmakers.fr/schedule/?sessionId=AFF-5103\n\nThe fact that \"apps\" for the Google Assistant and for Android are both available on Android smartphones can be the cause of some confusion. Do I have to go to the Play Store to download and install an \"app\" for the Google Assistant? Can I launch a Google Assistant experience from an Android app? How to integrate advanced voice recognition (NLP or other) on existing apps? What experience should I offer on my app?  In this talk I will answer these questions, do a comparison of the ecosystems and how they can work together.\n\nAlex Karp Production",
+   "tags": "Android Makers, Android Makers 2019, Android Makers 19, Droidcon, Droidcon Paris, Droidcon France, Android Dev, Android Developer, Android Event, Android Conference, Android Conf, Android Keynote, Android, Paris, 2019"
 },
  {
    "da": "JEH-1710",
@@ -1441,7 +1591,9 @@
    "comment": {
       "other link": ""
    },
-   "Youtube title": "Building Android for the Raspberry Pi by Chris Simmonds, 2net Ltd EN"
+   "Youtube title": "Building Android for the Raspberry Pi by Chris Simmonds, 2net Ltd EN",
+   "Desc": "This session was given at Paris Android Makers 2019 by Chris Simmonds, 2net Ltd.\n\nMore info: http://androidmakers.fr/schedule/?sessionId=JEH-1710\n\nYou can run Android on a wide range of devices, not just phones and tablets. Building Android from scratch is fun and a great way to learn about the lower levels of the operating system. Imagine - here is a chance to create ANY Android configuration you want.\n\nIn this presentation, I will show you how to take a Raspberry Pi 3 and build Android completely from scratch, using source code from the AOSP (Android Open Source Project). We will need a few things to make this work A Linux kernel that has been configured with the options that Android expects OpenGL ES graphics drivers HAL layers for graphics and networking, amongst other things\n\nThe final hurdle is understanding the way that the RPi boots and adapting it to boot Android. Then, at last, we get to the point where we can write the images to a microSD card and boot up the RPi. One last problem: the Raspberry Pi 3 doesn’t have a USB OTG port, so we can’t use ADB in the normal way. No problem, we can use ADB over Ethernet instead.\n\nThis presentation focuses on the Raspberry Pi, but in a similar way you can port Android to many other devices. If it can run Linux, there is a good chance it can run Android.\n\nAlex Karp Production",
+   "tags": "Android Makers, Android Makers 2019, Android Makers 19, Droidcon, Droidcon Paris, Droidcon France, Android Dev, Android Developer, Android Event, Android Conference, Android Conf, Android Keynote, Android, Paris, 2019, Misc, Architecture"
 },
  {
    "da": "XQT-5940",
@@ -1460,6 +1612,8 @@
    "comment": {
       "other link": ""
    },
-   "Youtube title": "Android Leaks @Android Makers - Épisode 6 : Le retour des poireaux, Benjamin Monjoie & Yannick Lemin"
+   "Youtube title": "Android Leaks @Android Makers - Épisode 6 : Le retour des poireaux, Benjamin Monjoie & Yannick Lemin",
+   "Desc": "This session was given at Paris Android Makers 2019 by Benjamin Monjoie, Appkers and Yannick Lemin, TechYOS.\n\nMore info: http://androidmakers.fr/schedule/?sessionId=XQT-5940\n\nEnglish TL;DR: It's a stupid french speaking podcast about leeks  ¯\\_(ツ)_/¯\n\nSi vous ne savez toujours pas pourquoi \"Poireau\" ou que si mais que vous n'avez pas rigolé à la blague la première fois, ni les 3000 autres fois parce qu'en réalité c'est pas si drôle, avouons le... Alors viendez, ça ne sera toujours pas plus drôle, ni plus intelligent mais vous pourrez dire en sortant: \"Je ne sais absolument pas pourquoi j'ai été voir ça\", et ça, ça n'a pas de prix.\n\n\nPS: Épisode 6 car on sait tous que le 6ème est en réalité le 3ème !\n\nAlex Karp Production",
+   "tags": "Android Makers, Android Makers 2019, Android Makers 19, Droidcon, Droidcon Paris, Droidcon France, Android Dev, Android Developer, Android Event, Android Conference, Android Conf, Android Keynote, Android, Paris, 2019"
 }
 ]
