@@ -14,6 +14,7 @@ from apiclient.http import MediaFileUpload
 from oauth2client.client import flow_from_clientsecrets
 from oauth2client.file import Storage
 from oauth2client.tools import argparser, run_flow
+from google_auth_oauthlib.flow import InstalledAppFlow
 
 
 # Explicitly tell the underlying HTTP transport library not to retry, since
@@ -47,9 +48,9 @@ CLIENT_SECRETS_FILE = "resources/client_secrets.json"
 
 # This OAuth 2.0 access scope allows an application to upload files to the
 # authenticated user's YouTube channel, but doesn't allow other types of access.
-YOUTUBE_UPLOAD_SCOPE = "https://www.googleapis.com/auth/youtube.upload"
-YOUTUBE_API_SERVICE_NAME = "youtube"
-YOUTUBE_API_VERSION = "v3"
+SCOPES = ['https://www.googleapis.com/auth/youtube.upload']
+API_SERVICE_NAME = "youtube"
+API_VERSION = "v3"
 
 # This variable defines a message to display if the CLIENT_SECRETS_FILE is
 # missing.
@@ -71,19 +72,10 @@ https://developers.google.com/api-client-library/python/guide/aaa_client_secrets
 
 VALID_PRIVACY_STATUSES = ("public", "private", "unlisted")
 
-def get_authenticated_service(args):
-  flow = flow_from_clientsecrets(CLIENT_SECRETS_FILE,
-    scope=YOUTUBE_UPLOAD_SCOPE,
-    message=MISSING_CLIENT_SECRETS_MESSAGE)
-
-  storage = Storage("%s-oauth2.json" % sys.argv[0])
-  credentials = storage.get()
-
-  if credentials is None or credentials.invalid:
-    credentials = run_flow(flow, storage, args)
-
-  return build(YOUTUBE_API_SERVICE_NAME, YOUTUBE_API_VERSION,
-    http=credentials.authorize(httplib2.Http()))
+def get_authenticated_service():
+  flow = InstalledAppFlow.from_client_secrets_file(CLIENT_SECRETS_FILE, SCOPES)
+  credentials = flow.run_console()
+  return build(API_SERVICE_NAME, API_VERSION, credentials = credentials)
 
 def initialize_upload(youtube, options):
   tags = None
@@ -180,7 +172,7 @@ def upload(video_file, thumbnail_file, title, desc, keywords="", cat=22, privacy
   argparser.add_argument("--generate", action='store_true')
   args = argparser.parse_args()
 
-  youtube = get_authenticated_service(args)
+  youtube = get_authenticated_service()
 
   video_id = ""
   try:
