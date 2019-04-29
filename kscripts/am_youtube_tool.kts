@@ -14,10 +14,10 @@ import org.docopt.Docopt
 import java.io.File
 import kotlin.system.exitProcess
 
-val doc = """Usage: upload_videos.kts upload --input-data=INPUT
-    upload_videos.kts metadata --input-data=INPUT
-    upload_videos.kts categories
-    upload_videos.kts channels
+val doc = """Usage: am_youtube_tool.kts upload --input-data=INPUT
+    am_youtube_tool.kts update --input-data=INPUT
+    am_youtube_tool.kts categories
+    am_youtube_tool.kts channels
 
 
     --input-data=INPUT json where the title and metadata are stored
@@ -29,7 +29,23 @@ val moshi = Moshi.Builder().build()!!
 val mapAdapter = moshi.adapter<Map<String, Any>>(Types.newParameterizedType(Map::class.java, String::class.java, Any::class.java))!!
 val listAdapter = moshi.adapter<List<Any>>(Types.newParameterizedType(List::class.java, Any::class.java))!!
 
-val configPath = "${System.getenv("HOME")}/.amYoutube"
+val configPath = "${System.getenv("HOME")}/.am_youtube_tool"
+
+if (!File(configPath).exists()) {
+    System.err.println("""
+        am_youtube_tool.kts needs a configured GCP project with the Youtube Data API v3 enabled.
+        See https://developers.google.com/youtube/v3/getting-started for how to do this.
+        Once done, put your client_id and client_secret in $configPath
+
+        echo '{
+            "client_id": "yout_client_id",
+            "client_secret": "your_client_secret"
+        }' > $configPath
+
+        am_youtube_tool.kts will also store your Youtube token in this file so do not share it
+    """.trimIndent())
+    exitProcess(1)
+}
 val config = mapAdapter.fromJson(File(configPath).readText())!!
 val inputDataPath = options.get("--input-data") as String?
 
@@ -51,7 +67,7 @@ val accessToken = getToken()
 
 if (options.get("upload") == true) {
     uploadVideo("/home/martin/Desktop/short.mp4")
-} else if (options.get("metadata") == true) {
+} else if (options.get("update") == true) {
     updateMetaData()
 } else if (options.get("categories") == true) {
     showCategories()
