@@ -2,14 +2,14 @@
 
 Kotlin scripts to help with generating/uploading videos.
 
-You need [kscript](https://github.com/holgerbrandl/kscript) to run these scripts
+You need [kscript](https://github.com/holgerbrandl/kscript) to run these scripts:
 
     curl -s "https://get.sdkman.io" | bash
     source ~/.sdkman/bin/sdkman-init.sh
     sdk install kotlin
     sdk install kscript
 
-Next you can run the scripts to get the interactive help:
+To run the scripts:
 
     ./am_youtube_tool.kts
 
