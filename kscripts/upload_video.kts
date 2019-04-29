@@ -16,6 +16,8 @@ import kotlin.system.exitProcess
 
 val doc = """Usage: upload_videos.kts upload --input-data=INPUT
     upload_videos.kts metadata --input-data=INPUT
+    upload_videos.kts categories
+
 
     --input-data=INPUT json where the title and metadata are stored
 """.trimIndent()
@@ -28,7 +30,7 @@ val listAdapter = moshi.adapter<List<Any>>(Types.newParameterizedType(List::clas
 
 val configPath = "${System.getenv("HOME")}/.amYoutube"
 val config = mapAdapter.fromJson(File(configPath).readText())!!
-val inputDataPath = options.get("--input-data") as String
+val inputDataPath = options.get("--input-data") as String?
 
 val clientSecret = try {
     config.get("client_secret") as String
@@ -50,6 +52,8 @@ if (options.get("upload") == true) {
     uploadVideo("/home/martin/Desktop/short.mp4")
 } else if (options.get("metadata") == true) {
     updateMetaData()
+} else if (options.get("categories") == true) {
+    showCategories()
 }
 
 fun uploadVideo(path: String) {
@@ -84,7 +88,7 @@ fun uploadVideo(path: String) {
     System.err.println("response=$responseBody")
 
     val ytVideo = mapAdapter.fromJson(responseBody)!!
-    val inputData = listAdapter.fromJson(File(inputDataPath).readText())!!
+    val inputData = listAdapter.fromJson(File(inputDataPath!!).readText())!!
 
     val newInputData = inputData.map {
         val e = it as Map<String, Any>
@@ -98,7 +102,7 @@ fun uploadVideo(path: String) {
     }
 
     // save the youtubeId somewhere
-    File(inputDataPath).writeText(listAdapter.toJson(newInputData))
+    File(inputDataPath!!).writeText(listAdapter.toJson(newInputData))
 }
 
 
@@ -209,7 +213,7 @@ fun getNewToken(): String {
 }
 
 fun updateMetaData() {
-    val inputData = listAdapter.fromJson(File(inputDataPath).readText())!!
+    val inputData = listAdapter.fromJson(File(inputDataPath!!).readText())!!
 
     inputData.forEach { it ->
         val data = it as Map<String, Any>
@@ -238,6 +242,21 @@ fun updateMetaData() {
 
             val responseBody = response.body()?.string()
             System.err.println("response=$responseBody")
+
+            return
         }
     }
+}
+
+fun showCategories() {
+    val response = OkHttpClient()
+            .newCall(Request.Builder()
+                    .get()
+                    .url("https://www.googleapis.com/youtube/v3/videoCategories?part=snippet")
+                    .build())
+            .execute()
+
+    val responseBody = response.body()?.string()
+    System.err.println("response=$responseBody")
+
 }
