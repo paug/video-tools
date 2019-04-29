@@ -17,6 +17,7 @@ import kotlin.system.exitProcess
 val doc = """Usage: upload_videos.kts upload --input-data=INPUT
     upload_videos.kts metadata --input-data=INPUT
     upload_videos.kts categories
+    upload_videos.kts channels
 
 
     --input-data=INPUT json where the title and metadata are stored
@@ -54,6 +55,8 @@ if (options.get("upload") == true) {
     updateMetaData()
 } else if (options.get("categories") == true) {
     showCategories()
+} else if (options.get("channels") == true) {
+    showChannels()
 }
 
 fun uploadVideo(path: String) {
@@ -225,7 +228,8 @@ fun updateMetaData() {
                     "snippet" to mapOf(
                             "title" to data.get("Youtube title"),
                             "description" to data.get("Desc"),
-                            "tags" to (data.get("tags") as String).split(",").map { it.trim() }
+                            "tags" to (data.get("tags") as String).split(",").map { it.trim() },
+                            "categoryId" to "28"
                     )
             )
 
@@ -242,8 +246,6 @@ fun updateMetaData() {
 
             val responseBody = response.body()?.string()
             System.err.println("response=$responseBody")
-
-            return
         }
     }
 }
@@ -252,7 +254,23 @@ fun showCategories() {
     val response = OkHttpClient()
             .newCall(Request.Builder()
                     .get()
-                    .url("https://www.googleapis.com/youtube/v3/videoCategories?part=snippet")
+                    .header("Authorization", "Bearer $accessToken")
+                    .url("https://www.googleapis.com/youtube/v3/videoCategories?part=snippet&regionCode=US")
+                    .build())
+            .execute()
+
+    val responseBody = response.body()?.string()
+    System.err.println("response=$responseBody")
+
+}
+
+fun showChannels() {
+    System.out.println("accessToken: $accessToken")
+    val response = OkHttpClient()
+            .newCall(Request.Builder()
+                    .get()
+                    .header("Authorization", "Bearer $accessToken")
+                    .url("https://www.googleapis.com/youtube/v3/channels?part=snippet&mine=true")
                     .build())
             .execute()
 
