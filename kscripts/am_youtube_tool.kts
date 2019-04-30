@@ -14,13 +14,16 @@ import org.docopt.Docopt
 import java.io.File
 import kotlin.system.exitProcess
 
-val doc = """Usage: am_youtube_tool.kts upload --input-data=INPUT
-    am_youtube_tool.kts update --input-data=INPUT
+val doc = """Usage: am_youtube_tool.kts update --input-data=INPUT --mapping=MAPPING
+    am_youtube_tool.kts upload --input-data=INPUT
     am_youtube_tool.kts categories
     am_youtube_tool.kts channels
 
+am_youtube_tool.kts is the swiss army knife of automating video uploads and metadata edition. The upload command is subject to the API quota and at the moment it's not possible to upload more than 6 videos a day with a default GCP account.
 
+Options:
     --input-data=INPUT json where the title and metadata are stored
+    --mapping=MAPPING  json with sessionId as key and youtube videoId as value
 """.trimIndent()
 
 val options = Docopt(doc).parse(args.toList())
@@ -46,8 +49,8 @@ if (!File(configPath).exists()) {
     """.trimIndent())
     exitProcess(1)
 }
+
 val config = mapAdapter.fromJson(File(configPath).readText())!!
-val inputDataPath = options.get("--input-data") as String?
 
 val clientSecret = try {
     config.get("client_secret") as String
@@ -62,27 +65,32 @@ val clientId = try {
     exitProcess(1)
 }
 
-//uploadVideo("/home/martin/dev/am_videos/out/NTE-5380.mp4")
 val accessToken = getToken()
 
-if (options.get("upload") == true) {
-    uploadVideo("/home/martin/Desktop/short.mp4")
-} else if (options.get("update") == true) {
-    updateMetaData()
-} else if (options.get("categories") == true) {
-    showCategories()
-} else if (options.get("channels") == true) {
-    showChannels()
+val okHttpClient by lazy {
+    OkHttpClient.Builder()
+            .addInterceptor {chain ->
+                chain.proceed(chain.request().newBuilder()
+                        .addHeader("Authorization", "Bearer $accessToken")
+                        .build())
+            }.build()
 }
 
-fun uploadVideo(path: String) {
+when {
+    options.get("upload") == true -> uploadVideo("/home/martin/Desktop/short.mp4", options.get("--input-data") as String)
+    options.get("update") == true -> updateAllMetaData(options.get("--input-data") as String, options.get("--mapping") as String)
+    options.get("categories") == true -> showCategories()
+    options.get("channels") == true -> showChannels()
+}
+
+fun uploadVideo(path: String, inputDataPath: String) {
     val rootJson = mapOf(
             "snippet" to mapOf(
                     "title" to "title",
                     "description" to "description"
             ),
             "status" to mapOf(
-                    "privacyStatus" to "private"
+                    "privacyStatus" to "unlisted"
             )
     )
 
@@ -96,10 +104,9 @@ fun uploadVideo(path: String) {
     val request = Request.Builder()
             .post(body)
             .url("https://www.googleapis.com/upload/youtube/v3/videos?part=snippet,status")
-            .header("Authorization", "Bearer $accessToken")
             .build()
 
-    val response = OkHttpClient()
+    val response = okHttpClient
             .newCall(request)
             .execute()
 
@@ -214,7 +221,7 @@ fun getNewToken(): String {
     } catch (e: Exception) {
         throw Exception("cannot exchange code")
     }
-    val responseBody = response.body()?.string()
+    val responseBody = response.body()?.string()!!
     System.err.println("response=$responseBody")
 
     if (!response.isSuccessful) {
@@ -231,66 +238,91 @@ fun getNewToken(): String {
     return newConfig.get("access_token") as String
 }
 
-fun updateMetaData() {
-    val inputData = listAdapter.fromJson(File(inputDataPath!!).readText())!!
+fun updateAllMetaData(inputDataPath: String, mappingPath: String) {
+    val inputData = listAdapter.fromJson(File(inputDataPath).readText())!!
+    val mapping = mapAdapter.fromJson(File(mappingPath).readText())!!
 
     inputData.forEach { it ->
         val data = it as Map<String, Any>
-        val ytId = data.get("ytId") as String?
-        if (ytId != null) {
-            System.err.println("updating ${data.get("da")} ($ytId): ${data.get("title")}")
-            val rootJson = mapOf(
-                    "id" to ytId,
-                    "snippet" to mapOf(
-                            "title" to data.get("Youtube title"),
-                            "description" to data.get("Desc"),
-                            "tags" to (data.get("tags") as String).split(",").map { it.trim() },
-                            "categoryId" to "28"
-                    )
-            )
 
-            val snippetBody = RequestBody.create(MediaType.parse("application/json"), mapAdapter.toJson(rootJson))
-            val request = Request.Builder()
-                    .put(snippetBody)
-                    .url("https://www.googleapis.com/youtube/v3/videos?part=snippet")
-                    .header("Authorization", "Bearer $accessToken")
-                    .build()
-
-            val response = OkHttpClient()
-                    .newCall(request)
-                    .execute()
-
-            val responseBody = response.body()?.string()
-            System.err.println("response=$responseBody")
+        val sessionId = data.get("da") as String
+        val videoId = mapping.get(sessionId) as String?
+        if (videoId != null) {
+            updateMetaData(videoId, data)
+            updateThumbnail(videoId, sessionId)
         }
     }
 }
 
 fun showCategories() {
-    val response = OkHttpClient()
+    val response = okHttpClient
             .newCall(Request.Builder()
                     .get()
-                    .header("Authorization", "Bearer $accessToken")
                     .url("https://www.googleapis.com/youtube/v3/videoCategories?part=snippet&regionCode=US")
                     .build())
             .execute()
 
     val responseBody = response.body()?.string()
     System.err.println("response=$responseBody")
-
 }
 
 fun showChannels() {
-    System.out.println("accessToken: $accessToken")
-    val response = OkHttpClient()
+    val response = okHttpClient
             .newCall(Request.Builder()
                     .get()
-                    .header("Authorization", "Bearer $accessToken")
                     .url("https://www.googleapis.com/youtube/v3/channels?part=snippet&mine=true")
                     .build())
             .execute()
 
     val responseBody = response.body()?.string()
     System.err.println("response=$responseBody")
+}
 
+fun updateMetaData(videoId: String, data: Map<String, Any>) {
+    System.err.println("updateMetaData:  ($videoId): ${data.get("title")}")
+    val rootJson = mapOf(
+            "id" to videoId,
+            "snippet" to mapOf(
+                    "title" to data.get("Youtube title"),
+                    "description" to data.get("Desc"),
+                    "tags" to (data.get("tags") as String).split(",").map { it.trim() },
+                    "categoryId" to "28"
+            )
+    )
+
+    val snippetBody = RequestBody.create(MediaType.parse("application/json"), mapAdapter.toJson(rootJson))
+    val request = Request.Builder()
+            .put(snippetBody)
+            .url("https://www.googleapis.com/youtube/v3/videos?part=snippet")
+            .build()
+
+    val response = okHttpClient
+            .newCall(request)
+            .execute()
+
+    val responseBody = response.body()?.string()
+    System.err.println("response=$responseBody")
+}
+
+fun updateThumbnail(videoId: String, sessionId: String) {
+    val url = "https://raw.githubusercontent.com/loutry/tmpAndroidMakersVisuals/2019/INTRO/intro_${sessionId.replace("-", "_")}.png"
+
+    val imageBytes = OkHttpClient()
+            .newCall(Request.Builder()
+                    .url(url)
+                    .get()
+                    .build())
+            .execute()
+            .body()!!
+            .bytes()
+
+    val response = okHttpClient.newCall(
+            Request.Builder()
+                    .post(RequestBody.create(MediaType.parse("image/png"), imageBytes))
+                    .url("https://www.googleapis.com/upload/youtube/v3/thumbnails/set?videoId=$videoId")
+                    .build())
+            .execute()
+
+    val responseBody = response.body()?.string()
+    System.err.println("response=$responseBody")
 }
