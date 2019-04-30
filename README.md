@@ -1,4 +1,4 @@
-Everything related to to video recording/processing/uploading:
+Everything related to video recording/processing/uploading:
 
 * [Our hardware list](doc/HARDWARE_LIST.md)
 * [The checklist what to do during the talk on D-day](doc/CHECKLIST.md)
