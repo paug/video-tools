@@ -6,20 +6,18 @@ import java.io.File
 import java.lang.Exception
 
 
-val doc = """Usage: generate_video.kts --inDir=DIR --outDir=DIR
+val doc = """Usage: generate_video.kts --inDir DIR --outDir DIR [--skipExisting]
 
     --inDir=DIR  directory where the video files are
     --outDir=DIR  directory where the results are written
+    --skipExisting
 """.trimIndent()
 
 val options = Docopt(doc).parse(args.toList())
 
-val inDir = options["--inDir"] as String
-val outDir = options["--outDir"] as String
+generateVideos(options["--inDir"] as String, options["--outDir"] as String, options["--skipExisting"] as Boolean)
 
-generateVideos(inDir, outDir)
-
-fun generateVideos(inDir: String, outDir: String) {
+fun generateVideos(inDir: String, outDir: String, skipExisting: Boolean) {
     val workingDir = "$outDir/tmp"
 
     File(inDir).listFiles().forEach {
@@ -27,7 +25,7 @@ fun generateVideos(inDir: String, outDir: String) {
         File(outDir).mkdirs()
         try {
             val start = System.currentTimeMillis()
-            doGenerateVideo(it.absolutePath, outDir, workingDir)
+            doGenerateVideo(it.absolutePath, outDir, workingDir, skipExisting)
             System.err.println("Generating video took ${(System.currentTimeMillis() - start)/1000}s")
         } catch (e: Exception) {
             throw e
@@ -37,8 +35,8 @@ fun generateVideos(inDir: String, outDir: String) {
     }
 }
 
-fun doGenerateVideo(path: String, outDir: String, workingDir: String) {
-    val regex = Regex("[0-9]{2}-[0-9]{2}-[0-9]{2}-([a-zA-Z]{3}-[0-9]{4})-start-([0-9]{2})-([0-9]{2}).mkv")
+fun doGenerateVideo(path: String, outDir: String, workingDir: String, skipExisting: Boolean) {
+    val regex = Regex("[0-9]{2}-[0-9]{2}-[0-9]{2}-([a-zA-Z]{3}-[0-9]{4})-start-([0-9]{2})-([0-9]{2})\\.[a-zA-Z]*")
     val matchResult = regex.matchEntire(path.substringAfterLast("/"))
     if (matchResult == null) {
         throw Exception("File '$path' doesn't match ${regex.pattern}")
@@ -54,6 +52,11 @@ fun doGenerateVideo(path: String, outDir: String, workingDir: String) {
     val aacPath = "$workingDir/$videoId.aac"
     val pngPath = "$workingDir/$videoId.png"
     val finalPath = "$outDir/$videoId.mp4"
+
+    if (File(finalPath).exists()) {
+        System.out.println("skipping existing file: $finalPath")
+        return
+    }
 
     //extract H264 elementary stream
     execOrDie("ffmpeg -y -i $path -vcodec copy -vbsf h264_mp4toannexb $h264Path")
@@ -73,7 +76,7 @@ fun doGenerateVideo(path: String, outDir: String, workingDir: String) {
     //get the thumbnail
     execOrDie("wget https://raw.githubusercontent.com/loutry/tmpAndroidMakersVisuals/2019/THUMBNAIL/thumbnail_${videoId.replace("-", "_")}.png -O $pngPath")
 
-    //create the intro, use the mkv, not the h264 stream to get the timestamps
+    //create the intro, use the original source, not the h264 stream to get the timestamps
     val introCommand = "ffmpeg -y" +
             " -loop 1 -framerate 30 -t 5 -i $pngPath" +
             " -i $path" +
