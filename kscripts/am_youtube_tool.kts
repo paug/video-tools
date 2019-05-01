@@ -14,12 +14,12 @@ import org.docopt.Docopt
 import java.io.File
 import kotlin.system.exitProcess
 
-val doc = """Usage: am_youtube_tool.kts update --input-data=INPUT --mapping=MAPPING
+val doc = """Usage:
+    am_youtube_tool.kts update --input-data=INPUT --mapping=MAPPING
     am_youtube_tool.kts upload --input-data=INPUT
     am_youtube_tool.kts categories
     am_youtube_tool.kts channels
 
-am_youtube_tool.kts is the swiss army knife of automating video uploads and metadata edition. The upload command is subject to the API quota and at the moment it's not possible to upload more than 6 videos a day with a default GCP account.
 
 Options:
     --input-data=INPUT json where the title and metadata are stored
