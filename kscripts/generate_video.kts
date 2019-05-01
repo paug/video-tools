@@ -66,7 +66,7 @@ fun doGenerateVideo(path: String, outDir: String, workingDir: String, skipExisti
     val nextIFrame = findNextIFrameInfo(h264Path, startSec + 4)
     // Removed 0.01 to make sure to not include the last extra frame which will be in the body when rounding
     val roundingSecurity = 0.01
-    val trimTime = nextIFrame.number.toFloat()/30
+    val trimTime = nextIFrame.number.toFloat()/30 - roundingSecurity
 
     System.out.println("Trim time: $trimTime")
 
