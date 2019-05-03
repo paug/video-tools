@@ -9,14 +9,18 @@ import java.net.URLEncoder
 //DEPS com.squareup.moshi:moshi:1.8.0
 //DEPS org.nanohttpd:nanohttpd:2.2.0
 //DEPS com.offbytwo:docopt:0.6.0.20150202
+//DEPS com.opencsv:opencsv:4.0
 
 import org.docopt.Docopt
 import java.io.File
 import kotlin.system.exitProcess
+import com.opencsv.CSVReader
+
 
 val doc = """Usage:
     am_youtube_tool.kts update --input-data=INPUT --mapping=MAPPING
     am_youtube_tool.kts upload --input-data=INPUT
+    am_youtube_tool.kts language --csv-data=INPUT
     am_youtube_tool.kts categories
     am_youtube_tool.kts channels
 
@@ -24,6 +28,7 @@ val doc = """Usage:
 Options:
     --input-data=INPUT json where the title and metadata are stored
     --mapping=MAPPING  json with sessionId as key and youtube videoId as value
+    --csv-data=INPUT as csv file where the language is set
 """.trimIndent()
 
 val options = Docopt(doc).parse(args.toList())
@@ -69,7 +74,7 @@ val accessToken = getToken()
 
 val okHttpClient by lazy {
     OkHttpClient.Builder()
-            .addInterceptor {chain ->
+            .addInterceptor { chain ->
                 chain.proceed(chain.request().newBuilder()
                         .addHeader("Authorization", "Bearer $accessToken")
                         .build())
@@ -81,6 +86,7 @@ when {
     options.get("update") == true -> updateAllMetaData(options.get("--input-data") as String, options.get("--mapping") as String)
     options.get("categories") == true -> showCategories()
     options.get("channels") == true -> showChannels()
+    options.get("language") == true -> setLanguage(options.get("--csv-data") as String)
 }
 
 fun uploadVideo(path: String, inputDataPath: String) {
@@ -325,4 +331,30 @@ fun updateThumbnail(videoId: String, sessionId: String) {
 
     val responseBody = response.body()?.string()
     System.err.println("response=$responseBody")
+}
+
+fun setLanguage(csvDataPath: String) {
+    val csvReader = CSVReader(File(csvDataPath).bufferedReader())
+
+    val recordList = csvReader.readAll()
+            .drop(1) // drop the header row
+            .filter {
+                // Drop the title rows
+                Regex("[A-Z]{3}-[0-9]{4}").matchEntire(it[0]) != null
+            }
+
+    recordList.forEach {
+        val regex = Regex(".*https://youtube.com/watch\\?v=(.*)")
+        val m = regex.matchEntire(it[10])
+        if (m == null) {
+            System.err.println("${it[10]} does not match")
+            return@forEach
+        }
+        val sessionId = it[0]
+        val videoId = m.groupValues[1]
+        val language = it[15]
+        System.out.println("$sessionId - $videoId - $language")
+    }
+
+
 }
