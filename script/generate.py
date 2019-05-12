@@ -7,7 +7,6 @@ import sys
 import json
 sys.path.append(os.path.relpath("resources/"))
 from uploader import *
-#os.system("python resources/uploader.py")
 
 IMG_BASE_NAME = 'intro_'
 IMG_EXTENSION = '.png'
@@ -23,6 +22,8 @@ VIDEO_SRC_FOLDER = 'src/'
 VIDEO_OUT_EXTENSION = '.mp4'
 VIDEO_OUT_FOLDER = 'out/'
 
+IMG_URL_BASE = 'https://raw.githubusercontent.com/loutry/tmpAndroidMakersVisuals/2019/'
+
 def get_img_dest(uid):
 	return IMG_DEST_FOLDER + IMG_BASE_NAME + uid + IMG_EXTENSION
 
@@ -36,7 +37,7 @@ def get_video_out(uid):
 	return VIDEO_OUT_FOLDER + uid + VIDEO_OUT_EXTENSION
 
 def download_intro(uid):
-	img_url_base = 'https://raw.githubusercontent.com/loutry/tmpAndroidMakersVisuals/2019/INTRO/'
+	img_url_base = IMG_URL_BASE + 'INTRO/'
 
 	img_url = img_url_base + IMG_BASE_NAME + str(uid).replace("-", "_") + IMG_EXTENSION
 	img_dest = get_img_dest(uid)
@@ -45,7 +46,7 @@ def download_intro(uid):
 	    print('Downloaded intro for ' + img_url)
 
 def download_thumbnail(uid):
-	img_url_base = 'https://raw.githubusercontent.com/loutry/tmpAndroidMakersVisuals/2019/THUMBNAIL/'
+	img_url_base = IMG_URL_BASE + 'THUMBNAIL/'
 
 	img_url = img_url_base + THUMB_BASE_NAME + str(uid).replace("-", "_") + THUMB_EXTENSION
 	img_dest = get_thumb_dest(uid)
@@ -77,6 +78,17 @@ def get_audio_channel(video_infos):
 	return "c0=c1" if side == "right" else "c0=c1"
 
 def generate_video(uid, video_infos):
+
+#	raw_cmd = '''ffmpeg -loop 1 -framerate 24 -t 5 -i {intro} -f lavfi -t 0.1 \
+#        -i anullsrc -i {video} -filter_complex \
+#        "[0:v]format=pix_fmts=yuva420p,fade=t=out:st=3:d=1:alpha=1[intro];\
+#        [2:v]trim={trim_start}{trim_end},setpts=PTS-STARTPTS[contentNotAligned];\
+#        [contentNotAligned]setpts=PTS+3/TB[content];\
+#        [content][intro]overlay[merged];\
+#        [2:a]atrim={trim_start}{trim_end},asetpts=PTS-STARTPTS[audioNotAligned];\
+#        [audioNotAligned]asetpts=PTS+3/TB[audio];\
+#        [merged][audio]concat=n=1:v=1:a=1" \
+#        -b:v 15M {output}'''
 
 	raw_cmd = '''ffmpeg -loop 1 -framerate 24 -t 5 -i {intro} -f lavfi -t 0.1 \
         -i anullsrc -i {video} -filter_complex \
@@ -145,17 +157,29 @@ def get_video_infos(videos_infos, uid):
 	print("video info not found for uid: " + uid)
 
 
-def upload_video(uid, video_infos):
+def upload_video(youtubeService, uid, video_infos):
 	video_id = ""
 	download_thumbnail(uid)
 	title = video_infos["Youtube title"]
 	desc = video_infos["Desc"]
-	video_id = upload(get_video_out(uid), get_thumb_dest(uid), title, desc, 
+	video_id = upload(youtubeService, get_video_out(uid), get_thumb_dest(uid), title, desc, 
 		keywords=video_infos["tags"],
 		cat=28,
 		privacy_status="private")
 
 	return video_id
+
+def change_privacy(youtubeService, video_id, new_privacy):
+	update_privacy(youtubeService, video_id, new_privacy)
+
+def update_metadata(youtubeService, uid, video_id, video_infos):
+	download_thumbnail(uid)
+	thumbnail_file = get_thumb_dest(uid)
+	title = video_infos["Youtube title"]
+	desc = video_infos["Desc"]
+	tags = video_infos["tags"]
+	cat = 28
+	update_snippet(youtubeService, video_id, thumbnail_file, title, desc, tags, cat)
 
 def config_upload():
 	if not os.path.exists(THUMB_DEST_FOLDER):
@@ -169,7 +193,15 @@ def main():
 	if '--help' in sys.argv:
 		print("--generate to generate the videos with their matching intros")
 		print("--upload to upload generated videos to Youtube")
+		print("--publish to change uploaded videos privacy status to public")
+		print("--privatise to change uploaded videos privacy status to private")
+		print("--unlist to change uploaded videos privacy status to unlisted")
+		print("--update_yt_metadata to update the uploaded videos metadata")
 		return
+
+	youtubeService = None
+	if '--privatise' in sys.argv or '--unlist' in sys.argv or '--publish' in sys.argv or '--update_yt_metadata' in sys.argv or '--upload' in sys.argv:
+		youtubeService = get_authenticated_service()
 
 	videos_infos = parse_json()
 	if '--generate' in sys.argv:
@@ -181,7 +213,6 @@ def main():
 				create_video(uid, video_infos)
 	if '--upload' in sys.argv:
 		print('Uploading videos')
-		#config_upload()
 		video_ids = {}
 		overwritten_video_ids = {}
 		with open('uploadedVideos.json', 'r+') as f:
@@ -192,7 +223,7 @@ def main():
 			for uid in fetch_out_uids():
 				video_infos = get_video_infos(videos_infos, uid)
 				if video_infos:
-					video_id = upload_video(uid, video_infos)
+					video_id = upload_video(youtubeService, uid, video_infos)
 					if uid in video_ids:
 						overwritten_video_ids[uid] = video_ids[uid]
 					video_ids[uid] = video_id
@@ -202,7 +233,55 @@ def main():
 			f.truncate()
 		with open('replacedVideos.json', 'w') as f:
 			f.write(json.dumps(overwritten_video_ids))
+	if '--update_yt_metadata' in sys.argv:
+		print('Updating metadatas of uploaded videos')
 
+		video_ids = {}
+		overwritten_video_ids = {}
+		with open('uploadedVideos.json', 'r+') as f:
+			try:
+				video_ids = json.load(f)
+			except:
+				pass
+			for uid in fetch_out_uids():
+				video_infos = get_video_infos(videos_infos, uid)
+				update_metadata(youtubeService, uid, video_ids[uid], video_infos)
+	if '--privatise' in sys.argv:
+		print('Privatising videos')
+
+		video_ids = {}
+		overwritten_video_ids = {}
+		with open('uploadedVideos.json', 'r+') as f:
+			try:
+				video_ids = json.load(f)
+			except:
+				pass
+			for video_id in video_ids.values():
+				change_privacy(youtubeService, video_id, "private")
+	if '--unlist' in sys.argv:
+		print('Unlisting videos')
+
+		video_ids = {}
+		overwritten_video_ids = {}
+		with open('uploadedVideos.json', 'r+') as f:
+			try:
+				video_ids = json.load(f)
+			except:
+				pass
+			for video_id in video_ids.values():
+				change_privacy(youtubeService, video_id, "unlisted")
+	if '--publish' in sys.argv:
+		print('Publishing videos')
+
+		video_ids = {}
+		overwritten_video_ids = {}
+		with open('uploadedVideos.json', 'r+') as f:
+			try:
+				video_ids = json.load(f)
+			except:
+				pass
+			for video_id in video_ids.values():
+				change_privacy(youtubeService, video_id, "public")
 main()
 
 

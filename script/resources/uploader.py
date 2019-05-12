@@ -48,7 +48,7 @@ CLIENT_SECRETS_FILE = "resources/client_secrets.json"
 
 # This OAuth 2.0 access scope allows an application to upload files to the
 # authenticated user's YouTube channel, but doesn't allow other types of access.
-SCOPES = ['https://www.googleapis.com/auth/youtube.upload']
+SCOPES = ['https://www.googleapis.com/auth/youtube']
 API_SERVICE_NAME = "youtube"
 API_VERSION = "v3"
 
@@ -72,12 +72,26 @@ https://developers.google.com/api-client-library/python/guide/aaa_client_secrets
 
 VALID_PRIVACY_STATUSES = ("public", "private", "unlisted")
 
+#def get_authenticated_service():
+#  flow = InstalledAppFlow.from_client_secrets_file(CLIENT_SECRETS_FILE, SCOPES)
+#  credentials = flow.run_console()
+#  return build(API_SERVICE_NAME, API_VERSION, credentials = credentials)
+
 def get_authenticated_service():
   flow = InstalledAppFlow.from_client_secrets_file(CLIENT_SECRETS_FILE, SCOPES)
-  credentials = flow.run_console()
+
+  storage = Storage("%s-oauth2.json" % sys.argv[0])
+  credentials = storage.get()
+
+  if credentials is None or credentials.invalid:
+    credentials = flow.run_console()
+
+  print(str(credentials.refresh_token))
+  print(str(credentials.token))
+
   return build(API_SERVICE_NAME, API_VERSION, credentials = credentials)
 
-def initialize_upload(youtube, options):
+def initialize_upload(youtubeService, options):
   tags = None
   if options.keywords:
     tags = options.keywords.split(",")
@@ -95,7 +109,7 @@ def initialize_upload(youtube, options):
   )
 
   # Call the API's videos.insert method to create and upload the video.
-  insert_request = youtube.videos().insert(
+  insert_request = youtubeService.videos().insert(
     part=",".join(body.keys()),
     body=body,
     # The chunksize parameter specifies the size of each chunk of data, in
@@ -149,14 +163,14 @@ def resumable_upload(insert_request):
       time.sleep(sleep_seconds)
   return response['id']
 
-def upload_thumbnail(youtube, video_id, file):
-  youtube.thumbnails().set(
+def upload_thumbnail(youtubeService, video_id, file):
+  youtubeService.thumbnails().set(
     videoId=video_id,
     media_body=file
   ).execute()
 
 
-def upload(video_file, thumbnail_file, title, desc, keywords="", cat=22, privacy_status="private"):
+def upload(youtubeService, video_file, thumbnail_file, title, desc, keywords="", cat=22, privacy_status="private"):
   argparser = argparse.ArgumentParser(conflict_handler='resolve')
   argparser.add_argument("--file", help="Video file to upload", default=video_file)
   argparser.add_argument("--title", help="Video title", default=title)
@@ -172,14 +186,49 @@ def upload(video_file, thumbnail_file, title, desc, keywords="", cat=22, privacy
   argparser.add_argument("--generate", action='store_true')
   args = argparser.parse_args()
 
-  youtube = get_authenticated_service()
-
   video_id = ""
   try:
-      video_id = initialize_upload(youtube, args)
+      video_id = initialize_upload(youtubeService, args)
       if video_id:
-        upload_thumbnail(youtube, video_id, thumbnail_file)
+        upload_thumbnail(youtubeService, video_id, thumbnail_file)
   except HttpError as e:
     print "An HTTP error %d occurred:\n%s" % (e.resp.status, e.content)
 
   return video_id
+
+def update_snippet(youtubeService, video_id, thumbnail_file, title, desc, keywords, cat=22):
+
+  print("Updating snippet for " + video_id + " (" + title + ")")
+
+  snippet=dict(
+      title=title,
+      description=desc,
+      tags=keywords,
+      categoryId=cat
+    )
+
+  videos_update_response = youtubeService.videos().update(
+    part='snippet',
+    body=dict(
+      snippet=snippet,
+      id=video_id
+    )).execute()
+
+  upload_thumbnail(youtubeService, video_id, thumbnail_file)
+
+def update_privacy(youtubeService, video_id, privacy_status):
+
+  print("Updating privacy for " + video_id + " to " + privacy_status)
+
+  status=dict(
+      privacyStatus=privacy_status
+  )
+
+  videos_update_response = youtubeService.videos().update(
+    part='status',
+    body=dict(
+      status=status,
+      id=video_id
+    )).execute()
+
+  print(str(videos_update_response))
