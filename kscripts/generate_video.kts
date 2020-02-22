@@ -1,85 +1,64 @@
 #!/usr/bin/env kscript
-//DEPS com.offbytwo:docopt:0.6.0.20150202
 
-import org.docopt.Docopt
+@file:DependsOn("com.github.ajalt:clikt:2.4.0")
+@file:CompilerOpts("-jvm-target 1.8")
+
+import com.github.ajalt.clikt.core.CliktCommand
+import com.github.ajalt.clikt.core.subcommands
+import com.github.ajalt.clikt.parameters.options.convert
+import com.github.ajalt.clikt.parameters.options.flag
+import com.github.ajalt.clikt.parameters.options.option
+import com.github.ajalt.clikt.parameters.options.required
+import com.github.ajalt.clikt.parameters.types.int
 import java.io.File
 import java.lang.Exception
+import java.nio.file.Files
+import java.time.Duration
 
-
-val doc = """Usage: generate_video.kts --inDir DIR --outDir DIR [--skipExisting]
-
-    --inDir=DIR  directory where the video files are
-    --outDir=DIR  directory where the results are written
-    --skipExisting
-""".trimIndent()
-
-val options = Docopt(doc).parse(args.toList())
-
-generateVideos(options["--inDir"] as String, options["--outDir"] as String, options["--skipExisting"] as Boolean)
-
-fun generateVideos(inDir: String, outDir: String, skipExisting: Boolean) {
-    val workingDir = "$outDir/tmp"
-
-    File(inDir).listFiles().forEach {
-        File(workingDir).mkdirs()
-        File(outDir).mkdirs()
-        try {
-            val start = System.currentTimeMillis()
-            doGenerateVideo(it.absolutePath, outDir, workingDir, skipExisting)
-            System.err.println("Generating video took ${(System.currentTimeMillis() - start)/1000}s")
-        } catch (e: Exception) {
-            throw e
-        } finally {
-            File(workingDir).deleteRecursively()
-        }
+fun withTemporaryDir(block: (File) -> Unit) {
+    val temporaryDir = Files.createTempDirectory(null).toFile()
+    try {
+        block(temporaryDir)
+    } finally {
+        temporaryDir.deleteRecursively()
     }
 }
 
-fun doGenerateVideo(path: String, outDir: String, workingDir: String, skipExisting: Boolean) {
-    val regex = Regex("[0-9]{2}-[0-9]{2}-[0-9]{2}-([a-zA-Z]{3}-[0-9]{4})-start-([0-9]{2})-([0-9]{2})\\.[a-zA-Z]*")
-    val matchResult = regex.matchEntire(path.substringAfterLast("/"))
-    if (matchResult == null) {
-        throw Exception("File '$path' doesn't match ${regex.pattern}")
-    }
-    val videoId = matchResult.groupValues[1]
-    val startSec = matchResult.groupValues[2].toInt() * 60 + matchResult.groupValues[3].toInt()
+fun generateVideo(inputFile: File, outputFile: File, pngIntroFile: File, startSec: Long) = withTemporaryDir { temporaryDir ->
+    val name = outputFile.nameWithoutExtension
+    println("generateVideo: $name")
 
-    System.out.println("generateVideo: $videoId")
-    val h264Path = "$workingDir/$videoId.h264"
-    val h264IntroPath = "$workingDir/$videoId.intro.h264"
-    val h264BodyPath = "$workingDir/$videoId.body.h264"
-    val h264MergedPath = "$workingDir/$videoId.merged.h264"
-    val aacPath = "$workingDir/$videoId.aac"
-    val pngPath = "$workingDir/$videoId.png"
-    val finalPath = "$outDir/$videoId.mp4"
+    val temporaryPath = temporaryDir.absolutePath
 
-    if (File(finalPath).exists()) {
-        System.out.println("skipping existing file: $finalPath")
-        return
-    }
+    val h264Path = "$temporaryPath/$name.h264"
+    val h264IntroPath = "$temporaryPath/$name.intro.h264"
+    val h264BodyPath = "$temporaryPath/$name.body.h264"
+    val h264MergedPath = "$temporaryPath/$name.merged.h264"
+    val aacPath = "$temporaryPath/$name.aac"
+
+    val pngPath = pngIntroFile.absolutePath
+    val inputPath = inputFile.absolutePath
+    val outputPath = outputFile.absolutePath
 
     //extract H264 elementary stream
-    execOrDie("ffmpeg -y -i $path -vcodec copy -vbsf h264_mp4toannexb $h264Path")
+    execOrDie("ffmpeg -y -i $inputPath -vcodec copy -vbsf h264_mp4toannexb $h264Path")
 
-    val correction = getVolumeCorrection(path)
+    val correction = getVolumeCorrection(inputPath)
 
     val nextIFrame = findNextIFrameInfo(h264Path, startSec + 4)
     // Removed 0.01 to make sure to not include the last extra frame which will be in the body when rounding
     val roundingSecurity = 0.01
     val trimTime = nextIFrame.number.toFloat()/30 - roundingSecurity
 
-    System.out.println("Trim time: $trimTime")
+    println("Trim time: $trimTime")
 
     //cut the beginning of the video
     execOrDie("dd bs=${nextIFrame.pos} if=$h264Path of=$h264BodyPath skip=1")
 
-    //get the thumbnail
-    execOrDie("wget https://raw.githubusercontent.com/loutry/tmpAndroidMakersVisuals/2019/THUMBNAIL/thumbnail_${videoId.replace("-", "_")}.png -O $pngPath")
-
     //create the intro, use the original source, not the h264 stream to get the timestamps
     val introCommand = "ffmpeg -y" +
             " -loop 1 -framerate 30 -t 5 -i $pngPath" +
-            " -i $path" +
+            " -i $inputPath" +
             " -filter_complex [0:v]format=pix_fmts=yuva420p,fade=t=out:st=3:d=1:alpha=1[intro];" +
             "[1:v]trim=$startSec:$trimTime,setpts=PTS-STARTPTS+3/TB[content];" +
             "[content][intro]overlay" +
@@ -91,13 +70,13 @@ fun doGenerateVideo(path: String, outDir: String, workingDir: String, skipExisti
 
     //encode the audio stream, with the fade in and volume filter
     val audioCommand = "ffmpeg -y " +
-            "-i $path " +
+            "-i $inputPath " +
             "-filter_complex [0:a]pan=mono|c0=FR,atrim=$startSec,asetpts=PTS-STARTPTS,afade=t=in:st=0:d=1,volume=${correction}dB,adelay=3s" +
             " $aacPath"
     execOrDie(audioCommand)
 
     //merge audio and video streams
-    val mergeCommand = "ffmpeg -y -i $aacPath -r 30 -i $h264MergedPath -vcodec copy -acodec copy $finalPath"
+    val mergeCommand = "ffmpeg -y -i $aacPath -r 30 -i $h264MergedPath -vcodec copy -acodec copy $outputPath"
     execOrDie(mergeCommand)
 }
 
@@ -136,7 +115,7 @@ fun getVolumeCorrection(path: String): Float {
 }
 
 class FrameInfo(val pos: Long, val number: Int)
-fun findNextIFrameInfo(h264Path: String, sec: Int): FrameInfo {
+fun findNextIFrameInfo(h264Path: String, sec: Long): FrameInfo {
     //find the 1st IFrame after sec
     //will output something like this
     //    [FRAME]
@@ -246,3 +225,67 @@ fun concatFiles(in1: String, in2: String, out: String) {
     outStream.flush()
     outStream.close()
 }
+
+val batchCommand = object: CliktCommand(name = "batch", help = "generate multiple videos from an input directory") {
+    val inputDir by option(help = """
+        directory where the video files are. Video files should be named {videoId}-start-{mm}-{ss}.{ext} where ext is usually flv or mov. 
+    """.trimIndent()).required()
+    val outputDir by option(help = """
+        directory where the output will be written.
+    """.trimIndent()).required()
+    val skipExisting by option().flag()
+
+    override fun run() {
+        File(inputDir).listFiles().forEach {
+            File(outputDir).mkdirs()
+            val start = System.currentTimeMillis()
+            val regex = Regex("[0-9]{2}-[0-9]{2}-[0-9]{2}-([a-zA-Z]{3}-[0-9]{4})-start-([0-9]{2})-([0-9]{2})\\.[a-zA-Z]*")
+            val matchResult = regex.matchEntire(it.name)
+            check (matchResult != null) {
+                "File '${it.absolutePath}' doesn't match ${regex.pattern}"
+            }
+            val videoId = matchResult.groupValues[1]
+            val startSec = matchResult.groupValues[2].toInt() * 60 + matchResult.groupValues[3].toInt()
+
+            val output = File(outputDir, "$videoId.mp4")
+            if (output.exists() && skipExisting) {
+                println("skipping existing file: ${output.absolutePath}")
+                return@forEach
+            }
+
+            val pngIntroFile = Files.createTempFile(null, ".png").toFile()
+            //get the thumbnail
+            try {
+                execOrDie("wget https://raw.githubusercontent.com/loutry/tmpAndroidMakersVisuals/2019/THUMBNAIL/thumbnail_${videoId.replace("-", "_")}.png -O ${pngIntroFile.absolutePath}")
+                generateVideo(it, output, pngIntroFile, startSec.toLong())
+            } finally {
+                pngIntroFile.delete()
+            }
+
+            System.err.println("Generating video took ${(System.currentTimeMillis() - start)/1000}s")
+        }
+    }
+}
+
+val generateCommand = object: CliktCommand(name = "generate", help = "Generate a single video") {
+    val input by option().required()
+    val output by option().required()
+    val intro by option().required()
+    val startTime by option(help = "the time in input where the content actually statrts. Specified as a ISO-8601 duration: PnDTnHnMn.nS")
+            .convert {
+        Duration.parse(it)
+    }.required()
+
+    override fun run() {
+        generateVideo(File(input), File(output), File(intro), startTime.seconds )
+    }
+}
+
+val mainCommand = object: CliktCommand() {
+    override fun run() {
+    }
+}
+
+
+mainCommand.subcommands(batchCommand, generateCommand)
+        .main(args)
