@@ -4,7 +4,7 @@
 * Carde d'acquisition SDI/HDMI Blackmagic UltraStudio Mini enregistreur
 * Splitter HDMI vers HDMI/SDI DECIMATOR MD-LX
 * 2 micros HF 
-* 2 récepteurs HF
+* ? récepteurs HF Sennheiser XS Wireless (range ?)
 * 2 supports micros madonnas Rode Lav-Headset 
 * 2 Cable HDMI 2m
 * Cable SDI 30m
