@@ -11,11 +11,14 @@ import java.io.File
 import java.lang.Exception
 
 
-
 val FPS = 59.94
-val INTRO_DURATION_MS = 3000
+val SPONSORS_FADE_START_MS = 5000
+val SPONSORS_FADE_END_MS = 6000
+val INTRO_FADE_START_MS = 8000
+val INTRO_FADE_END_MS = 9000
 
 fun doGenerateVideo(video: File,
+                    sponsorsImage: File,
                     introImage: File,
                     outDir: File,
                     scratchDir: File,
@@ -23,13 +26,18 @@ fun doGenerateVideo(video: File,
                     startSec: Int,
                     skipExisting: Boolean) {
     val path = video.absolutePath
-    val pngPath = introImage.absolutePath
     val outDirPath = outDir.absolutePath
     val scratchDirPath = scratchDir.absolutePath
 
+    scratchDir.mkdirs()
+
     System.out.println("generateVideo: $videoId")
     val h264Path = "$scratchDirPath/$videoId.h264"
+    val sponsorsPath = "$scratchDirPath/sponsors.png"
+    val pngPath = "$scratchDirPath/intro.png"
+    val h264SponsorsPath = "$scratchDirPath/$videoId.sponsors.h264"
     val h264IntroPath = "$scratchDirPath/$videoId.intro.h264"
+
     val h264BodyPath = "$scratchDirPath/$videoId.body.h264"
     val h264MergedPath = "$scratchDirPath/$videoId.merged.h264"
     val aacPath = "$scratchDirPath/$videoId.aac"
@@ -40,43 +48,68 @@ fun doGenerateVideo(video: File,
         return
     }
 
-    //extract H264 elementary stream
+    System.out.println("--- resize inputs: $videoId")
+    execOrDie("convert ${introImage.absolutePath} -resize 1920x1080 $pngPath")
+    execOrDie("convert ${sponsorsImage.absolutePath} -resize 1920x1080 $sponsorsPath")
+
+    System.out.println("--- create sponsors.h264: $videoId")
+    var fadeStartSec = SPONSORS_FADE_START_MS / 1000
+    var fadeDurationSec = (SPONSORS_FADE_END_MS - SPONSORS_FADE_START_MS) / 1000
+
+    //create the sponsors, use the original source, not the h264 stream to get the timestamps
+    val durationSec = SPONSORS_FADE_END_MS/1000
+    val sponsorsCommand = "ffmpeg -y" +
+            " -loop 1 -framerate $FPS -t $durationSec -i $sponsorsPath" +
+            " -loop 1 -framerate $FPS -t $durationSec -i $pngPath" +
+            " -filter_complex [0:v]format=pix_fmts=yuva420p,fade=t=out:st=$fadeStartSec:d=$fadeDurationSec:alpha=1[intro];" +
+            "[1:v][intro]overlay" +
+            " -b:v 3M $h264SponsorsPath"
+    execOrDie(sponsorsCommand)
+
+    System.out.println("--- extract H264 elementary stream: $videoId")
     execOrDie("ffmpeg -y -i $path -vcodec copy -vbsf h264_mp4toannexb $h264Path")
 
+    System.out.println("--- Get volume correction: $videoId")
     val correction = getVolumeCorrection(path)
 
-    val nextIFrame = findNextIFrameInfo(h264Path, startSec + 4)
+    System.out.println("--- Find next IFRAME: $videoId")
+    val nextIFrame = findNextIFrameInfo(h264Path, startSec + 40)
     // Removed 0.01 to make sure to not include the last extra frame which will be in the body when rounding
     val roundingSecurity = 0.01
-    val trimTime = nextIFrame.number.toFloat()/FPS - roundingSecurity
+    val trimTime = nextIFrame.number.toFloat() / FPS - roundingSecurity
 
     System.out.println("Trim time: $trimTime")
 
-    //cut the beginning of the video
+    System.out.println("--- Creating $h264BodyPath")
     execOrDie("dd bs=${nextIFrame.pos} if=$h264Path of=$h264BodyPath skip=1")
 
-    val fadeStartSec = INTRO_DURATION_MS / 1000
+    fadeStartSec = (INTRO_FADE_START_MS - SPONSORS_FADE_END_MS) / 1000
+    fadeDurationSec = (INTRO_FADE_END_MS - INTRO_FADE_START_MS) / 1000
+
     //create the intro, use the original source, not the h264 stream to get the timestamps
+    System.out.println("--- Creating $h264IntroPath")
     val introCommand = "ffmpeg -y" +
-            " -loop 1 -framerate $FPS -t 5 -i $pngPath" +
+            " -loop 1 -framerate $FPS -t 10 -i $pngPath" +
             " -i $path" +
-            " -filter_complex [0:v]format=pix_fmts=yuva420p,fade=t=out:st=$fadeStartSec:d=1:alpha=1[intro];" +
+            " -filter_complex [0:v]format=pix_fmts=yuva420p,fade=t=out:st=$fadeStartSec:d=$fadeDurationSec:alpha=1[intro];" +
             "[1:v]trim=$startSec:$trimTime,setpts=PTS-STARTPTS+$fadeStartSec/TB[content];" +
             "[content][intro]overlay" +
             " -b:v 3M $h264IntroPath"
     execOrDie(introCommand)
 
     // assemble intro and body
-    concatFiles(h264IntroPath, h264BodyPath, h264MergedPath)
+    System.out.println("--- Merge h264 to $h264MergedPath")
+    concatFiles(h264MergedPath, h264SponsorsPath, h264IntroPath, h264BodyPath)
 
     //encode the audio stream, with the fade in and volume filter
     val audioCommand = "ffmpeg -y " +
             "-i $path " +
-            "-filter_complex [0:a]pan=mono|c0=FR,atrim=$startSec,asetpts=PTS-STARTPTS,afade=t=in:st=0:d=1,volume=${correction}dB,adelay=$INTRO_DURATION_MS" +
+            "-filter_complex [0:a]pan=mono|c0=FR,atrim=$startSec,asetpts=PTS-STARTPTS,afade=t=in:st=0:d=1,volume=${correction}dB,adelay=$INTRO_FADE_START_MS" +
             " $aacPath"
     execOrDie(audioCommand)
 
     //merge audio and video streams
+    System.out.println("--- Merge audio and video to $finalPath")
     val mergeCommand = "ffmpeg -y -i $aacPath -r $FPS -i $h264MergedPath -vcodec copy -acodec copy $finalPath"
     execOrDie(mergeCommand)
 }
@@ -112,11 +145,12 @@ fun getVolumeCorrection(path: String): Float {
     System.err.println("meanVolume=$meanVolume")
 
     // Try to have a mean volume around -20dB
-    return -20 -meanVolume
+    return -20 - meanVolume
 }
 
 
 class FrameInfo(val pos: Long, val number: Int)
+
 fun findNextIFrameInfo(h264Path: String, sec: Int): FrameInfo {
     //find the 1st IFrame after sec
     //will output something like this
@@ -218,22 +252,22 @@ fun execOrDie(command: String) {
     }
 }
 
-fun concatFiles(in1: String, in2: String, out: String) {
+fun concatFiles(out: String, vararg inputs: String) {
     val outStream = File(out).outputStream()
 
-    File(in1).inputStream().use {
-        it.copyTo(outStream)
-    }
-    File(in2).inputStream().use {
-        it.copyTo(outStream)
+    inputs.forEach {
+        File(it).inputStream().use {
+            it.copyTo(outStream)
+        }
     }
 
     outStream.flush()
     outStream.close()
 }
 
-val generate = object: CliktCommand(name = "generate") {
+val generate = object : CliktCommand(name = "generate") {
     val video by option().required()
+    val sponsorsImage by option().required()
     val introImage by option().required()
     val startSec by option().int().required()
     val outDir by option().required()
@@ -242,6 +276,7 @@ val generate = object: CliktCommand(name = "generate") {
     override fun run() {
         doGenerateVideo(
                 video = File(video),
+                sponsorsImage = File(sponsorsImage),
                 introImage = File(introImage),
                 outDir = File(outDir),
                 scratchDir = File("$outDir/tmp"),
@@ -252,7 +287,7 @@ val generate = object: CliktCommand(name = "generate") {
     }
 }
 
-val batch = object: CliktCommand(name = "batch") {
+val batch = object : CliktCommand(name = "batch") {
     val inDir by option().required()
     val outDir by option().required()
     val skipExisting by option().flag()
@@ -277,7 +312,7 @@ val batch = object: CliktCommand(name = "batch") {
                 }
 
                 doGenerateVideo(it, introFile, outDirFile, workingDirFile, skipExisting)*/
-                System.err.println("Generating video took ${(System.currentTimeMillis() - start)/1000}s")
+                System.err.println("Generating video took ${(System.currentTimeMillis() - start) / 1000}s")
             } catch (e: Exception) {
                 throw e
             } finally {
