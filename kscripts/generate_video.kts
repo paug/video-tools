@@ -12,7 +12,6 @@ import java.lang.Exception
 import java.lang.IllegalStateException
 
 
-val FPS = 59.94
 val SPONSORS_FADE_START_MS = 5000
 val SPONSORS_FADE_END_MS = 6000
 val INTRO_FADE_START_MS = 8000
@@ -49,9 +48,13 @@ fun doGenerateVideo(video: File,
         return
     }
 
-    val resolution = getResolution(video)
+    val parameters = getParameters(video)
+    val resolution = parameters.resolution
+    val fps = parameters.fps.toDouble()
 
-    System.out.println("--- resize inputs to $resolution: $videoId")
+    System.out.println("parameters=$parameters")
+
+    System.out.println("--- resize inputs: $videoId")
     execOrDie("convert ${introImage.absolutePath} -resize $resolution $pngPath")
     execOrDie("convert ${sponsorsImage.absolutePath} -resize $resolution $sponsorsPath")
 
@@ -62,8 +65,8 @@ fun doGenerateVideo(video: File,
     //create the sponsors, use the original source, not the h264 stream to get the timestamps
     val durationSec = SPONSORS_FADE_END_MS/1000
     val sponsorsCommand = "ffmpeg -y" +
-            " -loop 1 -framerate $FPS -t $durationSec -i $sponsorsPath" +
-            " -loop 1 -framerate $FPS -t $durationSec -i $pngPath" +
+            " -loop 1 -framerate $fps -t $durationSec -i $sponsorsPath" +
+            " -loop 1 -framerate $fps -t $durationSec -i $pngPath" +
             " -filter_complex [0:v]format=pix_fmts=yuva420p,fade=t=out:st=$fadeStartSec:d=$fadeDurationSec:alpha=1[intro];" +
             "[1:v][intro]overlay" +
             " -b:v 3M $h264SponsorsPath"
@@ -76,10 +79,10 @@ fun doGenerateVideo(video: File,
     val correction = getVolumeCorrection(path)
 
     System.out.println("--- Find next IFRAME: $videoId")
-    val nextIFrame = findNextIFrameInfo(h264Path, startSec + 40)
+    val nextIFrame = findNextIFrameInfo(h264Path, startSec + 40, fps)
     // Removed 0.01 to make sure to not include the last extra frame which will be in the body when rounding
     val roundingSecurity = 0.01
-    val trimTime = nextIFrame.number.toFloat() / FPS - roundingSecurity
+    val trimTime = nextIFrame.number.toFloat() / fps - roundingSecurity
 
     System.out.println("Trim time: $trimTime")
 
@@ -92,7 +95,7 @@ fun doGenerateVideo(video: File,
     //create the intro, use the original source, not the h264 stream to get the timestamps
     System.out.println("--- Creating $h264IntroPath")
     val introCommand = "ffmpeg -y" +
-            " -loop 1 -framerate $FPS -t 10 -i $pngPath" +
+            " -loop 1 -framerate $fps -t 10 -i $pngPath" +
             " -i $path" +
             " -filter_complex [0:v]format=pix_fmts=yuva420p,fade=t=out:st=$fadeStartSec:d=$fadeDurationSec:alpha=1[intro];" +
             "[1:v]trim=$startSec:$trimTime,setpts=PTS-STARTPTS+$fadeStartSec/TB[content];" +
@@ -113,27 +116,43 @@ fun doGenerateVideo(video: File,
 
     //merge audio and video streams
     System.out.println("--- Merge audio and video to $finalPath")
-    val mergeCommand = "ffmpeg -y -i $aacPath -r $FPS -i $h264MergedPath -vcodec copy -acodec copy $finalPath"
+    val mergeCommand = "ffmpeg -y -i $aacPath -r $fps -i $h264MergedPath -vcodec copy -acodec copy $finalPath"
     execOrDie(mergeCommand)
 }
 
-fun getResolution(video: File): String {
+data class Parameters(val fps: String, val resolution:String)
+
+fun getParameters(video: File): Parameters {
     val process = ProcessBuilder("ffprobe", video.absolutePath)
             .start()
     val reader = process.errorStream.bufferedReader()
 
-    val regex = Regex(".*Video:.* ([0-9]+x[0-9]+),.*")
+    var fps: String? = null
+    var resolution: String? = null
+
+    val resolutionRegex = Regex(".*Video:.* ([0-9]+x[0-9]+),.*")
+    val fpsRegex = Regex(".*Video:.* (.*) fps,.*")
     while(true) {
         val line = reader.readLine()
         if (line == null) {
-            throw IllegalStateException("Cannot find resolution in ${video.absolutePath}")
+            break
         }
 
-        val match = regex.matchEntire(line)
+        var match = resolutionRegex.matchEntire(line)
         if (match != null) {
-            return match.groupValues[1]
+            resolution = match.groupValues[1]
+        }
+
+        match = fpsRegex.matchEntire(line)
+        if (match != null) {
+            fps = match.groupValues[1]
+        }
+
+        if (fps != null && resolution != null) {
+            return Parameters(fps, resolution)
         }
     }
+    throw IllegalStateException("Cannot find resolution in ${video.absolutePath}")
 }
 
 fun getVolumeCorrection(path: String): Float {
@@ -172,7 +191,7 @@ fun getVolumeCorrection(path: String): Float {
 
 class FrameInfo(val pos: Long, val number: Int)
 
-fun findNextIFrameInfo(h264Path: String, sec: Int): FrameInfo {
+fun findNextIFrameInfo(h264Path: String, sec: Int, fps: Double): FrameInfo {
     //find the 1st IFrame after sec
     //will output something like this
     //    [FRAME]
@@ -240,7 +259,7 @@ fun findNextIFrameInfo(h264Path: String, sec: Int): FrameInfo {
                 number = m.groupValues[1].toInt()
 
                 System.err.print("\r$number")
-                if (number > sec * FPS && isKey) {
+                if (number > sec * fps && isKey) {
                     break
                 }
             }
