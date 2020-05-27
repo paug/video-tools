@@ -9,6 +9,7 @@ import com.github.ajalt.clikt.parameters.options.required
 import com.github.ajalt.clikt.parameters.types.int
 import java.io.File
 import java.lang.Exception
+import java.lang.IllegalStateException
 
 
 val FPS = 59.94
@@ -48,9 +49,11 @@ fun doGenerateVideo(video: File,
         return
     }
 
-    System.out.println("--- resize inputs: $videoId")
-    execOrDie("convert ${introImage.absolutePath} -resize 1920x1080 $pngPath")
-    execOrDie("convert ${sponsorsImage.absolutePath} -resize 1920x1080 $sponsorsPath")
+    val resolution = getResolution(video)
+
+    System.out.println("--- resize inputs to $resolution: $videoId")
+    execOrDie("convert ${introImage.absolutePath} -resize $resolution $pngPath")
+    execOrDie("convert ${sponsorsImage.absolutePath} -resize $resolution $sponsorsPath")
 
     System.out.println("--- create sponsors.h264: $videoId")
     var fadeStartSec = SPONSORS_FADE_START_MS / 1000
@@ -104,7 +107,7 @@ fun doGenerateVideo(video: File,
     //encode the audio stream, with the fade in and volume filter
     val audioCommand = "ffmpeg -y " +
             "-i $path " +
-            "-filter_complex [0:a]pan=mono|c0=FR,atrim=$startSec,asetpts=PTS-STARTPTS,afade=t=in:st=0:d=1,volume=${correction}dB,adelay=$INTRO_FADE_START_MS" +
+            "-filter_complex [0:a]atrim=$startSec,asetpts=PTS-STARTPTS,afade=t=in:st=0:d=1,volume=${correction}dB,adelay=$INTRO_FADE_START_MS" +
             " $aacPath"
     execOrDie(audioCommand)
 
@@ -114,6 +117,24 @@ fun doGenerateVideo(video: File,
     execOrDie(mergeCommand)
 }
 
+fun getResolution(video: File): String {
+    val process = ProcessBuilder("ffprobe", video.absolutePath)
+            .start()
+    val reader = process.errorStream.bufferedReader()
+
+    val regex = Regex(".*Video:.* ([0-9]+x[0-9]+),.*")
+    while(true) {
+        val line = reader.readLine()
+        if (line == null) {
+            throw IllegalStateException("Cannot find resolution in ${video.absolutePath}")
+        }
+
+        val match = regex.matchEntire(line)
+        if (match != null) {
+            return match.groupValues[1]
+        }
+    }
+}
 
 fun getVolumeCorrection(path: String): Float {
     //volume detection, will output something like this
