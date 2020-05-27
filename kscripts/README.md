@@ -8,6 +8,10 @@ You need [kscript](https://github.com/holgerbrandl/kscript) to run these scripts
     source ~/.sdkman/bin/sdkman-init.sh
     sdk install kotlin
     sdk install kscript
+ 
+You also need [ImageMagick](https://imagemagick.org/index.php):
+
+	brew install imagemagick
 
 To run the scripts:
 
