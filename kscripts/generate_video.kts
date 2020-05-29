@@ -127,7 +127,7 @@ fun doGenerateVideo(video: File,
 
     //trim audio and video streams and place the output in the final path
     System.out.println("--- Trim merged video to $finalPath")
-    val trimCommand = "ffmpeg -y -i $h264TrimmedPath -to ${(endSec-startSec)+INTRO_FADE_START_MS/1000} -c copy $finalPath"
+    val trimCommand = "ffmpeg -y -i $h264TrimmedPath -to ${(endSec - startSec) + INTRO_FADE_START_MS / 1000} -c copy $finalPath"
     execOrDie(trimCommand)
 }
 
