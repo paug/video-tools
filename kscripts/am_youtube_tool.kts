@@ -18,7 +18,7 @@ import com.opencsv.CSVReader
 
 
 val doc = """Usage:
-    am_youtube_tool.kts update --input-data=INPUT --mapping=MAPPING
+    am_youtube_tool.kts update --input-data=INPUT --mapping=MAPPING --thumbnails=THUMBNAILS
     am_youtube_tool.kts upload --input-data=INPUT
     am_youtube_tool.kts language --csv-data=INPUT
     am_youtube_tool.kts categories
@@ -83,7 +83,7 @@ val okHttpClient by lazy {
 
 when {
     options.get("upload") == true -> uploadVideo("/home/martin/Desktop/short.mp4", options.get("--input-data") as String)
-    options.get("update") == true -> updateAllMetaData(options.get("--input-data") as String, options.get("--mapping") as String)
+    options.get("update") == true -> updateAllMetaData(options.get("--input-data") as String, options.get("--mapping") as String, options.get("--thumbnails") as String)
     options.get("categories") == true -> showCategories()
     options.get("channels") == true -> showChannels()
     options.get("language") == true -> setLanguage(options.get("--csv-data") as String)
@@ -139,7 +139,7 @@ fun uploadVideo(path: String, inputDataPath: String) {
 
 
 fun openBrowser(url: String) {
-    val candidates = arrayOf("xdg-open", "open")
+    val candidates = arrayOf("open", "xdg-open")
 
 
     candidates.forEach {
@@ -244,18 +244,20 @@ fun getNewToken(): String {
     return newConfig.get("access_token") as String
 }
 
-fun updateAllMetaData(inputDataPath: String, mappingPath: String) {
+fun updateAllMetaData(inputDataPath: String, mappingPath: String, thumbnailsPath: String) {
     val inputData = listAdapter.fromJson(File(inputDataPath).readText())!!
     val mapping = mapAdapter.fromJson(File(mappingPath).readText())!!
 
     inputData.forEach { it ->
         val data = it as Map<String, Any>
 
-        val sessionId = data.get("da") as String
+        val sessionId = (data.get("id website") as Double).toInt().toString()
+        System.err.println("Session id =$sessionId")
         val videoId = mapping.get(sessionId) as String?
         if (videoId != null) {
+            val thumbnail = File(thumbnailsPath, "$sessionId.png")
             updateMetaData(videoId, data)
-            updateThumbnail(videoId, sessionId)
+            updateThumbnail(videoId, thumbnail)
         }
     }
 }
@@ -285,12 +287,12 @@ fun showChannels() {
 }
 
 fun updateMetaData(videoId: String, data: Map<String, Any>) {
-    System.err.println("updateMetaData:  ($videoId): ${data.get("title")}")
+    System.err.println("updateMetaData:  ($videoId): ${data.get("Title")}")
     val rootJson = mapOf(
             "id" to videoId,
             "snippet" to mapOf(
-                    "title" to data.get("Youtube title"),
-                    "description" to data.get("Desc"),
+                    "title" to data.get("YoutubeTitle"),
+                    "description" to data.get("YoutubeDesc"),
                     "tags" to (data.get("tags") as String).split(",").map { it.trim() },
                     "categoryId" to "28"
             )
@@ -310,17 +312,8 @@ fun updateMetaData(videoId: String, data: Map<String, Any>) {
     System.err.println("response=$responseBody")
 }
 
-fun updateThumbnail(videoId: String, sessionId: String) {
-    val url = "https://raw.githubusercontent.com/loutry/tmpAndroidMakersVisuals/2019/INTRO/intro_${sessionId.replace("-", "_")}.png"
-
-    val imageBytes = OkHttpClient()
-            .newCall(Request.Builder()
-                    .url(url)
-                    .get()
-                    .build())
-            .execute()
-            .body()!!
-            .bytes()
+fun updateThumbnail(videoId: String, thumbnailFile: File) {
+    val imageBytes = thumbnailFile.readBytes()
 
     val response = okHttpClient.newCall(
             Request.Builder()
