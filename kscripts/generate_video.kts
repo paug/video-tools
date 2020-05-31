@@ -116,9 +116,14 @@ fun doGenerateVideo(video: File,
     concatFiles(h264MergedPath, h264SponsorsPath, h264IntroPath, h264BodyPath)
 
     //encode the audio stream, with the fade in and volume filter
+    val monoFilter = if (!parameters.mono) {
+        "pan=mono|c0=FR,"
+    } else {
+        "" // nothing to do
+    }
     val audioCommand = "ffmpeg -y " +
             "-i $path " +
-            "-filter_complex [0:a]atrim=$startSec,asetpts=PTS-STARTPTS,afade=t=in:st=0:d=1,volume=${correction}dB,adelay=$INTRO_FADE_START_MS" +
+            "-filter_complex [0:a]${monoFilter}atrim=$startSec,asetpts=PTS-STARTPTS,afade=t=in:st=0:d=1,volume=${correction}dB,adelay=$INTRO_FADE_START_MS" +
             " $aacPath"
     execOrDie(audioCommand)
 
@@ -133,7 +138,7 @@ fun doGenerateVideo(video: File,
     execOrDie(trimCommand)
 }
 
-data class Parameters(val fps: String, val resolution: String)
+data class Parameters(val fps: String, val resolution: String, val mono: Boolean)
 
 fun getParameters(video: File): Parameters {
     val process = ProcessBuilder("ffprobe", video.absolutePath)
@@ -142,9 +147,12 @@ fun getParameters(video: File): Parameters {
 
     var fps: String? = null
     var resolution: String? = null
+    var mono = false
 
     val resolutionRegex = Regex(".*Video:.* ([0-9]+x[0-9]+)[^0-9].*")
     val fpsRegex = Regex(".*Video:.* (.*) fps,.*")
+    val monoRegex = Regex(".*Audio:.*mono,.*")
+
     while (true) {
         val line = reader.readLine()
         if (line == null) {
@@ -161,8 +169,13 @@ fun getParameters(video: File): Parameters {
             fps = match.groupValues[1]
         }
 
+        match = monoRegex.matchEntire(line)
+        if (match != null) {
+            mono = true
+        }
+
         if (fps != null && resolution != null) {
-            return Parameters(fps, resolution)
+            return Parameters(fps, resolution, mono)
         }
     }
     throw IllegalStateException("Cannot find resolution in ${video.absolutePath}")
@@ -320,8 +333,7 @@ fun concatFiles(out: String, vararg inputs: String) {
 data class VideoInfo(
         @SerializedName("id website") val uid: String,
         @SerializedName("videoStart (mm:ss)") private val startTimeStr: String?,
-        @SerializedName("videoEnd (mm:ss)") private val endTimeStr: String?,
-        @SerializedName("Track") val track: String?
+        @SerializedName("videoEnd (mm:ss)") private val endTimeStr: String?
 ) {
 
     val startTime: Int
@@ -347,15 +359,14 @@ fun getVideoInfosFromCsv(file: File): Map<String, VideoInfo> {
     return records.drop(1) // drop the headers
             .mapNotNull {
                 println(it.joinToString("!"))
-                val track = it[5]
+
                 val uid = it[6]
                 val start = it[9]
                 val end = it[10]
-                if (track == null || uid == null) {
+                if (uid == null) {
                     null
                 } else {
-                    VideoInfo(track = track,
-                            uid = uid,
+                    VideoInfo(uid = uid,
                             startTimeStr = start,
                             endTimeStr = end
                     )
