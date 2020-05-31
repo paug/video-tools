@@ -1,6 +1,7 @@
 #!/usr/bin/env kscript
 @file:DependsOn("com.github.ajalt:clikt:2.6.0")
 @file:DependsOn("com.google.code.gson:gson:2.8.5")
+@file:DependsOn("com.univocity:univocity-parsers:2.8.4")
 
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.core.subcommands
@@ -11,9 +12,10 @@ import com.github.ajalt.clikt.parameters.types.int
 import com.google.gson.Gson
 import com.google.gson.annotations.SerializedName
 import com.google.gson.reflect.TypeToken
+import com.univocity.parsers.csv.CsvParser
+import com.univocity.parsers.csv.CsvParserSettings
 import java.io.File
-import java.lang.Exception
-import java.lang.IllegalStateException
+
 
 val SPONSORS_FADE_START_MS = 5000
 val SPONSORS_FADE_END_MS = 6000
@@ -68,7 +70,7 @@ fun doGenerateVideo(video: File,
     var fadeDurationSec = (SPONSORS_FADE_END_MS - SPONSORS_FADE_START_MS) / 1000
 
     //create the sponsors, use the original source, not the h264 stream to get the timestamps
-    val durationSec = SPONSORS_FADE_END_MS/1000
+    val durationSec = SPONSORS_FADE_END_MS / 1000
     val sponsorsCommand = "ffmpeg -y" +
             " -loop 1 -framerate $fps -t $durationSec -i $sponsorsPath" +
             " -loop 1 -framerate $fps -t $durationSec -i $pngPath" +
@@ -131,7 +133,7 @@ fun doGenerateVideo(video: File,
     execOrDie(trimCommand)
 }
 
-data class Parameters(val fps: String, val resolution:String)
+data class Parameters(val fps: String, val resolution: String)
 
 fun getParameters(video: File): Parameters {
     val process = ProcessBuilder("ffprobe", video.absolutePath)
@@ -141,9 +143,9 @@ fun getParameters(video: File): Parameters {
     var fps: String? = null
     var resolution: String? = null
 
-    val resolutionRegex = Regex(".*Video:.* ([0-9]+x[0-9]+),.*")
+    val resolutionRegex = Regex(".*Video:.* ([0-9]+x[0-9]+)[^0-9].*")
     val fpsRegex = Regex(".*Video:.* (.*) fps,.*")
-    while(true) {
+    while (true) {
         val line = reader.readLine()
         if (line == null) {
             break
@@ -317,21 +319,49 @@ fun concatFiles(out: String, vararg inputs: String) {
 
 data class VideoInfo(
         @SerializedName("id website") val uid: String,
-        @SerializedName("videoStart (mm:ss)") private val startTimeStr: String,
-        @SerializedName("videoEnd (mm:ss)") private val endTimeStr: String) {
+        @SerializedName("videoStart (mm:ss)") private val startTimeStr: String?,
+        @SerializedName("videoEnd (mm:ss)") private val endTimeStr: String?,
+        @SerializedName("Track") val track: String?
+) {
 
     val startTime: Int
-        get() = startTimeStr.split(":").let { 60 * it[0].toInt() + it[1].toInt() }
+        get() = startTimeStr!!.split(":").let { 60 * it[0].toInt() + it[1].toInt() }
 
     val endTime: Int
-        get() = endTimeStr.split(":").let { 60 * it[0].toInt() + it[1].toInt() }
+        get() = endTimeStr!!.split(":").let { 60 * it[0].toInt() + it[1].toInt() }
 }
-fun getVideoInfos(file: File): Map<String, VideoInfo> {
+
+fun getVideoInfosFromJson(file: File): Map<String, VideoInfo> {
     val videoInfoStr = file.readText()
     val gson = Gson()
     val sType = object : TypeToken<List<VideoInfo>>() {}.type
     val videoInfos: List<VideoInfo> = gson.fromJson(videoInfoStr, sType)
     return videoInfos.map { it.uid to it }.toMap()
+}
+
+fun getVideoInfosFromCsv(file: File): Map<String, VideoInfo> {
+    val records = file.reader().use { reader ->
+        CsvParser(CsvParserSettings()).parseAll(reader)
+    }
+
+    return records.drop(1) // drop the headers
+            .mapNotNull {
+                println(it.joinToString("!"))
+                val track = it[5]
+                val uid = it[6]
+                val start = it[9]
+                val end = it[10]
+                if (track == null || uid == null) {
+                    null
+                } else {
+                    VideoInfo(track = track,
+                            uid = uid,
+                            startTimeStr = start,
+                            endTimeStr = end
+                    )
+                }
+            }.groupBy { it.uid }
+            .mapValues { it.value.first() }
 }
 
 val generate = object : CliktCommand(name = "generate") {
@@ -361,26 +391,36 @@ val batch = object : CliktCommand(name = "batch") {
     val inDir by option().required()
     val introDir by option().required()
     val sponsorPath by option().required()
-    val infosPath by option().required()
+    val infosPath by option()
+    val infosCsv by option()
     val outDir by option().required()
     val skipExisting by option().flag()
 
     override fun run() {
         val outDirFile = File(outDir)
         val inDirFile = File(inDir)
-        val workingDirFile = File(outDir, "/tmp")
         val sponsorFile = File(sponsorPath)
-        val videoInfosFile = File(infosPath)
 
-        val videoInfos = getVideoInfos(videoInfosFile)
+        val videoInfos = when {
+            infosPath != null -> {
+                getVideoInfosFromJson(File(infosPath))
+            }
+            infosCsv != null -> {
+                getVideoInfosFromCsv(File(infosCsv))
+            }
+            else -> {
+                throw IllegalArgumentException("Provide either --infos-path or --infos-csv")
+            }
+        }
 
+        outDirFile.mkdirs()
         for (file in inDirFile.listFiles()) {
             if (file.extension != "mp4") {
                 continue
             }
 
-            workingDirFile.mkdirs()
-            outDirFile.mkdirs()
+            val scratchDir = File(outDir, "/tmp")
+            scratchDir.mkdirs()
             try {
                 val start = System.currentTimeMillis()
 
@@ -395,7 +435,7 @@ val batch = object : CliktCommand(name = "batch") {
                         sponsorsImage = sponsorFile,
                         introImage = introFile,
                         outDir = outDirFile,
-                        scratchDir = workingDirFile,
+                        scratchDir = scratchDir,
                         videoId = videoId,
                         startSec = videoInfo.startTime,
                         endSec = videoInfo.endTime,
@@ -404,7 +444,7 @@ val batch = object : CliktCommand(name = "batch") {
             } catch (e: Exception) {
                 throw e
             } finally {
-               //workingDirFile.deleteRecursively()
+                scratchDir.deleteRecursively()
             }
         }
     }
