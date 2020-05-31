@@ -173,11 +173,11 @@ fun getParameters(video: File): Parameters {
         if (match != null) {
             mono = true
         }
-
-        if (fps != null && resolution != null) {
-            return Parameters(fps, resolution, mono)
-        }
     }
+    if (fps != null && resolution != null) {
+        return Parameters(fps, resolution, mono)
+    }
+
     throw IllegalStateException("Cannot find resolution in ${video.absolutePath}")
 }
 
