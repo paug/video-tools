@@ -1,37 +1,25 @@
 #!/usr/bin/env kscript
+
+@file:DependsOn("com.squareup.okhttp3:okhttp:3.14.1")
+@file:DependsOn("com.squareup.moshi:moshi:1.8.0")
+@file:DependsOn("com.github.ajalt:clikt:2.6.0")
+@file:DependsOn("org.nanohttpd:nanohttpd:2.2.0")
+@file:DependsOn("com.univocity:univocity-parsers:2.8.4")
+
+import com.github.ajalt.clikt.core.CliktCommand
+import com.github.ajalt.clikt.core.subcommands
+import com.github.ajalt.clikt.parameters.options.option
+import com.github.ajalt.clikt.parameters.options.required
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
+import com.univocity.parsers.csv.CsvParser
+import com.univocity.parsers.csv.CsvParserSettings
 import fi.iki.elonen.NanoHTTPD
 import okhttp3.*
 import java.net.URLEncoder
-
-//DEPS com.squareup.okhttp3:okhttp:3.14.1
-//DEPS com.squareup.moshi:moshi:1.8.0
-//DEPS org.nanohttpd:nanohttpd:2.2.0
-//DEPS com.offbytwo:docopt:0.6.0.20150202
-//DEPS com.opencsv:opencsv:4.0
-
-import org.docopt.Docopt
 import java.io.File
 import kotlin.system.exitProcess
-import com.opencsv.CSVReader
 
-
-val doc = """Usage:
-    am_youtube_tool.kts update --input-data=INPUT --mapping=MAPPING --thumbnails=THUMBNAILS
-    am_youtube_tool.kts upload --input-data=INPUT
-    am_youtube_tool.kts language --csv-data=INPUT
-    am_youtube_tool.kts categories
-    am_youtube_tool.kts channels
-
-
-Options:
-    --input-data=INPUT json where the title and metadata are stored
-    --mapping=MAPPING  json with sessionId as key and youtube videoId as value
-    --csv-data=INPUT as csv file where the language is set
-""".trimIndent()
-
-val options = Docopt(doc).parse(args.toList())
 
 val moshi = Moshi.Builder().build()!!
 val mapAdapter = moshi.adapter<Map<String, Any>>(Types.newParameterizedType(Map::class.java, String::class.java, Any::class.java))!!
@@ -69,74 +57,6 @@ val clientId = try {
     System.err.println("No client_id found in $configPath")
     exitProcess(1)
 }
-
-val accessToken = getToken()
-
-val okHttpClient by lazy {
-    OkHttpClient.Builder()
-            .addInterceptor { chain ->
-                chain.proceed(chain.request().newBuilder()
-                        .addHeader("Authorization", "Bearer $accessToken")
-                        .build())
-            }.build()
-}
-
-when {
-    options.get("upload") == true -> uploadVideo("/home/martin/Desktop/short.mp4", options.get("--input-data") as String)
-    options.get("update") == true -> updateAllMetaData(options.get("--input-data") as String, options.get("--mapping") as String, options.get("--thumbnails") as String)
-    options.get("categories") == true -> showCategories()
-    options.get("channels") == true -> showChannels()
-    options.get("language") == true -> setLanguage(options.get("--csv-data") as String)
-}
-
-fun uploadVideo(path: String, inputDataPath: String) {
-    val rootJson = mapOf(
-            "snippet" to mapOf(
-                    "title" to "title",
-                    "description" to "description"
-            ),
-            "status" to mapOf(
-                    "privacyStatus" to "unlisted"
-            )
-    )
-
-    val snippetBody = RequestBody.create(MediaType.parse("application/json"), mapAdapter.toJson(rootJson))
-    val videoBody = RequestBody.create(MediaType.parse("application/octet-stream"), File(path))
-    val body = MultipartBody.Builder()
-            .addFormDataPart("snippet", "snippet", snippetBody)
-            .addFormDataPart("video", path.substringAfterLast("/"), videoBody)
-            .build()
-
-    val request = Request.Builder()
-            .post(body)
-            .url("https://www.googleapis.com/upload/youtube/v3/videos?part=snippet,status")
-            .build()
-
-    val response = okHttpClient
-            .newCall(request)
-            .execute()
-
-    val responseBody = response.body()?.string()
-    System.err.println("response=$responseBody")
-
-    val ytVideo = mapAdapter.fromJson(responseBody)!!
-    val inputData = listAdapter.fromJson(File(inputDataPath!!).readText())!!
-
-    val newInputData = inputData.map {
-        val e = it as Map<String, Any>
-        if (e.get("da") == path.substringAfterLast("/").substringBefore(".")) {
-            val m = it.toMutableMap()
-            m.put("ytId", ytVideo.get("id") as String)
-            m
-        } else {
-            it
-        }
-    }
-
-    // save the youtubeId somewhere
-    File(inputDataPath!!).writeText(listAdapter.toJson(newInputData))
-}
-
 
 fun openBrowser(url: String) {
     val candidates = arrayOf("open", "xdg-open")
@@ -244,23 +164,172 @@ fun getNewToken(): String {
     return newConfig.get("access_token") as String
 }
 
-fun updateAllMetaData(inputDataPath: String, mappingPath: String, thumbnailsPath: String) {
-    val inputData = listAdapter.fromJson(File(inputDataPath).readText())!!
-    val mapping = mapAdapter.fromJson(File(mappingPath).readText())!!
+val accessToken by lazy {
+    getToken()
+}
 
-    inputData.forEach { it ->
-        val data = it as Map<String, Any>
+val okHttpClient by lazy {
+    OkHttpClient.Builder()
+            .addInterceptor { chain ->
+                chain.proceed(chain.request().newBuilder()
+                        .addHeader("Authorization", "Bearer $accessToken")
+                        .build())
+            }.build()
+}
 
-        val sessionId = (data.get("id website") as Double).toInt().toString()
-        System.err.println("Session id =$sessionId")
-        val videoId = mapping.get(sessionId) as String?
-        if (videoId != null) {
-            val thumbnail = File(thumbnailsPath, "$sessionId.png")
-            updateMetaData(videoId, data)
-            updateThumbnail(videoId, thumbnail)
+class VideoInfo(
+        val websiteId: String,
+        val youtubeId: String,
+        val title: String,
+        val description: String,
+        val tags: List<String>
+)
+
+fun getVideoInfosFromCsv(file: File): List<VideoInfo> {
+    val records = file.reader().use { reader ->
+        CsvParser(CsvParserSettings()).parseAll(reader)
+    }
+
+    return records.drop(1) // drop the headers
+            .mapNotNull {
+                //println(it.joinToString("!"))
+                val track = it['F' - 'A']
+                val websiteId = it['G' - 'A']
+                val youtubeId = it['H' - 'A']?.substring("https://youtu.be/".length)
+                val title = it[0]
+                val description = it['C' - 'A']
+                val tags = it['O' - 'A']?.split(",")?.map { it.trim() } ?: emptyList()
+
+                println("$title - $track - $websiteId - $youtubeId")
+                if (track == null || websiteId == null || youtubeId == null) {
+                    null
+                } else {
+                    VideoInfo(youtubeId = youtubeId,
+                            websiteId = websiteId,
+                            description = description,
+                            title = title,
+                            tags = tags
+                    )
+                }
+            }
+}
+
+val updateCommand = object : CliktCommand(name = "update") {
+    val infosCsv by option().required()
+    val thumbnails by option().required()
+
+    override fun run() {
+        val videoInfos = getVideoInfosFromCsv(File(infosCsv))
+
+        videoInfos.forEach { it ->
+            val thumbnail = File(thumbnails, "${it.websiteId}.png")
+            println("hello $it")
+            updateMetaData(it)
+            updateThumbnail(it.youtubeId, thumbnail)
         }
     }
+
+    fun updateMetaData(videoInfo: VideoInfo) {
+        System.err.println("updateMetaData:  $videoInfo")
+        val rootJson = mapOf(
+                "id" to videoInfo.youtubeId,
+                "snippet" to mapOf(
+                        "title" to videoInfo.title,
+                        "description" to videoInfo.description,
+                        "tags" to videoInfo.tags,
+                        "categoryId" to "28"
+                )
+        )
+
+        val snippetBody = RequestBody.create(MediaType.parse("application/json"), mapAdapter.toJson(rootJson))
+        val request = Request.Builder()
+                .put(snippetBody)
+                .url("https://www.googleapis.com/youtube/v3/videos?part=snippet")
+                .build()
+
+        val response = okHttpClient
+                .newCall(request)
+                .execute()
+
+        val responseBody = response.body()?.string()
+        System.err.println("response=$responseBody")
+    }
+
+    fun updateThumbnail(videoId: String, thumbnailFile: File) {
+        val imageBytes = thumbnailFile.readBytes()
+
+        val response = okHttpClient.newCall(
+                Request.Builder()
+                        .post(RequestBody.create(MediaType.parse("image/png"), imageBytes))
+                        .url("https://www.googleapis.com/upload/youtube/v3/thumbnails/set?videoId=$videoId")
+                        .build())
+                .execute()
+
+        val responseBody = response.body()?.string()
+        System.err.println("response=$responseBody")
+    }
 }
+
+val uploadCommand = object : CliktCommand(name = "upload") {
+    val inputDataPath by option().required()
+    val path by option().required()
+
+    override fun run() {
+        val rootJson = mapOf(
+                "snippet" to mapOf(
+                        "title" to "title",
+                        "description" to "description"
+                ),
+                "status" to mapOf(
+                        "privacyStatus" to "unlisted"
+                )
+        )
+
+        val snippetBody = RequestBody.create(MediaType.parse("application/json"), mapAdapter.toJson(rootJson))
+        val videoBody = RequestBody.create(MediaType.parse("application/octet-stream"), File(path))
+        val body = MultipartBody.Builder()
+                .addFormDataPart("snippet", "snippet", snippetBody)
+                .addFormDataPart("video", path.substringAfterLast("/"), videoBody)
+                .build()
+
+        val request = Request.Builder()
+                .post(body)
+                .url("https://www.googleapis.com/upload/youtube/v3/videos?part=snippet,status")
+                .build()
+
+        val response = okHttpClient
+                .newCall(request)
+                .execute()
+
+        val responseBody = response.body()?.string()
+        System.err.println("response=$responseBody")
+
+        val ytVideo = mapAdapter.fromJson(responseBody)!!
+        val inputData = listAdapter.fromJson(File(inputDataPath!!).readText())!!
+
+        val newInputData = inputData.map {
+            val e = it as Map<String, Any>
+            if (e.get("da") == path.substringAfterLast("/").substringBefore(".")) {
+                val m = it.toMutableMap()
+                m.put("ytId", ytVideo.get("id") as String)
+                m
+            } else {
+                it
+            }
+        }
+
+        // save the youtubeId somewhere
+        File(inputDataPath!!).writeText(listAdapter.toJson(newInputData))
+    }
+}
+
+
+object : CliktCommand() {
+    override fun run() {
+    }
+}.subcommands(updateCommand,
+        uploadCommand)
+        .main(args)
 
 fun showCategories() {
     val response = okHttpClient
@@ -286,68 +355,4 @@ fun showChannels() {
     System.err.println("response=$responseBody")
 }
 
-fun updateMetaData(videoId: String, data: Map<String, Any>) {
-    System.err.println("updateMetaData:  ($videoId): ${data.get("Title")}")
-    val rootJson = mapOf(
-            "id" to videoId,
-            "snippet" to mapOf(
-                    "title" to data.get("YoutubeTitle"),
-                    "description" to data.get("YoutubeDesc"),
-                    "tags" to (data.get("tags") as String).split(",").map { it.trim() },
-                    "categoryId" to "28"
-            )
-    )
 
-    val snippetBody = RequestBody.create(MediaType.parse("application/json"), mapAdapter.toJson(rootJson))
-    val request = Request.Builder()
-            .put(snippetBody)
-            .url("https://www.googleapis.com/youtube/v3/videos?part=snippet")
-            .build()
-
-    val response = okHttpClient
-            .newCall(request)
-            .execute()
-
-    val responseBody = response.body()?.string()
-    System.err.println("response=$responseBody")
-}
-
-fun updateThumbnail(videoId: String, thumbnailFile: File) {
-    val imageBytes = thumbnailFile.readBytes()
-
-    val response = okHttpClient.newCall(
-            Request.Builder()
-                    .post(RequestBody.create(MediaType.parse("image/png"), imageBytes))
-                    .url("https://www.googleapis.com/upload/youtube/v3/thumbnails/set?videoId=$videoId")
-                    .build())
-            .execute()
-
-    val responseBody = response.body()?.string()
-    System.err.println("response=$responseBody")
-}
-
-fun setLanguage(csvDataPath: String) {
-    val csvReader = CSVReader(File(csvDataPath).bufferedReader())
-
-    val recordList = csvReader.readAll()
-            .drop(1) // drop the header row
-            .filter {
-                // Drop the title rows
-                Regex("[A-Z]{3}-[0-9]{4}").matchEntire(it[0]) != null
-            }
-
-    recordList.forEach {
-        val regex = Regex(".*https://youtube.com/watch\\?v=(.*)")
-        val m = regex.matchEntire(it[10])
-        if (m == null) {
-            System.err.println("${it[10]} does not match")
-            return@forEach
-        }
-        val sessionId = it[0]
-        val videoId = m.groupValues[1]
-        val language = it[15]
-        System.out.println("$sessionId - $videoId - $language")
-    }
-
-
-}
