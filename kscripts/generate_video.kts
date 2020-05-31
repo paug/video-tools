@@ -340,7 +340,11 @@ data class VideoInfo(
         get() = startTimeStr!!.split(":").let { 60 * it[0].toInt() + it[1].toInt() }
 
     val endTime: Int
-        get() = endTimeStr!!.split(":").let { 60 * it[0].toInt() + it[1].toInt() }
+        get() = endTimeStr!!.split(":").let {
+            it.foldIndexed(0) { index, acc, value ->
+                acc + value.toInt() * Math.pow(60.toDouble(), (it.size - 1 - index).toDouble()).toInt()
+            }
+        }
 }
 
 fun getVideoInfosFromJson(file: File): Map<String, VideoInfo> {
