@@ -1,6 +1,7 @@
 #!/usr/bin/env kscript
 @file:DependsOn("com.github.ajalt:clikt:2.6.0")
 @file:DependsOn("com.google.code.gson:gson:2.8.5")
+@file:DependsOn("com.univocity:univocity-parsers:2.8.4")
 
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.core.subcommands
@@ -11,9 +12,10 @@ import com.github.ajalt.clikt.parameters.types.int
 import com.google.gson.Gson
 import com.google.gson.annotations.SerializedName
 import com.google.gson.reflect.TypeToken
+import com.univocity.parsers.csv.CsvParser
+import com.univocity.parsers.csv.CsvParserSettings
 import java.io.File
-import java.lang.Exception
-import java.lang.IllegalStateException
+
 
 val SPONSORS_FADE_START_MS = 5000
 val SPONSORS_FADE_END_MS = 6000
@@ -68,7 +70,7 @@ fun doGenerateVideo(video: File,
     var fadeDurationSec = (SPONSORS_FADE_END_MS - SPONSORS_FADE_START_MS) / 1000
 
     //create the sponsors, use the original source, not the h264 stream to get the timestamps
-    val durationSec = SPONSORS_FADE_END_MS/1000
+    val durationSec = SPONSORS_FADE_END_MS / 1000
     val sponsorsCommand = "ffmpeg -y" +
             " -loop 1 -framerate $fps -t $durationSec -i $sponsorsPath" +
             " -loop 1 -framerate $fps -t $durationSec -i $pngPath" +
@@ -114,9 +116,14 @@ fun doGenerateVideo(video: File,
     concatFiles(h264MergedPath, h264SponsorsPath, h264IntroPath, h264BodyPath)
 
     //encode the audio stream, with the fade in and volume filter
+    val monoFilter = if (!parameters.mono) {
+        "pan=mono|c0=FR,"
+    } else {
+        "" // nothing to do
+    }
     val audioCommand = "ffmpeg -y " +
             "-i $path " +
-            "-filter_complex [0:a]atrim=$startSec,asetpts=PTS-STARTPTS,afade=t=in:st=0:d=1,volume=${correction}dB,adelay=$INTRO_FADE_START_MS" +
+            "-filter_complex [0:a]${monoFilter}atrim=$startSec,asetpts=PTS-STARTPTS,afade=t=in:st=0:d=1,volume=${correction}dB,adelay=$INTRO_FADE_START_MS" +
             " $aacPath"
     execOrDie(audioCommand)
 
@@ -126,12 +133,16 @@ fun doGenerateVideo(video: File,
     execOrDie(mergeCommand)
 
     //trim audio and video streams and place the output in the final path
-    System.out.println("--- Trim merged video to $finalPath")
-    val trimCommand = "ffmpeg -y -i $h264TrimmedPath -to ${(endSec - startSec) + INTRO_FADE_START_MS / 1000} -c copy $finalPath"
-    execOrDie(trimCommand)
+    if (endSec > 0) {
+        System.out.println("--- Trim merged video to $finalPath")
+        val trimCommand = "ffmpeg -y -i $h264TrimmedPath -to ${(endSec - startSec) + INTRO_FADE_START_MS / 1000} -c copy $finalPath"
+        execOrDie(trimCommand)
+    } else {
+        File(h264TrimmedPath).copyTo(File(finalPath))
+    }
 }
 
-data class Parameters(val fps: String, val resolution:String)
+data class Parameters(val fps: String, val resolution: String, val mono: Boolean)
 
 fun getParameters(video: File): Parameters {
     val process = ProcessBuilder("ffprobe", video.absolutePath)
@@ -140,10 +151,13 @@ fun getParameters(video: File): Parameters {
 
     var fps: String? = null
     var resolution: String? = null
+    var mono = false
 
-    val resolutionRegex = Regex(".*Video:.* ([0-9]+x[0-9]+),.*")
+    val resolutionRegex = Regex(".*Video:.* ([0-9]+x[0-9]+)[^0-9].*")
     val fpsRegex = Regex(".*Video:.* (.*) fps,.*")
-    while(true) {
+    val monoRegex = Regex(".*Audio:.*mono,.*")
+
+    while (true) {
         val line = reader.readLine()
         if (line == null) {
             break
@@ -159,10 +173,15 @@ fun getParameters(video: File): Parameters {
             fps = match.groupValues[1]
         }
 
-        if (fps != null && resolution != null) {
-            return Parameters(fps, resolution)
+        match = monoRegex.matchEntire(line)
+        if (match != null) {
+            mono = true
         }
     }
+    if (fps != null && resolution != null) {
+        return Parameters(fps, resolution, mono)
+    }
+
     throw IllegalStateException("Cannot find resolution in ${video.absolutePath}")
 }
 
@@ -293,8 +312,7 @@ fun execOrDie(command: String) {
         Executing: $command
     """.trimIndent())
     val exitCode = ProcessBuilder(command.split(" "))
-            .redirectOutput(ProcessBuilder.Redirect.INHERIT)
-            .redirectError(ProcessBuilder.Redirect.INHERIT)
+            .inheritIO()
             .start()
             .waitFor()
     if (exitCode != 0) {
@@ -315,23 +333,57 @@ fun concatFiles(out: String, vararg inputs: String) {
     outStream.close()
 }
 
+fun String.toSeconds(): Int {
+    return split(":").let {
+        it.foldIndexed(0) { index, acc, value ->
+            acc + value.toInt() * Math.pow(60.toDouble(), (it.size - 1 - index).toDouble()).toInt()
+        }
+    }
+}
+
 data class VideoInfo(
         @SerializedName("id website") val uid: String,
-        @SerializedName("videoStart (mm:ss)") private val startTimeStr: String,
-        @SerializedName("videoEnd (mm:ss)") private val endTimeStr: String) {
+        @SerializedName("videoStart (mm:ss)") private val startTimeStr: String?,
+        @SerializedName("videoEnd (mm:ss)") private val endTimeStr: String?
+) {
 
     val startTime: Int
-        get() = startTimeStr.split(":").let { 60 * it[0].toInt() + it[1].toInt() }
+        get() = startTimeStr!!.toSeconds()
 
     val endTime: Int
-        get() = endTimeStr.split(":").let { 60 * it[0].toInt() + it[1].toInt() }
+        get() = endTimeStr!!.toSeconds()
 }
-fun getVideoInfos(file: File): Map<String, VideoInfo> {
+
+fun getVideoInfosFromJson(file: File): Map<String, VideoInfo> {
     val videoInfoStr = file.readText()
     val gson = Gson()
     val sType = object : TypeToken<List<VideoInfo>>() {}.type
     val videoInfos: List<VideoInfo> = gson.fromJson(videoInfoStr, sType)
     return videoInfos.map { it.uid to it }.toMap()
+}
+
+fun getVideoInfosFromCsv(file: File): Map<String, VideoInfo> {
+    val records = file.reader().use { reader ->
+        CsvParser(CsvParserSettings()).parseAll(reader)
+    }
+
+    return records.drop(1) // drop the headers
+            .mapNotNull {
+                println(it.joinToString("!"))
+
+                val uid = it[6]
+                val start = it[9]
+                val end = it[10]
+                if (uid == null) {
+                    null
+                } else {
+                    VideoInfo(uid = uid,
+                            startTimeStr = start,
+                            endTimeStr = end
+                    )
+                }
+            }.groupBy { it.uid }
+            .mapValues { it.value.first() }
 }
 
 val generate = object : CliktCommand(name = "generate") {
@@ -361,26 +413,36 @@ val batch = object : CliktCommand(name = "batch") {
     val inDir by option().required()
     val introDir by option().required()
     val sponsorPath by option().required()
-    val infosPath by option().required()
+    val infosPath by option()
+    val infosCsv by option()
     val outDir by option().required()
     val skipExisting by option().flag()
 
     override fun run() {
         val outDirFile = File(outDir)
         val inDirFile = File(inDir)
-        val workingDirFile = File(outDir, "/tmp")
         val sponsorFile = File(sponsorPath)
-        val videoInfosFile = File(infosPath)
 
-        val videoInfos = getVideoInfos(videoInfosFile)
+        val videoInfos = when {
+            infosPath != null -> {
+                getVideoInfosFromJson(File(infosPath))
+            }
+            infosCsv != null -> {
+                getVideoInfosFromCsv(File(infosCsv))
+            }
+            else -> {
+                throw IllegalArgumentException("Provide either --infos-path or --infos-csv")
+            }
+        }
 
+        outDirFile.mkdirs()
         for (file in inDirFile.listFiles()) {
             if (file.extension != "mp4") {
                 continue
             }
 
-            workingDirFile.mkdirs()
-            outDirFile.mkdirs()
+            val scratchDir = File(outDir, "/tmp")
+            scratchDir.mkdirs()
             try {
                 val start = System.currentTimeMillis()
 
@@ -395,7 +457,7 @@ val batch = object : CliktCommand(name = "batch") {
                         sponsorsImage = sponsorFile,
                         introImage = introFile,
                         outDir = outDirFile,
-                        scratchDir = workingDirFile,
+                        scratchDir = scratchDir,
                         videoId = videoId,
                         startSec = videoInfo.startTime,
                         endSec = videoInfo.endTime,
@@ -404,14 +466,34 @@ val batch = object : CliktCommand(name = "batch") {
             } catch (e: Exception) {
                 throw e
             } finally {
-               //workingDirFile.deleteRecursively()
+                scratchDir.deleteRecursively()
             }
         }
+    }
+}
+
+val postproc = object: CliktCommand(name = "postproc") {
+
+    override fun run() {
+        val command = "ffmpeg -i 172401.old.mp4 -i gradle_keynote.m4v -map 0:a -filter_complex " +
+                "[0:v]crop=640:480:0:120,scale=200:150[left_webcam];" +
+                "[0:v]crop=640:480:640:120,scale=960:720[right_slides];" +
+                //"[0:v]crop=480:360:120:0,scale=200:150[top_left_webcam];" +
+                //"[0:v]crop=640:360:0:360,scale=1280:720[bottom_left_slides];" +
+                "[0:v]drawbox=:x=0:y=0:w=1280:h=720:color=black:t=fill[black];" +
+                "[1:v]setpts=PTS+608/TB[delayed_slides];" +
+                "[0:v][delayed_slides]overlay[slides];" +
+                "[black][right_slides]overlay=160:0[questions];" +
+                "[slides][questions]overlay=enable='gte(t,1972)'[background];" +
+                "[background][left_webcam]overlay=enable='gte(t,608)':x=main_w-overlay_w-10:y=main_h-overlay_h-10" +
+                " output.mp4"
+
+        execOrDie(command)
     }
 }
 
 object : CliktCommand() {
     override fun run() {
     }
-}.subcommands(batch, generate)
+}.subcommands(batch, generate, postproc)
         .main(args)
