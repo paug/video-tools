@@ -196,8 +196,8 @@ fun getVideoInfosFromCsv(file: File): List<VideoInfo> {
                 val track = it['F' - 'A']
                 val websiteId = it['G' - 'A']
                 val youtubeId = it['H' - 'A']?.substring("https://youtu.be/".length)
-                val title = it[0]
-                val description = it['C' - 'A']
+                val title = it['M' - 'A']
+                val description = it['N' - 'A']
                 val tags = it['O' - 'A']?.split(",")?.map { it.trim() } ?: emptyList()
 
                 println("$title - $track - $websiteId - $youtubeId")

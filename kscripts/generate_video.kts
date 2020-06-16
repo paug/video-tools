@@ -133,9 +133,13 @@ fun doGenerateVideo(video: File,
     execOrDie(mergeCommand)
 
     //trim audio and video streams and place the output in the final path
-    System.out.println("--- Trim merged video to $finalPath")
-    val trimCommand = "ffmpeg -y -i $h264TrimmedPath -to ${(endSec - startSec) + INTRO_FADE_START_MS / 1000} -c copy $finalPath"
-    execOrDie(trimCommand)
+    if (endSec > 0) {
+        System.out.println("--- Trim merged video to $finalPath")
+        val trimCommand = "ffmpeg -y -i $h264TrimmedPath -to ${(endSec - startSec) + INTRO_FADE_START_MS / 1000} -c copy $finalPath"
+        execOrDie(trimCommand)
+    } else {
+        File(h264TrimmedPath).copyTo(File(finalPath))
+    }
 }
 
 data class Parameters(val fps: String, val resolution: String, val mono: Boolean)
@@ -308,8 +312,7 @@ fun execOrDie(command: String) {
         Executing: $command
     """.trimIndent())
     val exitCode = ProcessBuilder(command.split(" "))
-            .redirectOutput(ProcessBuilder.Redirect.INHERIT)
-            .redirectError(ProcessBuilder.Redirect.INHERIT)
+            .inheritIO()
             .start()
             .waitFor()
     if (exitCode != 0) {
@@ -330,6 +333,14 @@ fun concatFiles(out: String, vararg inputs: String) {
     outStream.close()
 }
 
+fun String.toSeconds(): Int {
+    return split(":").let {
+        it.foldIndexed(0) { index, acc, value ->
+            acc + value.toInt() * Math.pow(60.toDouble(), (it.size - 1 - index).toDouble()).toInt()
+        }
+    }
+}
+
 data class VideoInfo(
         @SerializedName("id website") val uid: String,
         @SerializedName("videoStart (mm:ss)") private val startTimeStr: String?,
@@ -337,14 +348,10 @@ data class VideoInfo(
 ) {
 
     val startTime: Int
-        get() = startTimeStr!!.split(":").let { 60 * it[0].toInt() + it[1].toInt() }
+        get() = startTimeStr!!.toSeconds()
 
     val endTime: Int
-        get() = endTimeStr!!.split(":").let {
-            it.foldIndexed(0) { index, acc, value ->
-                acc + value.toInt() * Math.pow(60.toDouble(), (it.size - 1 - index).toDouble()).toInt()
-            }
-        }
+        get() = endTimeStr!!.toSeconds()
 }
 
 fun getVideoInfosFromJson(file: File): Map<String, VideoInfo> {
@@ -465,8 +472,28 @@ val batch = object : CliktCommand(name = "batch") {
     }
 }
 
+val postproc = object: CliktCommand(name = "postproc") {
+
+    override fun run() {
+        val command = "ffmpeg -i 172401.old.mp4 -i gradle_keynote.m4v -map 0:a -filter_complex " +
+                "[0:v]crop=640:480:0:120,scale=200:150[left_webcam];" +
+                "[0:v]crop=640:480:640:120,scale=960:720[right_slides];" +
+                //"[0:v]crop=480:360:120:0,scale=200:150[top_left_webcam];" +
+                //"[0:v]crop=640:360:0:360,scale=1280:720[bottom_left_slides];" +
+                "[0:v]drawbox=:x=0:y=0:w=1280:h=720:color=black:t=fill[black];" +
+                "[1:v]setpts=PTS+608/TB[delayed_slides];" +
+                "[0:v][delayed_slides]overlay[slides];" +
+                "[black][right_slides]overlay=160:0[questions];" +
+                "[slides][questions]overlay=enable='gte(t,1972)'[background];" +
+                "[background][left_webcam]overlay=enable='gte(t,608)':x=main_w-overlay_w-10:y=main_h-overlay_h-10" +
+                " output.mp4"
+
+        execOrDie(command)
+    }
+}
+
 object : CliktCommand() {
     override fun run() {
     }
-}.subcommands(batch, generate)
+}.subcommands(batch, generate, postproc)
         .main(args)

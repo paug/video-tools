@@ -36,24 +36,12 @@ cat NTE-5380.intro.h264 NTE-5380.body.h264 > NTE-5380.merged.h264
 #merge audio and video streams
 ffmpeg -i NTE-5380.merged.aac -r 30 -i NTE-5380.merged.h264 -vcodec copy -acodec copy NTE-5380.merged.mp4
 
+#take the speaker face on the left half and the slides on the right half  and merge them
+ffmpeg -i 176470.mp4 -t 137 -filter_complex '[0:v]crop=640:480:0:120,scale=200:150[webcam];[0:v]crop=640:480:640:120,scale=960:720[slides];[0:v]drawbox=0:0:1280:720:black:fill[black];[black][slides]overlay=160:0[inter];[inter][webcam]overlay=main_w-overlay_w-10:main_h-overlay_h-10'  test.mp4
+
+#take the speaker face on the top left quadrant and the slides on the bottom left quadrant
+ffmpeg -i 176470.mp4 -ss 137 -filter_complex '[0:v]crop=480:360:120:0,scale=200:150[webcam];[0:v]crop=640:360:0:360,scale=1280:720[slides];[0:v]drawbox=0:0:1280:720:black:fill[black];[black][slides]overlay=0:0[inter];[inter][webcam]overlay=main_w-overlay_w-10:main_h-overlay_h-10'  test.mp4
 
 
 
 
-
-
-
-
-
-
-#Old stuff
-ffmpeg -y -loglevel verbose -noaccurate_seek -ss 409 -i ../videos/NTE-5380.mp4 -vcodec copy -an body.mp4
-#ffmpeg -y -loglevel verbose -ss 408.33 -i ../videos/NTE-5380.mp4 -vcodec copy -acodec copy body.mp4
-
-ffmpeg -y -f concat -i mylist.txt -c copy assembled.mp4
-
- #extract right channel
-#ffmpeg -i NTE-5380.mkv -map_channel 0.1.1 NTE-5380.aac
-
-#extract AAC elementary stream
-#ffmpeg -i NTE-5380.mkv -acodec copy NTE-5380.aac
