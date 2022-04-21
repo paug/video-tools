@@ -5,22 +5,9 @@
 * Installer BlackMagic Desktop Video (un reboot sera demandé) 
 * Installer Decimator app
 
-## Modification du fichier de scene
+## Configuration du BlackMagic (salles du haut)
 
-Télécharger ces fichiers et les mettre dans un dossier séparé:
-
-* AM19Scene
-* video_background.jpg
-
-Puis, dans un terminal, aller dans le dossier et entrer ces commandes:
-
-    sed 's?/Users/djavan/AndroidMakers19/VideoSetup?'`pwd`'?' AM19Scene.json > AM19SceneCopy.json 
-    
-    cp AM19SceneCopy.json AM19Scene.json
-
-## Configuration du BlackMagic
-
-* Connecter le BlackMagic à l’ordinateur
+* Connecter le BlackMagic à l’ordinateur avec un cable **Thunderbolt**
 * Ouvrir BlackMagic Desktop Video
 * Cliquer sur le petit bouton au centre
 * Dans Video Input, sélectionner HDMI si l’input du BlackMagic est en HDMI, sinon, sélectionner SDI.
@@ -29,7 +16,7 @@ Puis, dans un terminal, aller dans le dossier et entrer ces commandes:
 
 * Ouvrir OBS
 * Aller dans le menu Scene Collection -> Import 
-* Sélectionner AM19Scene.json
+* Sélectionner video-tools/obs/scene/AndroidMakers.json
 * Brancher les deux cables USB-C (BlackMagic + AverMedia ou AverMedia + AverMedia)
 * Si l’image de la camera n’est pas affichée, click droit sur Camera USB -> Properties et sélectionner le "BlackMagic ..." device (ou AverMedia pour les salles du bas). Refaire cette etape pour toutes les scenes contenant la camera.
 * Si l’image des slides n’est pas affichée, click droit sur Slides USB -> Properties et sélectionner le "AverMedia .." device.
