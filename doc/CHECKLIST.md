@@ -1,9 +1,9 @@
 # Setup
 ## Installation
 
-* Installer OBS
-* Installer BlackMagic Desktop Video (un reboot sera demandé) 
-* Installer Decimator app
+* Installer [OBS](https://obsproject.com/fr/download)
+* Installer [BlackMagic Desktop Video](https://www.blackmagicdesign.com/support/download/e68b93bcae004ec19404defbea9f0b07/Mac%20OS%20X) (un reboot sera demandé) 
+* Installer [Decimator app](http://decimator.com/DOWNLOADS/DOWNLOADS.html)
 
 ## Configuration du BlackMagic (salles du haut)
 
