@@ -51,7 +51,7 @@
         },
         "scripts-tool": []
     },
-    "name": "AM19Scene",
+    "name": "AndroidMakers",
     "preview_locked": false,
     "quick_transitions": [
         {
@@ -214,7 +214,7 @@
             "push-to-talk": false,
             "push-to-talk-delay": 0,
             "settings": {
-                "file": "/Users/djavan/AndroidMakers19/VideoSetup/video_background.jpg"
+                "file": "video_background.png"
             },
             "sync": 0,
             "volume": 1.0
