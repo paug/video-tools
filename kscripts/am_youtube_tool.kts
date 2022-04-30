@@ -1,4 +1,4 @@
-#!/usr/bin/env kscript
+#!/usr/bin/env kotlin
 
 @file:DependsOn("com.squareup.okhttp3:okhttp:3.14.1")
 @file:DependsOn("com.squareup.moshi:moshi:1.8.0")

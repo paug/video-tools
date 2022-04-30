@@ -1,7 +1,8 @@
-#!/usr/bin/env kscript
+#!/usr/bin/env kotlin
 @file:DependsOn("com.github.ajalt:clikt:2.6.0")
 @file:DependsOn("com.google.code.gson:gson:2.8.5")
 @file:DependsOn("com.univocity:univocity-parsers:2.8.4")
+@file:Suppress("PropertyName")
 
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.core.subcommands
@@ -22,15 +23,17 @@ val SPONSORS_FADE_END_MS = 6000
 val INTRO_FADE_START_MS = 8000
 val INTRO_FADE_END_MS = 9000
 
-fun doGenerateVideo(video: File,
-                    sponsorsImage: File,
-                    introImage: File,
-                    outDir: File,
-                    scratchDir: File,
-                    videoId: String,
-                    startSec: Int,
-                    endSec: Int,
-                    skipExisting: Boolean) {
+fun doGenerateVideo(
+    video: File,
+    sponsorsImage: File,
+    introImage: File,
+    outDir: File,
+    scratchDir: File,
+    videoId: String,
+    startSec: Int,
+    endSec: Int,
+    skipExisting: Boolean
+) {
     val path = video.absolutePath
     val outDirPath = outDir.absolutePath
     val scratchDirPath = scratchDir.absolutePath
@@ -135,7 +138,8 @@ fun doGenerateVideo(video: File,
     //trim audio and video streams and place the output in the final path
     if (endSec > 0) {
         System.out.println("--- Trim merged video to $finalPath")
-        val trimCommand = "ffmpeg -y -i $h264TrimmedPath -to ${(endSec - startSec) + INTRO_FADE_START_MS / 1000} -c copy $finalPath"
+        val trimCommand =
+            "ffmpeg -y -i $h264TrimmedPath -to ${(endSec - startSec) + INTRO_FADE_START_MS / 1000} -c copy $finalPath"
         execOrDie(trimCommand)
     } else {
         File(h264TrimmedPath).copyTo(File(finalPath))
@@ -146,7 +150,7 @@ data class Parameters(val fps: String, val resolution: String, val mono: Boolean
 
 fun getParameters(video: File): Parameters {
     val process = ProcessBuilder("ffprobe", video.absolutePath)
-            .start()
+        .start()
     val reader = process.errorStream.bufferedReader()
 
     var fps: String? = null
@@ -199,7 +203,7 @@ fun getVolumeCorrection(path: String): Float {
     val volumeDetectCommand = "ffmpeg -i $path -af volumedetect -vn -sn -dn -f null /dev/null"
     System.out.println("Executing: $volumeDetectCommand")
     val process = ProcessBuilder(volumeDetectCommand.split(" "))
-            .start()
+        .start()
     val reader = process.errorStream.bufferedReader()
     val meanVolume = reader.useLines { lines ->
         lines.mapNotNull {
@@ -255,7 +259,7 @@ fun findNextIFrameInfo(h264Path: String, sec: Int, fps: Double): FrameInfo {
     val command = "ffprobe -show_frames $h264Path"
     System.out.println("Executing: $command")
     val process = ProcessBuilder(command.split(" "))
-            .start()
+        .start()
     val reader = process.inputStream.bufferedReader()
     val frameInfo = reader.useLines { lines ->
         var pos: Long = 0
@@ -306,15 +310,17 @@ fun findNextIFrameInfo(h264Path: String, sec: Int, fps: Double): FrameInfo {
 }
 
 fun execOrDie(command: String) {
-    println("""
+    println(
+        """
 
         **********************************************
         Executing: $command
-    """.trimIndent())
+    """.trimIndent()
+    )
     val exitCode = ProcessBuilder(command.split(" "))
-            .inheritIO()
-            .start()
-            .waitFor()
+        .inheritIO()
+        .start()
+        .waitFor()
     if (exitCode != 0) {
         throw Exception("'$command': failed with exitCode=$exitCode")
     }
@@ -342,9 +348,9 @@ fun String.toSeconds(): Int {
 }
 
 data class VideoInfo(
-        @SerializedName("id website") val uid: String,
-        @SerializedName("videoStart (mm:ss)") private val startTimeStr: String?,
-        @SerializedName("videoEnd (mm:ss)") private val endTimeStr: String?
+    @SerializedName("id website") val uid: String,
+    @SerializedName("videoStart (mm:ss)") private val startTimeStr: String?,
+    @SerializedName("videoEnd (mm:ss)") private val endTimeStr: String?
 ) {
 
     val startTime: Int
@@ -368,51 +374,93 @@ fun getVideoInfosFromCsv(file: File): Map<String, VideoInfo> {
     }
 
     return records.drop(1) // drop the headers
-            .mapNotNull {
-                println(it.joinToString("!"))
-
-                val uid = it[6]
-                val start = it[9]
-                val end = it[10]
-                if (uid == null) {
-                    null
-                } else {
-                    VideoInfo(uid = uid,
-                            startTimeStr = start,
-                            endTimeStr = end
-                    )
-                }
-            }.groupBy { it.uid }
-            .mapValues { it.value.first() }
+        .mapNotNull {
+            val uid = it[4]
+            val start = it[11]
+            val end = it[12]
+            //println("got $uid - $start - $end")
+            if (uid == null || start == null || end == null) {
+                null
+            } else {
+                VideoInfo(
+                    uid = uid,
+                    startTimeStr = start,
+                    endTimeStr = end
+                )
+            }
+        }.groupBy { it.uid }
+        .mapValues { it.value.first() }
 }
 
-val generate = object : CliktCommand(name = "generate") {
-    val video by option().required()
-    val sponsorsImage by option().required()
-    val introImage by option().required()
-    val startSec by option().int().required()
-    val outDir by option().required()
-    val videoId by option().required()
+val generate = object : CliktCommand(
+    name = "generate",
+    help = """
+        Generate a single video.
+        Use for testing
+    """.trimIndent()
+) {
+    val video by option(
+        help = """
+            Path to the mkv file
+        """.trimIndent()
+    ).required()
+    val sponsorsImage by option(
+        help = """
+            Path to the sponsors image. Will be resized to the video dimensions
+        """.trimIndent()
+    ).required()
+    val introImage by option(
+        help = """
+            Path to the intro image. Will be resized to the video dimensions
+        """.trimIndent()
+    ).required()
+    val startSec by option(
+        help = """
+            Integer number of seconds before the video starts 
+        """.trimIndent()
+    ).int().required()
+    val outDir by option(
+        help = """
+            Output directory
+        """.trimIndent()
+    ).required()
+    val videoId by option(
+        help = """
+            Video id. Only used to name temporary files
+        """.trimIndent()
+    ).required()
 
     override fun run() {
         doGenerateVideo(
-                video = File(video),
-                sponsorsImage = File(sponsorsImage),
-                introImage = File(introImage),
-                outDir = File(outDir),
-                scratchDir = File("$outDir/tmp"),
-                videoId = videoId,
-                startSec = startSec,
-                endSec = 0,
-                skipExisting = false
+            video = File(video),
+            sponsorsImage = File(sponsorsImage),
+            introImage = File(introImage),
+            outDir = File(outDir),
+            scratchDir = File("$outDir/tmp"),
+            videoId = videoId,
+            startSec = startSec,
+            endSec = 0,
+            skipExisting = false
         )
     }
 }
 
 val batch = object : CliktCommand(name = "batch") {
-    val inDir by option().required()
-    val introDir by option().required()
-    val sponsorPath by option().required()
+    val inDir by option(
+        help = """
+            The input directory with all the video named ${'$'}videoId.[mp4|mkv]
+        """.trimIndent()
+    ).required()
+    val introDir by option(
+        help = """
+            The directory with the intro pngs
+        """.trimIndent()
+    ).required()
+    val sponsorPath by option(
+        help = """
+            The path to the sponsors image
+        """.trimIndent()
+    ).required()
     val infosPath by option()
     val infosCsv by option()
     val outDir by option().required()
@@ -437,7 +485,7 @@ val batch = object : CliktCommand(name = "batch") {
 
         outDirFile.mkdirs()
         for (file in inDirFile.listFiles()) {
-            if (file.extension != "mp4") {
+            if (file.extension != "mp4" && file.extension != "mkv") {
                 continue
             }
 
@@ -449,19 +497,20 @@ val batch = object : CliktCommand(name = "batch") {
                 val videoId = file.nameWithoutExtension
                 System.err.println("Generating video $videoId")
 
-                val videoInfo = videoInfos.getValue(videoId)
+                val videoInfo = videoInfos[videoId] ?: continue
                 val introFile = File(introDir, "$videoId.png")
 
                 doGenerateVideo(
-                        video = file,
-                        sponsorsImage = sponsorFile,
-                        introImage = introFile,
-                        outDir = outDirFile,
-                        scratchDir = scratchDir,
-                        videoId = videoId,
-                        startSec = videoInfo.startTime,
-                        endSec = videoInfo.endTime,
-                        skipExisting = skipExisting)
+                    video = file,
+                    sponsorsImage = sponsorFile,
+                    introImage = introFile,
+                    outDir = outDirFile,
+                    scratchDir = scratchDir,
+                    videoId = videoId,
+                    startSec = videoInfo.startTime,
+                    endSec = videoInfo.endTime,
+                    skipExisting = skipExisting
+                )
                 System.err.println("Generating video $videoId took ${(System.currentTimeMillis() - start) / 1000}s")
             } catch (e: Exception) {
                 throw e
@@ -472,7 +521,7 @@ val batch = object : CliktCommand(name = "batch") {
     }
 }
 
-val postproc = object: CliktCommand(name = "postproc") {
+val postproc = object : CliktCommand(name = "postproc") {
 
     override fun run() {
         val command = "ffmpeg -i 172401.old.mp4 -i gradle_keynote.m4v -map 0:a -filter_complex " +
@@ -496,4 +545,4 @@ object : CliktCommand() {
     override fun run() {
     }
 }.subcommands(batch, generate, postproc)
-        .main(args)
+    .main(args)
