@@ -376,8 +376,8 @@ fun getVideoInfosFromCsv(file: File): Map<String, VideoInfo> {
     return records.drop(1) // drop the headers
         .mapNotNull {
             val uid = it[4]
-            val start = it[11]
-            val end = it[12]
+            val start = it[12]
+            val end = it[13]
             //println("got $uid - $start - $end")
             if (uid == null || start == null || end == null) {
                 null
@@ -497,7 +497,12 @@ val batch = object : CliktCommand(name = "batch") {
                 val videoId = file.nameWithoutExtension
                 System.err.println("Generating video $videoId")
 
-                val videoInfo = videoInfos[videoId] ?: continue
+                val videoInfo = videoInfos[videoId]
+
+                if (videoInfo == null) {
+                    println("No videoInfo found for $videoId")
+                    continue
+                }
                 val introFile = File(introDir, "$videoId.png")
 
                 doGenerateVideo(
