@@ -34,6 +34,8 @@ There is no script to do this at the moment. It requires manually uploading and 
 
 ## Editing the metadata 
 
-(TBD) To run the scripts:
+You can update the metadata with `youtube.main.kts`. It requires a valid access token with Youtube Data API v3 scope. The process to get one is bit convoluted. Follow the instruction given when running the script:
 
-    ./am_youtube_tool.kts
+```
+./youtube.main.kts update --mapping-csv ~/Downloads/Captation2022/data.csv --metadata-json ~/Downloads/Captation2022/youtube-input.json --thumbnails ~/git/tmpAndroidMakersVisuals/THUMBNAIL --only IDH-6371,YLE-5245,SGC-3820
+```
