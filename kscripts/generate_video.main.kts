@@ -120,7 +120,7 @@ fun doGenerateVideo(
 
     //encode the audio stream, with the fade in and volume filter
     val monoFilter = if (!parameters.mono) {
-        "pan=mono|c0=FR,"
+        "pan=mono|c0=FL,"
     } else {
         "" // nothing to do
     }

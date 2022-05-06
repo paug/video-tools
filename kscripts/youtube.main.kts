@@ -140,6 +140,12 @@ val updateCommand = object : CliktCommand(
             A CSV file containing the website ID <-> youtube ID mapping
         """.trimIndent()
     ).required()
+
+    val only by option(
+            help = """
+                A list of coma separated Ids to limit the update to
+            """.trimIndent()
+    )
     val metadataJson by option(
         help = """
             A Json file containing the metadata
@@ -151,6 +157,11 @@ val updateCommand = object : CliktCommand(
         val videoInfos = getVideoInfos(File(metadataJson), File(mappingCsv))
 
         videoInfos.forEach { it ->
+
+            if (only != null && !only!!.split(",").map { it.trim() }.contains(it.websiteId)) {
+                return@forEach
+            }
+            
             val thumbnail = File(thumbnails, "${it.websiteId}.png")
 
             updateMetaData(it)
