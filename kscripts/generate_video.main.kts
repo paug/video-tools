@@ -419,6 +419,11 @@ val generate = object : CliktCommand(
             Integer number of seconds before the video starts 
         """.trimIndent()
     ).int().required()
+    val endSec by option(
+        help = """
+            Integer number of seconds when the video ends 
+        """.trimIndent()
+    ).int().required()
     val outDir by option(
         help = """
             Output directory
@@ -439,7 +444,7 @@ val generate = object : CliktCommand(
             scratchDir = File("$outDir/tmp"),
             videoId = videoId,
             startSec = startSec,
-            endSec = 0,
+            endSec = endSec,
             skipExisting = false
         )
     }
