@@ -17,9 +17,7 @@
 - 2 micros main
 
 # 202
-- 1 clickshare
-- 1 table de mixage avec entrées + sorties XHR coté écran
-- 2 micros main HF
+- See [202.md](202.md)
 
 # 204
 - 1 Grande TV
