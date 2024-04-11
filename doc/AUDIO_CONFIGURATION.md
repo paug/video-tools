@@ -10,6 +10,7 @@ During synchronisation, the receiver sends the frequency to the transmitter. To 
 
 - Long press the "sync" button on the transmitter until "sync" blinks on the "receiver"
 - Press the "sync" button on the receiver
+- ⚠️Beware there are multiple frequency bands for RX/TX. Make sure your RX matches the TX
 
 ## Audio levels
 

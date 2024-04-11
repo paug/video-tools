@@ -1,49 +1,59 @@
-# Setup
-## Installation
+# Before AndroidMakers
 
-* Installer [OBS](https://obsproject.com/fr/download)
-* Installer [BlackMagic Desktop Video](https://www.blackmagicdesign.com/support/download/e68b93bcae004ec19404defbea9f0b07/Mac%20OS%20X) (un reboot sera demandé) 
-* Installer [Decimator app](http://decimator.com/DOWNLOADS/DOWNLOADS.html)
+## Prepare your laptop
 
-## Configuration du BlackMagic (salles du haut)
+* Make sure to have several ~10s of GB of storage available, ideally 50GB
+* Take hardwired headphones, they typically have lower latency than bluetooth + they can help troubleshoot the camera if needed
 
-* Connecter le BlackMagic à l’ordinateur avec un cable **Thunderbolt**
-* Ouvrir BlackMagic Desktop Video
-* Cliquer sur le petit bouton au centre
-* Dans Video Input, sélectionner HDMI si l’input du BlackMagic est en HDMI, sinon, sélectionner SDI.
+## OBS configuration
 
-## Configuration d’OBS
+* Install [OBS](https://obsproject.com/fr/download)
+* Configure the scene
+* Go to the Scene Collection menu -> Import
+* Select video-tools/obs/scene/AndroidMakers.json
+* Connect the two USB-C cables (BlackMagic + AverMedia or AverMedia + AverMedia)
+* If the camera picture is not displayed, right click on Camera USB -> Properties and select the "BlackMagic..." device (or AverMedia for the lower rooms). Repeat this step for all scenes containing the camera.
+* If the slides picture is not displayed, right click on Slides USB -> Properties and select the "AverMedia.." device.
+* Repeat this step for all scenes containing slides.
 
-* Ouvrir OBS
-* Aller dans le menu Scene Collection -> Import 
-* Sélectionner video-tools/obs/scene/AndroidMakers.json
-* Brancher les deux cables USB-C (BlackMagic + AverMedia ou AverMedia + AverMedia)
-* Si l’image de la camera n’est pas affichée, click droit sur Camera USB -> Properties et sélectionner le "BlackMagic ..." device (ou AverMedia pour les salles du bas). Refaire cette etape pour toutes les scenes contenant la camera.
-* Si l’image des slides n’est pas affichée, click droit sur Slides USB -> Properties et sélectionner le "AverMedia .." device.
-* Refaire cette étape pour toutes les scenes contenant les slides.
-* Un fois la caméra branchée, refaire le crop de la vidéo dans OBS dans la scene MainScene. Pour ça, click droit sur la source Camera USB -> Transform -> Edit Transform.
-* Configurer le format d’enregistrement:
-* Aller dans Settings
-  * Dans Output, choisir mkv dans Output format
-  * Dans Video, choisir 1920x1080 pour les 2 résolutions. Choisir 30fps.
+In **Output**, mkv, 5000kbps,
 
-Bien penser a faire de la place sur son ordinateur !!!!
+![](https://storage.googleapis.com/androidmakers-static/obs_output.png)
 
-# Durant AndroidMakers
+In **Video**, choose 1920x1080 for the 2 resolutions. Choose 30fps.
 
-## Avant un talk
+![](https://storage.googleapis.com/androidmakers-static/obs_video.png)
 
-* Démarrer OBS
-* Vérifier que les deux vidéos (caméra et slides) sont affiché sur le logiciel
-* Vérifier que le son est bien affiché (barre verte en bas) 
-* Cliquer sur "record video"
-* Au démarrage du Talk, noter le début de la vidéo (en bas) dans un fichier texte nommé avec l'id du texte (voir template) 
+## (If necessary) BlackMagic 
+* (If NecessaryInstall [BlackMagic Desktop Video](https://www.blackmagicdesign.com/support/download/e68b93bcae004ec19404defbea9f0b07/Mac%20OS%20X)
+  * Connect the BlackMagic to the computer with a **Thunderbolt** cable (⚠️you need a thunderbolt cable and not USB-C)
+  * Open BlackMagic Desktop Video
+  * Click on the small button in the center
+  * In Video Input, select HDMI if the BlackMagic input is HDMI, otherwise, select SDI.
 
-## Pendant un talk
-* Écouter le talk via les écouteurs afin de vérifier la prise de son. Si problème de son, prévenir régie (salle bas), Alex ou autre
-* Regarder le frame rate de la vidéo (en bas à droite), si en dessous de 25fps, essayer de changer de scène, prévenir quelqu'un 
-* Vérifier que le speaker est bien dans le cadre vidéo. Ajuster camera si cela arrive/arrivera trop souvent. Si seulement temporaire, ne pas hésiter à passer sur la scène "slides plein écran" en cliquant sur la scene FullScreen slides
+# During The Event
 
-## Après un talk
-* Arrêter l'enregistrement
-* Renommer enregistrement avec l'id du Talk (traitement automatique après)
+## Before a talk
+
+* Start OBS
+* Check that both videos (camera and slides) are displayed on the software
+* Check that the sound is correctly displayed (green bar at the bottom)
+* Click on “record video”
+* When starting the Talk, note the start of the video (at the bottom) in a text file named with the text id (see template)
+
+## During a talk
+* Listen to the talk via headphones to check the sound recording. If there is a sound problem, notify the control room (lower room), Alex or others
+* Look at the frame rate of the video (bottom right), if below 25fps, try to change scene, tell someone
+* Check that the speaker is in the video frame. Adjust camera if this happens/will happen too often. If only temporary, don't hesitate to go to the "full screen slides" scene by clicking on the FullScreen slides scene
+
+## After a talk
+* Stop recording
+* Rename recording with Talk ID (automatic processing after)
+
+# Troubleshooting
+
+## Audio monitor doesn't work in OBS
+
+If that happens, go to advanced audio properties and click "Monitor Off" and then back "Monitor and Output" again.
+
+![](https://storage.googleapis.com/androidmakers-static/obs_audio_monitor.png)
