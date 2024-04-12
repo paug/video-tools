@@ -1,24 +1,41 @@
 # Moebius
+- Alex K. Camera
+- Benju's laptop
 
-- Sortie SDI slides
-- Sortie XHR audio
-- Retours scene == mirror grand ecran
-- Timer à controller depuis les coulisses pour indiquer le temps restant
-- Le son du HDMI peut etre diffusé dans la salle
-- 2 micros casque gérés par technicien beffroi
-- 2 micros main gérés par technicien beffroi
-- 2 micros main gérés par nous pour questions salle
+- SDI camera => AverMedia capture
+- SDI slides => AverMedia capture
+- XHR audio => Camera input
+- HDMI sound can be broadcast in the room if needed
+- 2 headset microphones managed by a Beffroi technician
 
 # Blin
-- Sortie SDI slides
-- Sortie XHR audio
-- Retours scene == mirror grand ecran
-- 2 micros col de cygne attachés au pupitre
-- 2 micros main
+- Alex K. Camera
+- ???'s laptop
+
+- SDI camera => AverMedia capture
+- SDI slides => AverMedia capture
+- XHR audio => Camera input
+- 2 gooseneck microphones attached to the lectern
+
+# DevLounge
+- Alex K. Camera
+- Edouard's laptop
+
+- ??
 
 # 202
-- See [202.md](202.md)
+- Martin's Camera
+- Martin's laptop
+
+- SDI camera => BlackMagic capture
+- SDI slides => BlackMagic capture
+- 2x PAUG Sennheiser mic + Mixing table
+- XHR audio out
+
+- See [202.md](202.md) for more details
 
 # 204
-- 1 Grande TV
-- Possibilité d'avoir une enceinte portable du Beffroi (?). Mais on a fait avec le Google Home maxi de Edouard
+- Edouard's Camera
+- Edouard's laptop
+- 1 Large TV
+
