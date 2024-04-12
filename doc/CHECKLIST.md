@@ -20,7 +20,7 @@ In **Output**, mkv, 5000kbps,
 
 ![](https://storage.googleapis.com/androidmakers-static/obs_output.png)
 
-In **Video**, choose 1920x1080 for the 2 resolutions. Choose 30fps.
+In **Video**, choose 1920x1080 for the 2 resolutions. Choose 30fps. Edouard will do 4k, 60fps 💪
 
 ![](https://storage.googleapis.com/androidmakers-static/obs_video.png)
 
