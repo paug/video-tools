@@ -76,8 +76,6 @@ fun createOutro(
 }
 
 /**
- * @param sponsors a png or mp4 file containing the sponsors. Will be looped and resized as needed to match video
- * @param sponsorsDuration the time to display the sponsor (not including fade)
  * @param intro a png or mp4 file containing the sponsors. Will be looped and resized as needed to match video
  * @param introDuration the time to display the intro (not including fade)
  * @param video a h264 file containing the video
@@ -525,10 +523,10 @@ fun getVideoInfosFromCsv(file: File): Map<String, VideoInfo> {
 
     return records.drop(1) // drop the headers
         .mapNotNull {
-            val uid = it[4]
-            val start = it[12]
-            val end = it[13]
-            //println("got $uid - $start - $end")
+            val uid = it[0]
+            val start = it[7]
+            val end = it[8]
+            println("got $uid - $start - $end")
             if (uid == null || start == null || end == null) {
                 null
             } else {
@@ -613,7 +611,7 @@ val batch = object : CliktCommand(name = "batch") {
     ).required()
     val sponsorPath by option(
         help = """
-            The path to the sponsors image
+            The path to the sponsors image or video used in the end screen
         """.trimIndent()
     ).required()
     val infosPath by option()
@@ -641,6 +639,12 @@ val batch = object : CliktCommand(name = "batch") {
         }
 
         outDirFile.mkdirs()
+        videoInfos.keys.forEach {
+            if (inDirFile.resolve("$it.mkv").exists() || inDirFile.resolve("$it.mp4").exists() || inDirFile.resolve("$it.mov").exists()) {
+                return@forEach
+            }
+            error("No video found for $it")
+        }
         for (file in inDirFile.listFiles()!!) {
             if (file.extension != "mp4" && file.extension != "mkv") {
                 continue
