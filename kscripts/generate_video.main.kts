@@ -1,5 +1,6 @@
 #!/usr/bin/env kotlin
 @file:DependsOn("com.github.ajalt:clikt:2.6.0")
+@file:DependsOn("com.squareup.okio:okio-jvm:3.3.0")
 @file:DependsOn("com.google.code.gson:gson:2.8.5")
 @file:DependsOn("com.univocity:univocity-parsers:2.8.4")
 @file:Suppress("PropertyName")
@@ -15,18 +16,130 @@ import com.google.gson.annotations.SerializedName
 import com.google.gson.reflect.TypeToken
 import com.univocity.parsers.csv.CsvParser
 import com.univocity.parsers.csv.CsvParserSettings
+import okio.FileSystem
+import okio.Path.Companion.toPath
+import okio.buffer
 import java.io.File
+import kotlin.math.pow
 
 
-val SPONSORS_FADE_START_MS = 5000
-val SPONSORS_FADE_END_MS = 6000
-val INTRO_FADE_START_MS = 8000
-val INTRO_FADE_END_MS = 9000
+val INTRO_FADE_START = 3.0
+val INTRO_FADE_END = 4.0
+val OUTRO_DURATION = 17.0
+
+/**
+ * @param sponsors a png or mp4 file containing the sponsors. Will be looped and resized as needed to match video
+ * @param sponsorsDuration the time to display the sponsor (not including fade)
+ * @param video a h264 file containing the video
+ *
+ * @return the path to a raw h264 stream using parameters
+ */
+fun createOutro(
+    sponsors: File,
+    sponsorsDuration: Double,
+    video: File,
+    delay: Double,
+    scratchPath: String,
+    fadeDuration: Double,
+    parameters: Parameters,
+): String {
+    val h264path = "$scratchPath/outro.h264"
+
+    val fps = parameters.fps.toDouble()
+
+    /**
+     * loop sponsors and intro forever
+     */
+    val sponsorsArg = if (sponsors.extension == "png") {
+        " -stream_loop -1 -framerate $fps -i ${sponsors.absolutePath}"
+    } else {
+        " -stream_loop -1 -i ${sponsors.absolutePath}"
+    }
+
+    val videoArg = " -framerate $fps -i ${video.absolutePath}"
+
+    val command = "ffmpeg -y" + sponsorsArg  + videoArg +
+            " -filter_complex " +
+            // normalize resolution on sponsors
+            "[0:v]scale=size=${parameters.resolution}[sponsors];" +
+            //
+            "[1:v]setpts=PTS-STARTPTS[video];" +
+            // fade out sponsors
+            "[sponsors]format=pix_fmts=yuva420p,fade=t=in:st=$delay:d=${fadeDuration}:alpha=1[sponsors_faded];" +
+            // video is below intro, revealing it when sponsors get faded out
+            "[video][sponsors_faded]overlay,trim=duration=${sponsorsDuration + delay}" +
+            " -b:v 3M $h264path"
+
+    execOrDie(command)
+
+    return h264path
+}
+
+/**
+ * @param sponsors a png or mp4 file containing the sponsors. Will be looped and resized as needed to match video
+ * @param sponsorsDuration the time to display the sponsor (not including fade)
+ * @param intro a png or mp4 file containing the sponsors. Will be looped and resized as needed to match video
+ * @param introDuration the time to display the intro (not including fade)
+ * @param video a h264 file containing the video
+ * @param skipFrames the number of frames to skip at the beginning of [video]
+ *
+ * @return the path to a raw h264 stream using parameters
+ */
+fun createIntro(
+    intro: File,
+    introDuration: Double,
+    video: File,
+    skipFrames: Int,
+    scratchPath: String,
+    fadeDuration: Double,
+    parameters: Parameters,
+): String {
+    val h264path = "$scratchPath/intro.h264"
+
+    val fps = parameters.fps.toDouble()
+
+    val introArg = if (intro.extension == "png") {
+        " -stream_loop -1 -framerate $fps -t 10 -i ${intro.absolutePath}"
+    } else {
+        " -stream_loop -1 -i ${intro.absolutePath}"
+    }
+    val image = " -stream_loop -1 -framerate $fps -t 10 -i /Users/mbonnin/git/video-tools/out/tmp/sponsors.png"
+
+    val videoArg = " -framerate $fps -i ${video.absolutePath}"
+
+    val fade1Start = introDuration
+
+    val command = "ffmpeg -y" + introArg + videoArg + image +
+            " -filter_complex " +
+            // normalize resolution on intro
+            "[0:v]scale=size=${parameters.resolution},setpts=PTS-STARTPTS[intro];" +
+            //
+            "[1:v]trim=start_frame=$skipFrames,setpts=PTS-STARTPTS[video];" +
+            // delay0 is never displayed, it just serves as padding
+            "[2:v]scale=size=${parameters.resolution},trim=start=0:end=$fade1Start[delay0];" +
+            // delay video
+            "[delay0][video]concat[delayed_video];" +
+            // fade out sponsors
+            "[intro]format=pix_fmts=yuva420p,fade=t=out:st=$fade1Start:d=${fadeDuration}:alpha=1[intro_faded];" +
+            // intro is below sponsors, revealing it when sponsors get faded out
+            "[delayed_video][intro_faded]overlay=shortest=1" +
+            " -b:v 3M $h264path"
+
+    execOrDie(command)
+
+    return h264path
+}
+
+val Double.inMillis
+    get() = times(1000).toLong()
+
+val Long.inSeconds
+    get() = toDouble().div(1000)
 
 fun doGenerateVideo(
     video: File,
-    sponsorsImage: File,
-    introImage: File,
+    sponsors: File,
+    intro: File,
     outDir: File,
     scratchDir: File,
     videoId: String,
@@ -40,83 +153,73 @@ fun doGenerateVideo(
 
     scratchDir.mkdirs()
 
-    System.out.println("generateVideo: $videoId")
+    println("generateVideo: $videoId")
     val h264Path = "$scratchDirPath/$videoId.h264"
-    val sponsorsPath = "$scratchDirPath/sponsors.png"
-    val pngPath = "$scratchDirPath/intro.png"
-    val h264SponsorsPath = "$scratchDirPath/$videoId.sponsors.h264"
-    val h264IntroPath = "$scratchDirPath/$videoId.intro.h264"
 
+    val h264IntroPath = "$scratchDirPath/$videoId.intro.h264"
+    val h264OutroPath = "$scratchDirPath/$videoId.outro.h264"
     val h264BodyPath = "$scratchDirPath/$videoId.body.h264"
     val h264MergedPath = "$scratchDirPath/$videoId.merged.h264"
-    val h264TrimmedPath = "$scratchDirPath/$videoId.trimmed.mp4"
+    val mp4MergedPath = "$scratchDirPath/$videoId.trimmed.mp4"
     val aacPath = "$scratchDirPath/$videoId.aac"
     val finalPath = "$outDirPath/$videoId.mp4"
 
     if (skipExisting && File(finalPath).exists()) {
-        System.out.println("skipping existing file: $finalPath")
+        println("skipping existing file: $finalPath")
         return
     }
 
     val parameters = getParameters(video)
-    val resolution = parameters.resolution
     val fps = parameters.fps.toDouble()
 
-    System.out.println("parameters=$parameters")
+    println("parameters=$parameters")
 
-    System.out.println("--- resize inputs: $videoId")
-    execOrDie("convert ${introImage.absolutePath} -resize $resolution $pngPath")
-    execOrDie("convert ${sponsorsImage.absolutePath} -resize $resolution $sponsorsPath")
-
-    System.out.println("--- create sponsors.h264: $videoId")
-    var fadeStartSec = SPONSORS_FADE_START_MS / 1000
-    var fadeDurationSec = (SPONSORS_FADE_END_MS - SPONSORS_FADE_START_MS) / 1000
-
-    //create the sponsors, use the original source, not the h264 stream to get the timestamps
-    val durationSec = SPONSORS_FADE_END_MS / 1000
-    val sponsorsCommand = "ffmpeg -y" +
-            " -loop 1 -framerate $fps -t $durationSec -i $sponsorsPath" +
-            " -loop 1 -framerate $fps -t $durationSec -i $pngPath" +
-            " -filter_complex [0:v]format=pix_fmts=yuva420p,fade=t=out:st=$fadeStartSec:d=$fadeDurationSec:alpha=1[intro];" +
-            "[1:v][intro]overlay" +
-            " -b:v 3M $h264SponsorsPath"
-    execOrDie(sponsorsCommand)
-
-    System.out.println("--- extract H264 elementary stream: $videoId")
+    println("--- extract H264 elementary stream: $videoId")
     execOrDie("ffmpeg -y -i $path -vcodec copy -vbsf h264_mp4toannexb $h264Path")
 
-    System.out.println("--- Get volume correction: $videoId")
-    val correction = getVolumeCorrection(path)
+    println("--- Find IFRAME: $videoId")
+    val segment = findH264Info(h264Path, startSec, endSec, fps)
 
-    System.out.println("--- Find next IFRAME: $videoId")
-    val nextIFrame = findNextIFrameInfo(h264Path, startSec + 40, fps)
-    // Removed 0.01 to make sure to not include the last extra frame which will be in the body when rounding
-    val roundingSecurity = 0.01
-    val trimTime = nextIFrame.number.toFloat() / fps - roundingSecurity
+    println("--- Creating $h264IntroPath")
+    slice(h264Path, segment.keyFrameBeforeStart.pos, segment.keyFrameAfterStart.pos, h264IntroPath)
 
-    System.out.println("Trim time: $trimTime")
+    println("--- Creating $h264BodyPath")
+    slice(h264Path, segment.keyFrameAfterStart.pos, segment.keyFrameBeforeEnd.pos, h264BodyPath)
 
-    System.out.println("--- Creating $h264BodyPath")
-    execOrDie("dd bs=${nextIFrame.pos} if=$h264Path of=$h264BodyPath skip=1")
+    println("--- Creating $h264OutroPath")
+    slice(h264Path, segment.keyFrameBeforeEnd.pos, -1, h264OutroPath)
 
-    fadeStartSec = (INTRO_FADE_START_MS - SPONSORS_FADE_END_MS) / 1000
-    fadeDurationSec = (INTRO_FADE_END_MS - INTRO_FADE_START_MS) / 1000
+    println("--- create outro.h264: $videoId")
 
-    //create the intro, use the original source, not the h264 stream to get the timestamps
-    System.out.println("--- Creating $h264IntroPath")
-    val introCommand = "ffmpeg -y" +
-            " -loop 1 -framerate $fps -t 10 -i $pngPath" +
-            " -i $path" +
-            " -filter_complex [0:v]format=pix_fmts=yuva420p,fade=t=out:st=$fadeStartSec:d=$fadeDurationSec:alpha=1[intro];" +
-            "[1:v]trim=$startSec:$trimTime,setpts=PTS-STARTPTS+$fadeStartSec/TB[content];" +
-            "[content][intro]overlay" +
-            " -b:v 3M $h264IntroPath"
-    System.out.println(introCommand)
-    execOrDie(introCommand)
+    val h264Outro = createOutro(
+        sponsors = sponsors,
+        sponsorsDuration = OUTRO_DURATION,
+        video = File(h264OutroPath),
+        delay = (segment.end.number - segment.keyFrameBeforeEnd.number)/fps,
+        scratchPath = scratchDirPath,
+        fadeDuration = INTRO_FADE_END - INTRO_FADE_START,
+        parameters = parameters
+    )
+
+    println("--- create intro.h264: $videoId")
+
+    val h264Intro = createIntro(
+        intro = intro,
+        introDuration = INTRO_FADE_START,
+        video = File(h264IntroPath),
+        skipFrames = segment.start.number - segment.keyFrameBeforeStart.number,
+        scratchPath = scratchDirPath,
+        fadeDuration = INTRO_FADE_END - INTRO_FADE_START,
+        parameters = parameters
+    )
+
 
     // assemble intro and body
-    System.out.println("--- Merge h264 to $h264MergedPath")
-    concatFiles(h264MergedPath, h264SponsorsPath, h264IntroPath, h264BodyPath)
+    println("--- Merge h264 to $h264MergedPath")
+    concatFiles(h264MergedPath, h264Intro, h264BodyPath, h264Outro)
+
+    println("--- Get volume correction: $videoId")
+    val correction = getVolumeCorrection(path)
 
     //encode the audio stream, with the fade in and volume filter
     val monoFilter = if (!parameters.mono) {
@@ -126,28 +229,34 @@ fun doGenerateVideo(
     }
     val audioCommand = "ffmpeg -y " +
             "-i $path " +
-            "-filter_complex [0:a]${monoFilter}atrim=$startSec,asetpts=PTS-STARTPTS,afade=t=in:st=0:d=1,volume=${correction}dB,adelay=$INTRO_FADE_START_MS" +
+            "-i /Users/mbonnin/dev/am2023/music.wav"
+            "-filter_complex [0:a]${monoFilter}atrim=$startSec,asetpts=PTS-STARTPTS,afade=t=in:st=0:d=1,afade=t=out:st=${endSec-startSec}:d=4,volume=${correction}dB,adelay=${INTRO_FADE_START.inMillis}[main];" +
+                    "[1:a]afade=t=in:st=0:d=4,adelay=${(endSec - startSec) + INTRO_FADE_START}[music]" +
+                    "[main][music]amix" +
             " $aacPath"
     execOrDie(audioCommand)
 
     //merge audio and video streams
-    System.out.println("--- Merge audio and video to $h264TrimmedPath")
-    val mergeCommand = "ffmpeg -y -i $aacPath -r $fps -i $h264MergedPath -vcodec copy -acodec copy $h264TrimmedPath"
+    println("--- Merge audio and video to $mp4MergedPath")
+    val mergeCommand = "ffmpeg -y -i $aacPath -r $fps -i $h264MergedPath -vcodec copy -acodec copy $mp4MergedPath"
     execOrDie(mergeCommand)
 
     //trim audio and video streams and place the output in the final path
     if (endSec > 0) {
-        System.out.println("--- Trim merged video to $finalPath")
+        println("--- Trim merged video to $finalPath")
         val trimCommand =
-            "ffmpeg -y -i $h264TrimmedPath -to ${(endSec - startSec) + INTRO_FADE_START_MS / 1000} -c copy $finalPath"
+            "ffmpeg -y -i $mp4MergedPath -to ${(endSec - startSec) + INTRO_FADE_START + OUTRO_DURATION} -c copy $finalPath"
         execOrDie(trimCommand)
     } else {
-        File(h264TrimmedPath).copyTo(File(finalPath))
+        File(mp4MergedPath).copyTo(File(finalPath))
     }
 }
 
 data class Parameters(val fps: String, val resolution: String, val mono: Boolean)
 
+/**
+ * Find resolution and fps of the source video to generate intro & sponsors using matching parameters
+ */
 fun getParameters(video: File): Parameters {
     val process = ProcessBuilder("ffprobe", video.absolutePath)
         .start()
@@ -201,7 +310,7 @@ fun getVolumeCorrection(path: String): Float {
     //[Parsed_volumedetect_0 @ 0x3a5f900] histogram_30db: 72813
     //[Parsed_volumedetect_0 @ 0x3a5f900] histogram_31db: 121176
     val volumeDetectCommand = "ffmpeg -i $path -af volumedetect -vn -sn -dn -f null /dev/null"
-    System.out.println("Executing: $volumeDetectCommand")
+    println("Executing: $volumeDetectCommand")
     val process = ProcessBuilder(volumeDetectCommand.split(" "))
         .start()
     val reader = process.errorStream.bufferedReader()
@@ -222,11 +331,23 @@ fun getVolumeCorrection(path: String): Float {
     return -20 - meanVolume
 }
 
-class FrameInfo(val pos: Long, val number: Int)
+data class FrameInfo(val pos: Long, val number: Int)
 
-fun findNextIFrameInfo(h264Path: String, sec: Int, fps: Double): FrameInfo {
-    //find the 1st IFrame after sec
-    //will output something like this
+/**
+ * start: IFrame at the beginning of the segment
+ * middle: Frame (not necessarily IFrame) just after start
+ * end: Iframe at the end of the segment
+ */
+data class H264Info(val keyFrameBeforeStart: FrameInfo, val start: FrameInfo, val keyFrameAfterStart: FrameInfo, val keyFrameBeforeEnd: FrameInfo, val end: FrameInfo)
+
+/**
+ * find the iframes containing at least [start] and [end]
+ *
+ * This works on raw h264 so requires fixed fps
+ */
+fun findH264Info(h264Path: String, start: Int, end: Int, fps: Double): H264Info {
+    println("find H264 info: start=$start end=$end")
+    // ffprobe outputs something like this
     //    [FRAME]
     //    media_type=video
     //    stream_index=0
@@ -257,14 +378,21 @@ fun findNextIFrameInfo(h264Path: String, sec: Int, fps: Double): FrameInfo {
     //    color_transfer=unknown
 
     val command = "ffprobe -show_frames $h264Path"
-    System.out.println("Executing: $command")
+    println("Executing: $command")
+
+    var beforeStart = FrameInfo(0, 0)
+    var afterStart: FrameInfo? = null
+    var startInfo: FrameInfo? = null
+    var beforeEnd: FrameInfo? = null
+    var endInfo: FrameInfo? = null
+
     val process = ProcessBuilder(command.split(" "))
         .start()
     val reader = process.inputStream.bufferedReader()
-    val frameInfo = reader.useLines { lines ->
+    reader.useLines { lines ->
         var pos: Long = 0
-        var isKey: Boolean = false
-        var number: Int = 0
+        var isKey = false
+        var number = 0
 
         val posRegex = Regex("pkt_pos=([0-9]*)")
         val numberRegex = Regex("coded_picture_number=([0-9]*)")
@@ -292,8 +420,23 @@ fun findNextIFrameInfo(h264Path: String, sec: Int, fps: Double): FrameInfo {
                 number = m.groupValues[1].toInt()
 
                 System.err.print("\r$number")
-                if (number > sec * fps && isKey) {
-                    break
+                if (isKey) {
+                    if (number <= start * fps) {
+                        beforeStart = FrameInfo(pos, number)
+                    }
+                    if (startInfo == null && number >= start * fps) {
+                        startInfo = FrameInfo(pos, number)
+                    }
+                    if (afterStart == null && number > (start + 10) * fps) {
+                        afterStart = FrameInfo(pos, number)
+                    }
+                    if (number <= end * fps) {
+                        beforeEnd = FrameInfo(pos, number)
+                    }
+                    if (endInfo == null && number >= end * fps) {
+                        endInfo = FrameInfo(pos, number)
+                        break
+                    }
                 }
             }
 
@@ -302,11 +445,18 @@ fun findNextIFrameInfo(h264Path: String, sec: Int, fps: Double): FrameInfo {
         if (pos == 0L || number == 0) {
             throw Exception("cannot find position")
         }
-        FrameInfo(pos, number)
     }
     process.destroy()
-    System.err.println("\npacket_pos=${frameInfo.pos}")
-    return frameInfo
+
+    check(startInfo != null)
+
+    println()
+    println("beforeStart=$beforeStart")
+    println("startInfo=$startInfo")
+    println("afterStart=$afterStart")
+    println("beforeEnd=$beforeEnd")
+    println("endInfo=$endInfo")
+    return H264Info(beforeStart, startInfo!!, afterStart!!, beforeEnd!!, endInfo!!)
 }
 
 fun execOrDie(command: String) {
@@ -342,7 +492,7 @@ fun concatFiles(out: String, vararg inputs: String) {
 fun String.toSeconds(): Int {
     return split(":").let {
         it.foldIndexed(0) { index, acc, value ->
-            acc + value.toInt() * Math.pow(60.toDouble(), (it.size - 1 - index).toDouble()).toInt()
+            acc + value.toInt() * 60.toDouble().pow((it.size - 1 - index).toDouble()).toInt()
         }
     }
 }
@@ -365,7 +515,7 @@ fun getVideoInfosFromJson(file: File): Map<String, VideoInfo> {
     val gson = Gson()
     val sType = object : TypeToken<List<VideoInfo>>() {}.type
     val videoInfos: List<VideoInfo> = gson.fromJson(videoInfoStr, sType)
-    return videoInfos.map { it.uid to it }.toMap()
+    return videoInfos.associateBy { it.uid }
 }
 
 fun getVideoInfosFromCsv(file: File): Map<String, VideoInfo> {
@@ -404,14 +554,14 @@ val generate = object : CliktCommand(
             Path to the mkv file
         """.trimIndent()
     ).required()
-    val sponsorsImage by option(
+    val sponsors by option(
         help = """
-            Path to the sponsors image. Will be resized to the video dimensions
+            Path to the sponsors image or video. Will be resized to the video dimensions and/or looped if needed
         """.trimIndent()
     ).required()
-    val introImage by option(
+    val intro by option(
         help = """
-            Path to the intro image. Will be resized to the video dimensions
+            Path to the intro image or video. Will be resized to the video dimensions and/or looped if needed
         """.trimIndent()
     ).required()
     val startSec by option(
@@ -438,8 +588,8 @@ val generate = object : CliktCommand(
     override fun run() {
         doGenerateVideo(
             video = File(video),
-            sponsorsImage = File(sponsorsImage),
-            introImage = File(introImage),
+            sponsors = File(sponsors),
+            intro = File(intro),
             outDir = File(outDir),
             scratchDir = File("$outDir/tmp"),
             videoId = videoId,
@@ -478,18 +628,20 @@ val batch = object : CliktCommand(name = "batch") {
 
         val videoInfos = when {
             infosPath != null -> {
-                getVideoInfosFromJson(File(infosPath))
+                getVideoInfosFromJson(File(infosPath!!))
             }
+
             infosCsv != null -> {
-                getVideoInfosFromCsv(File(infosCsv))
+                getVideoInfosFromCsv(File(infosCsv!!))
             }
+
             else -> {
                 throw IllegalArgumentException("Provide either --infos-path or --infos-csv")
             }
         }
 
         outDirFile.mkdirs()
-        for (file in inDirFile.listFiles()) {
+        for (file in inDirFile.listFiles()!!) {
             if (file.extension != "mp4" && file.extension != "mkv") {
                 continue
             }
@@ -512,8 +664,8 @@ val batch = object : CliktCommand(name = "batch") {
 
                 doGenerateVideo(
                     video = file,
-                    sponsorsImage = sponsorFile,
-                    introImage = introFile,
+                    sponsors = sponsorFile,
+                    intro = introFile,
                     outDir = outDirFile,
                     scratchDir = scratchDir,
                     videoId = videoId,
@@ -556,3 +708,16 @@ object : CliktCommand() {
     }
 }.subcommands(batch, generate, postproc)
     .main(args)
+
+fun slice(input: String, start: Long, end: Long, output: String) {
+    FileSystem.SYSTEM.sink(output.toPath()).buffer().use { sink ->
+        FileSystem.SYSTEM.source(input.toPath()).buffer().use { source ->
+            source.skip(start)
+            if (end > 0) {
+                sink.write(source, end - start)
+            } else {
+                sink.writeAll(source)
+            }
+        }
+    }
+}

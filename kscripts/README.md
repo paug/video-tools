@@ -41,3 +41,9 @@ You can update the metadata with `youtube.main.kts`. It requires a valid access 
 ```
 ./youtube.main.kts update --mapping-csv ~/Downloads/Captation2022/data.csv --metadata-json ~/Downloads/Captation2022/youtube-input.json --thumbnails ~/git/tmpAndroidMakersVisuals/THUMBNAIL --only IDH-6371,YLE-5245,SGC-3820
 ```
+
+## Generating a single video
+
+```
+../../git/video-tools/kscripts/generate_video.main.kts generate --sponsors endscreen.mp4 --intro card.mp4 --start-sec 0 --end-sec $[ 2* 60 + 4 ] --out-dir out --video-id reno --video date.mp4 
+```
