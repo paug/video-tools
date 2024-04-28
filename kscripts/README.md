@@ -22,9 +22,11 @@ And ffmpeg:
 
 Test the script on a single video with `./generate_video.main.kts generate`. 
 
-Once everything is ok, download a CSV file containing the start and end time (this might require some tweaking of the script) and run in bactch mode
+Once everything is ok, download a CSV file containing the start and end time (this might require some tweaking of the script) and run in batch mode
 
 ```
+./generate_video.main.kts batch --in-dir ~/Movies/AM24 --intro-dir inputs/animated_speaker_cards  --infos-csv inputs/data.csv --out-dir out --skip-existing
+
 ./generate_video.main.kts batch --in-dir ~/Downloads/Captation2022/ --intro-dir ~/git/tmpAndroidMakersVisuals/INTRO --sponsor-path ~/Downloads/Captation2022/sponsors.png --infos-csv ~/Downloads/Captation2022/data.csv --out-dir out --skip-existing
 ```
 
