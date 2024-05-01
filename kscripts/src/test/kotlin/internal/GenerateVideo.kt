@@ -1,19 +1,12 @@
 #!/usr/bin/env kotlin
-@file:DependsOn("com.github.ajalt:clikt:2.6.0")
-@file:DependsOn("com.squareup.okio:okio-jvm:3.3.0")
-@file:DependsOn("com.google.code.gson:gson:2.8.5")
-@file:DependsOn("com.univocity:univocity-parsers:2.8.4")
 @file:Suppress("PropertyName")
 
+package internal
+
 import com.github.ajalt.clikt.core.CliktCommand
-import com.github.ajalt.clikt.core.subcommands
-import com.github.ajalt.clikt.parameters.options.flag
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.options.required
 import com.github.ajalt.clikt.parameters.types.int
-import com.google.gson.Gson
-import com.google.gson.annotations.SerializedName
-import com.google.gson.reflect.TypeToken
 import com.univocity.parsers.csv.CsvParser
 import com.univocity.parsers.csv.CsvParserSettings
 import okio.FileSystem
@@ -58,7 +51,7 @@ fun createOutro(
 
     val videoArg = " -framerate $fps -i ${video.absolutePath}"
 
-    val command = "ffmpeg -y" + sponsorsArg  + videoArg +
+    val command = "ffmpeg -y" + sponsorsArg + videoArg +
             " -filter_complex " +
             // normalize resolution on sponsors
             "[0:v]scale=size=${parameters.resolution}[sponsors];" +
@@ -96,14 +89,15 @@ fun createIntro(
 
     val fps = parameters.fps.toDouble()
 
-    val introArg = if (intro.extension == "png") {
+    val introArg = if (intro.extension.lowercase() in setOf("png", "jpg")) {
         " -stream_loop -1 -framerate $fps -t 10 -i ${intro.absolutePath}"
     } else {
         " -stream_loop -1 -i ${intro.absolutePath}"
     }
-    val image = " -stream_loop -1 -framerate $fps -t 10 -i /Users/mbonnin/git/video-tools/out/tmp/sponsors.png"
 
     val videoArg = " -framerate $fps -i ${video.absolutePath}"
+
+    val image = " -stream_loop -1 -framerate $fps -t 10 -i /Users/mbonnin/git/video-tools/out/tmp/sponsors.png"
 
     val fade1Start = introDuration
 
@@ -117,7 +111,7 @@ fun createIntro(
             "[2:v]scale=size=${parameters.resolution},trim=start=0:end=$fade1Start[delay0];" +
             // delay video
             "[delay0][video]concat[delayed_video];" +
-            // fade out sponsors
+            // fade out
             "[intro]format=pix_fmts=yuva420p,fade=t=out:st=$fade1Start:d=${fadeDuration}:alpha=1[intro_faded];" +
             // intro is below sponsors, revealing it when sponsors get faded out
             "[delayed_video][intro_faded]overlay=shortest=1" +
@@ -193,7 +187,7 @@ fun doGenerateVideo(
         sponsors = sponsors,
         sponsorsDuration = OUTRO_DURATION,
         video = File(h264OutroPath),
-        delay = (segment.end.number - segment.keyFrameBeforeEnd.number)/fps,
+        delay = (segment.end.number - segment.keyFrameBeforeEnd.number) / fps,
         scratchPath = scratchDirPath,
         fadeDuration = INTRO_FADE_END - INTRO_FADE_START,
         parameters = parameters
@@ -227,10 +221,10 @@ fun doGenerateVideo(
     }
     val audioCommand = "ffmpeg -y " +
             "-i $path " +
-            "-i /Users/mbonnin/dev/am2023/music.wav"
-            "-filter_complex [0:a]${monoFilter}atrim=$startSec,asetpts=PTS-STARTPTS,afade=t=in:st=0:d=1,afade=t=out:st=${endSec-startSec}:d=4,volume=${correction}dB,adelay=${INTRO_FADE_START.inMillis}[main];" +
-                    "[1:a]afade=t=in:st=0:d=4,adelay=${(endSec - startSec) + INTRO_FADE_START}[music]" +
-                    "[main][music]amix" +
+            "-i /Users/mbonnin/dev/am2023/music.wav " +
+            "-filter_complex [0:a]${monoFilter}atrim=$startSec,asetpts=PTS-STARTPTS,afade=t=in:st=0:d=1,afade=t=out:st=${endSec - startSec}:d=4,volume=${correction}dB,adelay=${INTRO_FADE_START.inMillis}[main];" +
+            "[1:a]afade=t=in:st=0:d=4,adelay=delays=${1000*((endSec - startSec) + INTRO_FADE_START)}:all=1[music];" +
+            "[main][music]amix" +
             " $aacPath"
     execOrDie(audioCommand)
 
@@ -336,7 +330,13 @@ data class FrameInfo(val pos: Long, val number: Int)
  * middle: Frame (not necessarily IFrame) just after start
  * end: Iframe at the end of the segment
  */
-data class H264Info(val keyFrameBeforeStart: FrameInfo, val start: FrameInfo, val keyFrameAfterStart: FrameInfo, val keyFrameBeforeEnd: FrameInfo, val end: FrameInfo)
+data class H264Info(
+    val keyFrameBeforeStart: FrameInfo,
+    val start: FrameInfo,
+    val keyFrameAfterStart: FrameInfo,
+    val keyFrameBeforeEnd: FrameInfo,
+    val end: FrameInfo
+)
 
 /**
  * find the iframes containing at least [start] and [end]
@@ -344,7 +344,7 @@ data class H264Info(val keyFrameBeforeStart: FrameInfo, val start: FrameInfo, va
  * This works on raw h264 so requires fixed fps
  */
 fun findH264Info(h264Path: String, start: Int, end: Int, fps: Double): H264Info {
-    println("find H264 info: start=$start end=$end")
+    println("find H264 info: start=$start end=$end fps=$fps")
     // ffprobe outputs something like this
     //    [FRAME]
     //    media_type=video
@@ -418,12 +418,18 @@ fun findH264Info(h264Path: String, start: Int, end: Int, fps: Double): H264Info 
                 number = m.groupValues[1].toInt()
 
                 System.err.print("\r$number")
+
+                if (startInfo == null && number >= start * fps) {
+                    startInfo = FrameInfo(pos, number)
+                }
+                if (number >= end * fps) {
+                    endInfo = FrameInfo(pos, number)
+                    break
+                }
+
                 if (isKey) {
                     if (number <= start * fps) {
                         beforeStart = FrameInfo(pos, number)
-                    }
-                    if (startInfo == null && number >= start * fps) {
-                        startInfo = FrameInfo(pos, number)
                     }
                     if (afterStart == null && number > (start + 10) * fps) {
                         afterStart = FrameInfo(pos, number)
@@ -431,17 +437,16 @@ fun findH264Info(h264Path: String, start: Int, end: Int, fps: Double): H264Info 
                     if (number <= end * fps) {
                         beforeEnd = FrameInfo(pos, number)
                     }
-                    if (endInfo == null && number >= end * fps) {
-                        endInfo = FrameInfo(pos, number)
-                        break
-                    }
                 }
             }
-
         }
 
         if (pos == 0L || number == 0) {
             throw Exception("cannot find position")
+        }
+
+        if (endInfo == null) {
+            endInfo = FrameInfo(pos, number)
         }
     }
     process.destroy()
@@ -496,9 +501,10 @@ fun String.toSeconds(): Int {
 }
 
 data class VideoInfo(
-    @SerializedName("id website") val uid: String,
-    @SerializedName("videoStart (mm:ss)") private val startTimeStr: String?,
-    @SerializedName("videoEnd (mm:ss)") private val endTimeStr: String?
+    val uid: String,
+    private val startTimeStr: String?,
+    private val endTimeStr: String?,
+    val speakers: String
 ) {
 
     val startTime: Int
@@ -508,13 +514,6 @@ data class VideoInfo(
         get() = endTimeStr!!.toSeconds()
 }
 
-fun getVideoInfosFromJson(file: File): Map<String, VideoInfo> {
-    val videoInfoStr = file.readText()
-    val gson = Gson()
-    val sType = object : TypeToken<List<VideoInfo>>() {}.type
-    val videoInfos: List<VideoInfo> = gson.fromJson(videoInfoStr, sType)
-    return videoInfos.associateBy { it.uid }
-}
 
 fun getVideoInfosFromCsv(file: File): Map<String, VideoInfo> {
     val records = file.reader().use { reader ->
@@ -526,14 +525,16 @@ fun getVideoInfosFromCsv(file: File): Map<String, VideoInfo> {
             val uid = it[0]
             val start = it[7]
             val end = it[8]
-            println("got $uid - $start - $end")
+            val speakers = it[4]
+            //println("got $uid - $start - $end")
             if (uid == null || start == null || end == null) {
                 null
             } else {
                 VideoInfo(
                     uid = uid,
                     startTimeStr = start,
-                    endTimeStr = end
+                    endTimeStr = end,
+                    speakers = speakers
                 )
             }
         }.groupBy { it.uid }
@@ -598,94 +599,6 @@ val generate = object : CliktCommand(
     }
 }
 
-val batch = object : CliktCommand(name = "batch") {
-    val inDir by option(
-        help = """
-            The input directory with all the video named ${'$'}videoId.[mp4|mkv]
-        """.trimIndent()
-    ).required()
-    val introDir by option(
-        help = """
-            The directory with the intro pngs
-        """.trimIndent()
-    ).required()
-    val sponsorPath by option(
-        help = """
-            The path to the sponsors image or video used in the end screen
-        """.trimIndent()
-    ).required()
-    val infosPath by option()
-    val infosCsv by option()
-    val outDir by option().required()
-    val skipExisting by option().flag()
-
-    override fun run() {
-        val outDirFile = File(outDir)
-        val inDirFile = File(inDir)
-        val sponsorFile = File(sponsorPath)
-
-        val videoInfos = when {
-            infosPath != null -> {
-                getVideoInfosFromJson(File(infosPath!!))
-            }
-
-            infosCsv != null -> {
-                getVideoInfosFromCsv(File(infosCsv!!))
-            }
-
-            else -> {
-                throw IllegalArgumentException("Provide either --infos-path or --infos-csv")
-            }
-        }
-
-        outDirFile.mkdirs()
-        videoInfos.keys.forEach {
-            if (inDirFile.resolve("$it.mkv").exists() || inDirFile.resolve("$it.mp4").exists() || inDirFile.resolve("$it.mov").exists()) {
-                return@forEach
-            }
-            error("No video found for $it")
-        }
-        for (file in inDirFile.listFiles()!!) {
-            if (file.extension != "mp4" && file.extension != "mkv") {
-                continue
-            }
-
-            val scratchDir = File(outDir, "/tmp")
-            scratchDir.mkdirs()
-            try {
-                val start = System.currentTimeMillis()
-
-                val videoId = file.nameWithoutExtension
-                System.err.println("Generating video $videoId")
-
-                val videoInfo = videoInfos[videoId]
-
-                if (videoInfo == null) {
-                    println("No videoInfo found for $videoId")
-                    continue
-                }
-                val introFile = File(introDir, "$videoId.png")
-
-                doGenerateVideo(
-                    video = file,
-                    sponsors = sponsorFile,
-                    intro = introFile,
-                    outDir = outDirFile,
-                    scratchDir = scratchDir,
-                    videoId = videoId,
-                    startSec = videoInfo.startTime,
-                    endSec = videoInfo.endTime,
-                    skipExisting = skipExisting
-                )
-                System.err.println("Generating video $videoId took ${(System.currentTimeMillis() - start) / 1000}s")
-            } catch (e: Exception) {
-                throw e
-            } finally {
-                scratchDir.deleteRecursively()
-            }
-        }
-    }
-}
 
 val postproc = object : CliktCommand(name = "postproc") {
 
@@ -707,12 +620,6 @@ val postproc = object : CliktCommand(name = "postproc") {
     }
 }
 
-object : CliktCommand() {
-    override fun run() {
-    }
-}.subcommands(batch, generate, postproc)
-    .main(args)
-
 fun slice(input: String, start: Long, end: Long, output: String) {
     FileSystem.SYSTEM.sink(output.toPath()).buffer().use { sink ->
         FileSystem.SYSTEM.source(input.toPath()).buffer().use { source ->
@@ -722,6 +629,64 @@ fun slice(input: String, start: Long, end: Long, output: String) {
             } else {
                 sink.writeAll(source)
             }
+        }
+    }
+}
+
+
+fun runBatch() {
+    val outDirFile = outDir
+    val inDirFile = inDir
+    val sponsorFile = sponsorPath
+
+    val videoInfos = getVideoInfosFromCsv(videoInfosCsv)
+
+    outDirFile.mkdirs()
+    videoInfos.keys.forEach {
+        if (inDirFile.resolve("$it.mkv").exists() || inDirFile.resolve("$it.mp4")
+                .exists() || inDirFile.resolve("$it.mov").exists()
+        ) {
+            return@forEach
+        }
+        error("No video found for $it")
+    }
+    for (file in inDirFile.listFiles()) {
+        if (file.extension != "mp4" && file.extension != "mkv" && file.extension != "mov") {
+            continue
+        }
+
+        val scratchDir = File(outDir, "/tmp")
+        scratchDir.mkdirs()
+        try {
+            val start = System.currentTimeMillis()
+
+            val videoId = file.nameWithoutExtension
+            System.err.println("Generating video $videoId")
+
+            val videoInfo = videoInfos[videoId]
+
+            if (videoInfo == null) {
+                println("No videoInfo found for $videoId")
+                continue
+            }
+            val introFile = animatedSpeakerCardsById.media(videoId)
+
+            doGenerateVideo(
+                video = file,
+                sponsors = sponsorFile,
+                intro = introFile,
+                outDir = outDirFile,
+                scratchDir = scratchDir,
+                videoId = videoId,
+                startSec = videoInfo.startTime,
+                endSec = videoInfo.endTime,
+                skipExisting = skipExisting
+            )
+            System.err.println("Generating video $videoId took ${(System.currentTimeMillis() - start) / 1000}s")
+        } catch (e: Exception) {
+            throw e
+        } finally {
+            //scratchDir.deleteRecursively()
         }
     }
 }
