@@ -12,8 +12,6 @@ val speakerCardsById = File(".").resolve("inputs/speaker_cards_by_id")
 val sponsorPath = File(".").resolve("inputs/endscreen.mp4")
 
 val outDir = File(".").resolve("out")
-val videoInfosCsv = File(".").resolve("inputs/video_infos.csv")
-val videoMetadataJson = File(".").resolve("inputs/video_metadata.json")
+val videoInfosCsv = File("/Users/martinbonnin/Downloads/am2025.csv")
 
 val skipExisting = true
-val idsToUpdateOnYoutube = emptySet<String>()

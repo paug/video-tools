@@ -35,10 +35,10 @@ fun getToken(): String {
         |This is needlessly convoluted because we need to access the data of a Brand account and brand accounts cannot be registered as test users.
         |1. Create a GCP project and enable Youtube Data API v3
         |2. Configure a simple external oauth consent screen and leave it in 'testing' 
-        |3. Create a web application credential and configure the oauth playground as a redirect uri
+        |3. Create a web application credential and configure the oauth playground https://developers.google.com/oauthplayground as a redirect uri
         |4. In playground, hit the grey cog and configure it to use the client_secret and client_id of the web application just create
         |5. Add Youtube Data API v3 in your scope
-        |6. Authorize and exchange your code. This token should be what you copy/paste here
+        |6. Authorize and exchange your code. The access token should be what you copy/paste here
     """.trimMargin())
     print("Token: ")
     val token = readLine() ?: error("a token is required")
@@ -74,20 +74,21 @@ class YoutubeVideoInfo(
     val tags: List<String>
 )
 
-fun getVideoInfos(jsonFile: File, csvFile: File): List<YoutubeVideoInfo> {
-    val mapping = csvFile
+fun getVideoInfos(csvFile: File): List<YoutubeVideoInfo> {
+    return csvFile
         .reader()
         .use { reader ->
             CsvParser(CsvParserSettings()).parseAll(reader)
         }
         .drop(1)
         .mapNotNull {
-            val websiteId = it[0]
+            val websiteId = it[2]
 
-            val youtubeLink = it[9]
+            val youtubeLink = it[3]
             if (youtubeLink == null) {
                 // For workshops, we do not upload to YT
-                error("No youtubeLink for $websiteId")
+                // println("No youtubeLink for $websiteId")
+                return@mapNotNull null
             }
             val regex1 = Regex("https://www.youtube.com/watch\\?v=(.*)")
             val regex2 = Regex("https://youtu.be/(.*)")
@@ -104,35 +105,29 @@ fun getVideoInfos(jsonFile: File, csvFile: File): List<YoutubeVideoInfo> {
                 }
             }
 
-            websiteId to youtubeId
-        }.toMap()
-
-
-    val records = anyAdapter.fromJson(jsonFile.readText()).asList().map { it.asMap() }
-
-    return mapping.map { entry ->
-        val record = records.firstOrNull { it.get("id") == entry.key } ?: error("Cannot find record fo $entry")
-        val websiteId = record["id"].cast<String?>() ?: error("No websiteId found for ${entry.key}")
-        YoutubeVideoInfo(
-            youtubeId = entry.value,
-            websiteId = websiteId,
-            description = record["description"].cast() ?: error("No youtubeId found for $websiteId"),
-            title = record["title"].cast() ?: error("No youtubeId found for $websiteId"),
-            tags = record["tags"].asList().map { it.cast<String>().trim() }
-        )
-    }
+            YoutubeVideoInfo(
+                youtubeId = youtubeId,
+                websiteId = websiteId,
+                description = it[1],
+                title = it[0],
+                tags = emptyList()
+            )
+        }
 }
 
 fun updateYoutube() {
-    val videoInfos = getVideoInfos(videoMetadataJson, videoInfosCsv)
+    val videoInfos = getVideoInfos(videoInfosCsv)
 
     videoInfos.forEach {
-        if (!setOf("642744").contains(it.websiteId) ) {
+//        if (it.websiteId != "863251") {
+//            return@forEach
+//        }
+        val thumbnail = File("/Users/martinbonnin/Downloads/speakers/${it.websiteId}.jpg")
+
+        if (thumbnail.exists().not()) {
+            println("no thumbnail for ${it.websiteId}")
             return@forEach
         }
-
-        val thumbnail = speakerCardsById.media(it.websiteId)
-
         updateMetaData(it)
         updateThumbnail(it.youtubeId, thumbnail)
         // rate limiting
